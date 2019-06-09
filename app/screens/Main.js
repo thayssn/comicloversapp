@@ -8,7 +8,7 @@ import BooksList from '../components/BooksList'
 
 export default class Main extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
-    title: "Comic lovers!",
+    title: "Comic Lovers",
   });
 
   render() {
