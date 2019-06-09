@@ -1,17 +1,19 @@
-import {Image, StyleSheet, View, Text} from "react-native";
+import {Image, StyleSheet, View, Text, TouchableWithoutFeedback} from "react-native";
 import React from "react";
 
 export default class Collection extends React.Component{
 
   render() {
     return (
-      <View style={styles.collection_item}>
-        <Image source={this.props.cover} style={styles.collection_item_image}>
-        </Image>
-        <Text style={styles.collection_item_title}>
-          {this.props.title}
-        </Text>
-      </View>
+      <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+        <View style={styles.collection_item}>
+          <Image source={this.props.cover} style={styles.collection_item_image}>
+          </Image>
+          <Text style={styles.collection_item_title}>
+            {this.props.title}
+          </Text>
+        </View>
+      </TouchableWithoutFeedback>
     )
   }
 }

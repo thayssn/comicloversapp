@@ -4,7 +4,9 @@ import { LinearGradient } from 'expo';
 import { Header, Icon } from 'react-native-elements';
 import {connect} from 'react-redux';
 
+
 import Collection from './Collection';
+import CLGradient from './CLGradient';
 
 class CollectionsList extends React.Component{
   render () {
@@ -20,18 +22,7 @@ class CollectionsList extends React.Component{
             if (collection._id === 1) {
               return <View style={{flexDirection: 'row'}}>
                 <View style={[styles.collection_item, styles.collection_item_first]}>
-                <LinearGradient
-                  colors={['#40B89D', '#00A5E2']}
-                  start={[0,0]}
-                  end={[1,0]}
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    height: '100%',
-                  }}
-                />
+                <CLGradient />
                 <Icon
                   name='ios-add-circle'
                   type='ionicon'
