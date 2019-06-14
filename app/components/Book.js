@@ -5,12 +5,12 @@ export default class Book extends React.Component{
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+      <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('BookDetail', {id: this.props.id})}>
         <View style={styles.book_item}>
           <Image source={this.props.cover} style={styles.book_item_image}>
           </Image>
           <Text style={styles.book_item_title}>
-            {this.props.title}
+            {this.props.title} - {this.props.id}
           </Text>
         </View>
       </TouchableWithoutFeedback>

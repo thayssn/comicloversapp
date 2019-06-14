@@ -17,7 +17,7 @@ class BooksList extends React.Component{
           data={this.props.books}
           renderItem={({item : book}) =>
           {
-              return <Book title={book.title} cover={book.cover}/>
+              return <Book id={book._id} title={book.title} cover={book.cover} navigation={this.props.navigation}/>
           }}
           keyExtractor={(item, index) => index.toString()}
         />

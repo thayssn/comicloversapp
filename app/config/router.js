@@ -3,6 +3,7 @@ import {  createStackNavigator, createSwitchNavigator, createAppContainer } from
 
 import Main from '../screens/Main';
 import Login from '../screens/Login';
+import BookDetail from '../screens/BookDetail';
 
 import CLGradient from "../components/CLGradient";
 
@@ -10,6 +11,9 @@ export const MainNavigator = createStackNavigator(
   {
     Main: {
       screen: Main,
+    },
+    BookDetail: {
+      screen: BookDetail,
     }
   },
   {
@@ -19,6 +23,7 @@ export const MainNavigator = createStackNavigator(
         <CLGradient/>
       ),
       headerTintColor: '#fff',
+      title: "Comic Lovers",
     },
   }
 )
@@ -27,10 +32,7 @@ export const RootNavigator = createSwitchNavigator(
     Login: {
       screen: Login,
     },
-    Register: {
-      screen: Main,
-    },
-    Main: MainNavigator
+    Main: MainNavigator,
   },
   {
     initialRouteName: 'Login',

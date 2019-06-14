@@ -1,25 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import { LinearGradient } from 'expo';
-import { Header, Icon } from 'react-native-elements';
 
 import CollectionsList from '../components/CollectionsList'
 import BooksList from '../components/BooksList'
 
 export default class Main extends React.Component {
-  static navigationOptions = ({ navigation, screenProps }) => ({
-    title: "Comic Lovers",
-  });
 
   render() {
     return (
       <ScrollView>
-        <CollectionsList  title="Minhas coleções"/>
-        <BooksList title="Em Alta"/>
-        <BooksList title="Marvel" />
-        <BooksList title="DC"/>
-        <BooksList title="Vertigo"/>
-        <BooksList title="Recomendados"/>
+        <CollectionsList  title="Minhas coleções" navigation={this.props.navigation}/>
+        <BooksList title="Em Alta" navigation={this.props.navigation}/>
+        <BooksList title="Marvel" navigation={this.props.navigation}/>
+        <BooksList title="DC" navigation={this.props.navigation}/>
+        <BooksList title="Vertigo" navigation={this.props.navigation}/>
+        <BooksList title="Recomendados" navigation={this.props.navigation}/>
       </ScrollView>
     );
   }
