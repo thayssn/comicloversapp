@@ -35,7 +35,7 @@ export const RootNavigator = createSwitchNavigator(
     Main: MainNavigator,
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Main',
   }
 );
 
