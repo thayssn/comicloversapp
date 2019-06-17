@@ -1,12 +1,11 @@
 import React from 'react';
-import {LinearGradient} from "expo";
+import { LinearGradient } from 'expo';
 
-export default  CLGradient = () =>
-  (
-    <LinearGradient
+const CLGradient = () => (
+  <LinearGradient
     colors={['#40B89D', '#00A5E2']}
-    start={[0,0]}
-    end={[1,0]}
+    start={[0, 0]}
+    end={[1, 0]}
     style={{
       position: 'absolute',
       left: 0,
@@ -16,3 +15,5 @@ export default  CLGradient = () =>
     }}
   />
 );
+
+export default CLGradient;

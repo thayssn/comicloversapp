@@ -1,52 +1,10 @@
-import React, {Component} from 'react';
-import { TextInput, Text, StyleSheet, View, AsyncStorage, Image, TouchableWithoutFeedback } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import React, { Component } from 'react';
+import {
+  TextInput, Text, StyleSheet, View, Image, TouchableWithoutFeedback,
+} from 'react-native';
 
-import CLGradient from "../components/CLGradient";
-
-export default class Login extends Component {
-  signIn = async () => {
-    this.props.navigation.navigate('Main');
-  };
-
-  render () {
-    return (
-      <View style={styles.container}>
-        <CLGradient />
-        <Image
-          style={styles.logo}
-          source={require('../../assets/logo.png')}
-          resizeMode='contain'
-        />
-        <View style={styles.input_group}>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor='#91d7dc'
-            placeholder='E-mail'
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Senha'
-            placeholderTextColor='#91d7dc'
-            secureTextEntry={true}
-          />
-
-          <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
-            <Text style={[styles.link, {marginBottom: 30}]}>Esqueci minha senha</Text>
-          </TouchableWithoutFeedback>
-
-          <TouchableWithoutFeedback onPress={this.signIn}>
-            <Text style={styles.input}>Entrar</Text>
-          </TouchableWithoutFeedback>
-        </View>
-
-        <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
-          <Text style={[styles.link]}>Termos de Uso</Text>
-        </TouchableWithoutFeedback>
-      </View>
-    )
-  }
-}
+import CLGradient from '../components/CLGradient';
+import logo from '../../assets/logo.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -77,7 +35,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: '300',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   text: {
     color: '#FFF',
@@ -96,6 +54,51 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 100,
-    marginBottom: 30
-  }
+    marginBottom: 30,
+  },
 });
+
+export default class Login extends Component {
+  signIn = async () => {
+    const { navigation } = this.props;
+    navigation.navigate('Main');
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <CLGradient />
+        <Image
+          style={styles.logo}
+          source={logo}
+          resizeMode="contain"
+        />
+        <View style={styles.input_group}>
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="#91d7dc"
+            placeholder="E-mail"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Senha"
+            placeholderTextColor="#91d7dc"
+            secureTextEntry
+          />
+
+          <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+            <Text style={[styles.link, { marginBottom: 30 }]}>Esqueci minha senha</Text>
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback onPress={this.signIn}>
+            <Text style={styles.input}>Entrar</Text>
+          </TouchableWithoutFeedback>
+        </View>
+
+        <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+          <Text style={[styles.link]}>Termos de Uso</Text>
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  }
+}

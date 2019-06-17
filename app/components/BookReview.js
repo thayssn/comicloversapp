@@ -1,14 +1,14 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-
-export default BookReview = () => (
-  <View style={[styles.scene, { backgroundColor: '#FEAD09' }]}>
-
-  </View>
-);
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-  }
+  },
 });
+
+export default function BookReview() {
+  return (
+    <View style={[styles.scene, { backgroundColor: '#FEAD09' }]} />
+  );
+}

@@ -1,47 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, ImageBackground } from 'react-native';
-import { LinearGradient } from 'expo';
-import { Header, Icon } from 'react-native-elements';
-import {connect} from 'react-redux';
-
+import {
+  StyleSheet, Text, View, FlatList,
+} from 'react-native';
+import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import Collection from './Collection';
 import CLGradient from './CLGradient';
-
-class CollectionsList extends React.Component{
-  render () {
-    return (
-      <View style={styles.collection_list_view}>
-        <Text style={styles.collection_list_title}>{this.props.title}</Text>
-        <FlatList
-          contentContainerStyle={styles.collection_list}
-          horizontal={true}
-          data={this.props.collections}
-          renderItem={({item : collection}) =>
-          {
-            if (collection._id === 1) {
-              return <View style={{flexDirection: 'row'}}>
-                <View style={[styles.collection_item, styles.collection_item_first]}>
-                <CLGradient />
-                <Icon
-                  name='ios-add-circle'
-                  type='ionicon'
-                  color='#FFF'
-                  size={40}
-                />
-              </View>
-              <Collection cover={collection.cover} title={collection.title} />
-            </View>
-            }else{
-              return <Collection cover={collection.cover} title={collection.title}/>
-            }
-          }}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </View>
-    )
-  }
-}
 
 const styles = StyleSheet.create({
   collection_list_view: {
@@ -54,21 +19,50 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-    marginLeft: 5
+    marginLeft: 5,
   },
   collection_item: {
     margin: 5,
     width: 100,
     height: 150,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
-const mapStateToProps = state => {
-  return ({
-    collections: state.collections
-  })
-}
+const CollectionsList = ({ collections, title }) => (
+  <View style={styles.collection_list_view}>
+    <Text style={styles.collection_list_title}>{title}</Text>
+    <FlatList
+      contentContainerStyle={styles.collection_list}
+      horizontal
+      data={collections}
+      renderItem={({ item: collection }) => {
+        if (collection._id === 1) {
+          return (
+            <View style={{ flexDirection: 'row' }}>
+              <View style={[styles.collection_item, styles.collection_item_first]}>
+                <CLGradient />
+                <Icon
+                  name="ios-add-circle"
+                  type="ionicon"
+                  color="#FFF"
+                  size={40}
+                />
+              </View>
+              <Collection cover={collection.cover} title={collection.title} />
+            </View>
+          );
+        }
+        return <Collection cover={collection.cover} title={collection.title} />;
+      }}
+      keyExtractor={(item, index) => index.toString()}
+    />
+  </View>
+);
 
-export default connect(mapStateToProps)(CollectionsList)
+const mapStateToProps = state => ({
+  collections: state.collections,
+});
+
+export default connect(mapStateToProps)(CollectionsList);

@@ -1,11 +1,11 @@
 import React from 'react';
-import {  createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 
 import Main from '../screens/Main';
 import Login from '../screens/Login';
 import BookDetail from '../screens/BookDetail';
 
-import CLGradient from "../components/CLGradient";
+import CLGradient from '../components/CLGradient';
 
 export const MainNavigator = createStackNavigator(
   {
@@ -14,19 +14,19 @@ export const MainNavigator = createStackNavigator(
     },
     BookDetail: {
       screen: BookDetail,
-    }
+    },
   },
   {
     initialRouteName: 'Main',
     defaultNavigationOptions: {
       headerBackground: (
-        <CLGradient/>
+        <CLGradient />
       ),
       headerTintColor: '#fff',
-      title: "Comic Lovers",
+      title: 'Comic Lovers',
     },
-  }
-)
+  },
+);
 export const RootNavigator = createSwitchNavigator(
   {
     Login: {
@@ -36,7 +36,7 @@ export const RootNavigator = createSwitchNavigator(
   },
   {
     initialRouteName: 'Main',
-  }
+  },
 );
 
 export const Routes = createAppContainer(RootNavigator);
