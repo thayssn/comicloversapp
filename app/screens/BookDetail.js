@@ -1,17 +1,17 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image,
+  StyleSheet, Text, View, Image, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { TabBar, TabView, SceneMap } from 'react-native-tab-view';
+import { TabView, SceneMap } from 'react-native-tab-view';
 
+import CLGradient from '../components/CLGradient';
 import BookDescription from '../components/BookDescription';
 import BookReview from '../components/BookReview';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
   },
   cover_image: {
     width: 100,
@@ -21,38 +21,57 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  infoView: {
+    flex: 1,
+    paddingLeft: 15,
+  },
   statusView: {
     flexDirection: 'row',
+    padding: 15,
   },
   status: {
     fontSize: 16,
     fontWeight: '300',
   },
+  tabWrapper: {
+    flex: 1,
+    padding: 15,
+  },
+  tabBar: {
+    width: '100%',
+    flexDirection: 'row',
+    borderColor: '#20AEC0',
+    borderWidth: 2,
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  tabItem: {
+    height: 40,
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 class BookDetail extends React.Component {
   state = {
-    book: null,
     index: 0,
+    /* eslint-disable react/no-unused-state */
     routes: [
       { key: 'first', title: 'Informações' },
-      { key: 'second', title: 'Anotações' },
+      { key: 'second', title: 'Avaliação' },
     ],
-  }
-
-  componentWillMount() {
-    const { books, navigation } = this.props;
-    this.setState({ book: books.find(b => b._id === navigation.getParam('id')) });
+    /* eslint-enable */
   }
 
   render() {
-    const { book } = this.state;
+    const { book } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.statusView}>
           <Image source={book.cover} style={styles.cover_image} />
-          <View>
-            <Text style={styles.title}>{ book.title}</Text>
+          <View style={styles.infoView}>
+            <Text style={styles.title}>{book.title}</Text>
             <Text style={styles.status}>
               {`Avaliação: ${book.rating}`}
             </Text>
@@ -64,35 +83,42 @@ class BookDetail extends React.Component {
             </Text>
           </View>
         </View>
-        <TabView
-          navigationState={this.state}
-          renderScene={SceneMap({
-            first: BookDescription,
-            second: BookReview,
-          })}
-          renderTabBar={props => (
-            <TabBar
-              {...props}
-              indicatorStyle={{ backgroundColor: 'transparent' }}
-              activeColor="#80F682"
-              inactiveColor="#FFF"
-              pressOpacity={0}
-              renderLabel={({ route, focused }) => (
-                <Text style={{ backgroundColor: focused ? '#FC0D99' : '#FFF', margin: 8 }}>
-                  {route.title}
-                </Text>
-              )}
-            />
-          )}
-          onIndexChange={index => this.setState({ index })}
-          initialLayout={{ width: 50 }}
-          style={styles.container}
-        />
+        <View style={styles.tabWrapper}>
+
+          <TabView
+            navigationState={this.state}
+            renderScene={SceneMap({
+              first: () => (<BookDescription book={book} />),
+              second: () => (<BookReview book={book} />),
+            })}
+            renderTabBar={props => (
+              <View style={styles.tabBar}>
+                {props.navigationState.routes.map((route, i) => {
+                  const { index } = this.state;
+                  const isActive = index === i;
+                  const color = isActive ? '#fff' : '#20AEC0';
+                  return (
+                    <TouchableOpacity
+                      key={i.toString()}
+                      style={[styles.tabItem, {
+                      }]}
+                      onPress={() => this.setState({ index: i })}
+                    >
+                      { isActive && <CLGradient /> }
+                      <Text style={{ color }}>{route.title}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            )}
+            onIndexChange={index => this.setState({ index })}
+          />
+        </View>
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({ books: state.books });
+const mapStateToProps = state => ({ book: state.activeBook });
 
 export default connect(mapStateToProps)(BookDetail);

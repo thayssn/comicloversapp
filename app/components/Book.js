@@ -1,7 +1,8 @@
+import React from 'react';
 import {
   Image, StyleSheet, View, Text, TouchableWithoutFeedback,
 } from 'react-native';
-import React from 'react';
+import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
@@ -21,8 +22,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const Book = ({ navigation, book }) => (
+const Book = ({ navigation, book, dispatch }) => (
   <TouchableWithoutFeedback onPress={() => {
+    dispatch({ type: 'CHANGE_BOOK', book });
     navigation.navigate('BookDetail', { id: book._id });
   }}
   >
@@ -34,4 +36,9 @@ const Book = ({ navigation, book }) => (
     </View>
   </TouchableWithoutFeedback>
 );
-export default withNavigation(Book);
+
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+});
+
+export default connect(null, mapDispatchToProps)(withNavigation(Book));

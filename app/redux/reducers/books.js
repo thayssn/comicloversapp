@@ -43,7 +43,7 @@ const INITIAL_STATE = [
   },
   {
     _id: 3,
-    title: ' Lanterna Verde - A Guerra dos Anéis',
+    title: 'Lanterna Verde - A Guerra dos Anéis',
     cover: { uri: 'https://images-na.ssl-images-amazon.com/images/I/51yRtsbrQuL._SX329_BO1,204,203,200_.jpg' },
     description: 'Um dos maiores vilões do Batman, Ra’s Al Ghul, tem como objetivo salvar todos os animais do planeta, principalmente os que estão em extinção. Porém, para isso ocorra, ele pretende reduzir a população humana em um determinado número que, segundo ele seria “controlável. Mas para alcançar o seu objetivo é necessário que ele não tenha interferência da Liga da Justiça que com certeza iria impedir esse genocídio',
     isbn: randomize(1000000000),
