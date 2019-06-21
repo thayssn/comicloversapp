@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: '#FFF',
     borderWidth: 1,
-    borderRadius: 60,
+    borderRadius: 30,
     padding: 10,
     fontSize: 18,
     textAlign: 'center',
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: '#FFF',
     borderWidth: 1,
-    borderRadius: 60,
+    borderRadius: 30,
     padding: 10,
     margin: 10,
   },
@@ -68,17 +68,9 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <CLGradient />
-        <Image
-          style={styles.logo}
-          source={logo}
-          resizeMode="contain"
-        />
+        <Image style={styles.logo} source={logo} resizeMode="contain" />
         <View style={styles.input_group}>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="#91d7dc"
-            placeholder="E-mail"
-          />
+          <TextInput style={styles.input} placeholderTextColor="#91d7dc" placeholder="E-mail" />
           <TextInput
             style={styles.input}
             placeholder="Senha"
@@ -91,7 +83,9 @@ export default class Login extends Component {
           </TouchableWithoutFeedback>
 
           <TouchableWithoutFeedback onPress={this.signIn}>
-            <Text style={styles.input}>Entrar</Text>
+            <View style={styles.button}>
+              <Text style={styles.text}>Entrar</Text>
+            </View>
           </TouchableWithoutFeedback>
         </View>
 

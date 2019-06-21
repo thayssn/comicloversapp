@@ -12,10 +12,8 @@ const styles = StyleSheet.create({
 
 export default function BookReview() {
   return (
-    <View>
-      <View style={styles.scene}>
-        <Text>Ainda não foi implementado. </Text>
-      </View>
+    <View style={styles.scene}>
+      <Text>Ainda não foi implementado. </Text>
     </View>
   );
 }
