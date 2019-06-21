@@ -1,0 +1,20 @@
+{
+    "workbench.colorTheme": "Dracula",
+    "editor.formatOnSave": false,
+    "editor.fontSize": 16,
+    "editor.lineHeight": 24,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+
+    "editor.rulers": [
+        80,
+        120
+    ],
+
+    "editor.renderLineHighlight": "gutter",
+
+    "terminal.integrated.fontSize": 14,
+
+    "workbench.iconTheme": "material-icon-theme",
+    "eslint.autoFixOnSave": true
+}
