@@ -3,7 +3,9 @@ import {
   Image, StyleSheet, View, Text, TouchableWithoutFeedback,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withNavigation } from 'react-navigation';
+import { Creators as activeBookActions } from '../store/ducks/activeBook';
 
 const styles = StyleSheet.create({
   book_item: {
@@ -22,9 +24,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const Book = ({ navigation, book, dispatch }) => (
+const Book = ({ navigation, book, changeBook }) => (
   <TouchableWithoutFeedback onPress={() => {
-    dispatch({ type: 'CHANGE_BOOK', book });
+    changeBook(book);
     navigation.navigate('BookDetail', { id: book._id });
   }}
   >
@@ -37,8 +39,6 @@ const Book = ({ navigation, book, dispatch }) => (
   </TouchableWithoutFeedback>
 );
 
-const mapDispatchToProps = dispatch => ({
-  dispatch,
-});
+const mapDispatchToProps = dispatch => bindActionCreators(activeBookActions, dispatch);
 
 export default connect(null, mapDispatchToProps)(withNavigation(Book));
