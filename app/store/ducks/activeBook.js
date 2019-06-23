@@ -1,13 +1,24 @@
-import { createActions, createReducer } from 'reduxsauce';
-
-export const { Types, Creators } = createActions({
-  changeBook: ['book'],
-});
+export const Types = {
+  CHANGE: 'CHANGE',
+  CHANGE_SUCCESS: 'CHANGE_SUCCESS',
+};
 
 const INITIAL_STATE = {};
 
-const change = (state, action) => action.book;
+export default function activeBook(state = INITIAL_STATE, action) {
+  switch (action.type) {
+    case Types.CHANGE_SUCCESS:
+      return action.payload.book;
+    default:
+      return state;
+  }
+}
 
-export default createReducer(INITIAL_STATE, {
-  [Types.CHANGE_BOOK]: change,
-});
+export const Creators = {
+  changeBook: book => ({
+    type: Types.CHANGE,
+    payload: {
+      book,
+    },
+  }),
+};

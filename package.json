@@ -24,6 +24,7 @@
     "react-navigation": "^3.11.0",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
+    "redux-saga": "^1.0.3",
     "reduxsauce": "^1.1.0"
   },
   "devDependencies": {
