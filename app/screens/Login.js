@@ -3,6 +3,10 @@ import {
   TextInput, Text, StyleSheet, View, Image, TouchableWithoutFeedback,
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators as authActions } from '../store/ducks/auth';
+
 import CLGradient from '../components/CLGradient';
 import logo from '../../assets/logo.png';
 
@@ -58,25 +62,43 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Login extends Component {
+class Login extends Component {
+  state = {
+    username: 'normal',
+    password: 'us3rn0rm4l',
+  }
+
   signIn = async () => {
-    const { navigation } = this.props;
-    navigation.navigate('Main');
+    const { login } = this.props;
+    login(this.state);
   };
 
   render() {
+    const { username, password } = this.state;
     return (
       <View style={styles.container}>
         <CLGradient />
         <Image style={styles.logo} source={logo} resizeMode="contain" />
         <View style={styles.input_group}>
-          <TextInput style={styles.input} placeholderTextColor="#91d7dc" placeholder="E-mail" />
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="#91d7dc"
+            autoCapitalize="none"
+            placeholder="Username"
+            value={username}
+            onChangeText={(value) => { this.setState({ username: value }); }}
+          />
+          <Text>{username}</Text>
           <TextInput
             style={styles.input}
             placeholder="Senha"
             placeholderTextColor="#91d7dc"
             secureTextEntry
+            value={password}
+            autoCapitalize="none"
+            onChangeText={(value) => { this.setState({ password: value }); }}
           />
+          <Text>{password}</Text>
 
           <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
             <Text style={[styles.link, { marginBottom: 30 }]}>Esqueci minha senha</Text>
@@ -96,3 +118,7 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators(authActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Login);
