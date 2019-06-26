@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@expo/xdl": "^54.1.0",
+    "axios": "^0.19.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-react": "^7.13.0",
