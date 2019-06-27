@@ -7,3 +7,4 @@ npm-debug.*
 *.mobileprovision
 .idea
 .vscode
+env_config.js
