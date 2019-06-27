@@ -2,6 +2,7 @@ import {
   delay, put, takeLatest, all,
 } from 'redux-saga/effects';
 import api from '../config/api';
+import { onSignIn } from '../config/auth';
 
 import { Types as authTypes } from './ducks/auth';
 import { Types as activeBookTypes } from './ducks/activeBook';
@@ -39,6 +40,7 @@ function* asyncLogin(action) {
       },
     });
 
+    onSignIn(userToken);
     NavigationService.navigate('Main');
   } catch (err) {
     yield put({
