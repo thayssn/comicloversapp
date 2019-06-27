@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'; // eslint-ignore
 import {
   TextInput, Text, StyleSheet, View, Image, TouchableWithoutFeedback,
 } from 'react-native';
@@ -64,61 +64,65 @@ const styles = StyleSheet.create({
 
 class Login extends Component {
   state = {
-    username: 'normal',
-    password: 'us3rn0rm4l',
+    username: '',
+    password: '',
   }
 
-  signIn = async () => {
-    const { login } = this.props;
-    login(this.state);
-  };
-
   render() {
+    const { loading, login } = this.props;
     const { username, password } = this.state;
     return (
       <View style={styles.container}>
         <CLGradient />
-        <Image style={styles.logo} source={logo} resizeMode="contain" />
-        <View style={styles.input_group}>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="#91d7dc"
-            autoCapitalize="none"
-            placeholder="Username"
-            value={username}
-            onChangeText={(value) => { this.setState({ username: value }); }}
-          />
-          <Text>{username}</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Senha"
-            placeholderTextColor="#91d7dc"
-            secureTextEntry
-            value={password}
-            autoCapitalize="none"
-            onChangeText={(value) => { this.setState({ password: value }); }}
-          />
-          <Text>{password}</Text>
+        { loading
+          ? <Text>Carregando</Text>
+          : (
+            <>
+              <Image style={styles.logo} source={logo} resizeMode="contain" />
+              <View style={styles.input_group}>
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor="#91d7dc"
+                  autoCapitalize="none"
+                  placeholder="Username"
+                  value={username}
+                  onChangeText={(value) => { this.setState({ username: value }); }}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Senha"
+                  placeholderTextColor="#91d7dc"
+                  secureTextEntry
+                  value={password}
+                  autoCapitalize="none"
+                  onChangeText={(value) => { this.setState({ password: value }); }}
+                />
 
-          <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
-            <Text style={[styles.link, { marginBottom: 30 }]}>Esqueci minha senha</Text>
-          </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+                  <Text style={[styles.link, { marginBottom: 30 }]}>Esqueci minha senha</Text>
+                </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={this.signIn}>
-            <View style={styles.button}>
-              <Text style={styles.text}>Entrar</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+                <TouchableWithoutFeedback onPress={() => login(this.state)}>
+                  <View style={styles.button}>
+                    <Text style={styles.text}>Entrar</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
 
-        <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
-          <Text style={[styles.link]}>Termos de Uso</Text>
-        </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+                <Text style={[styles.link]}>Termos de Uso</Text>
+              </TouchableWithoutFeedback>
+            </>
+          )
+        }
       </View>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  loading: state.auth.loading,
+});
 const mapDispatchToProps = dispatch => bindActionCreators(authActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

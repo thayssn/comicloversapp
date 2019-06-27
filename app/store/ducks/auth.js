@@ -1,4 +1,3 @@
-import { onSignIn } from '../../config/auth';
 
 export const Types = {
   LOGIN: 'user@LOGIN',
@@ -13,15 +12,33 @@ const INITIAL_STATE = {
   isLogedIn: null,
   token: null,
   user: {},
+  loading: false,
 };
 
 export default function auth(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case Types.LOGIN:
+      return { ...state, loading: true };
     case Types.LOGIN_SUCCESS:
-      onSignIn(action.payload.userToken);
-      return { user: action.payload.user, userToken: action.payload.userToken, isLogedIn: true };
+      return {
+        user: action.payload.user,
+        userToken: action.payload.userToken,
+        isLogedIn: true,
+        loading: true,
+      };
+    case Types.LOGIN_FAIL:
+      return { ...state, loading: false };
+    case Types.LOGOUT:
+      return { ...state, loading: true };
     case Types.LOGOUT_SUCCESS:
-      return { isLoggedIn: false, token: null, user: {} };
+      return {
+        isLoggedIn: false,
+        token: null,
+        user: {},
+        loading: false,
+      };
+    case Types.LOGOUT_FAIL:
+      return { ...state, loading: false };
     default:
       return state;
   }
