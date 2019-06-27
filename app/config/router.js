@@ -27,16 +27,19 @@ export const MainNavigator = createStackNavigator(
     },
   },
 );
-export const RootNavigator = createSwitchNavigator(
-  {
-    Login: {
-      screen: Login,
-    },
-    Main: MainNavigator,
-  },
-  {
-    initialRouteName: 'Login',
-  },
-);
 
-export const Routes = createAppContainer(RootNavigator);
+export const createRootNavigator = (isSignedIn) => {
+  const RootNavigator = createSwitchNavigator(
+    {
+      Login: {
+        screen: Login,
+      },
+      Main: MainNavigator,
+    },
+    {
+      initialRouteName: isSignedIn ? 'Main' : 'Login',
+    },
+  );
+
+  return createAppContainer(RootNavigator);
+};

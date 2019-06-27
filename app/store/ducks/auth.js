@@ -1,4 +1,3 @@
-
 export const Types = {
   LOGIN: 'user@LOGIN',
   LOGIN_SUCCESS: 'user@LOGIN_SUCCESS',
@@ -24,7 +23,7 @@ export default function auth(state = INITIAL_STATE, action) {
         user: action.payload.user,
         userToken: action.payload.userToken,
         isLogedIn: true,
-        loading: true,
+        loading: false,
       };
     case Types.LOGIN_FAIL:
       return { ...state, loading: false };

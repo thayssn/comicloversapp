@@ -1,6 +1,4 @@
-import {
-  delay, put, takeLatest, all,
-} from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 import api from '../config/api';
 import { onSignIn } from '../config/auth';
 
@@ -9,8 +7,6 @@ import { Types as activeBookTypes } from './ducks/activeBook';
 import * as NavigationService from '../config/navigationServices';
 
 function* asyncChangeBook(action) {
-  yield delay(2000);
-
   yield put({
     type: activeBookTypes.CHANGE_SUCCESS,
     payload: {
@@ -20,8 +16,6 @@ function* asyncChangeBook(action) {
 }
 
 function* asyncLogin(action) {
-  yield delay(2000);
-
   try {
     const { data: { access_token: userToken } } = yield api.post('/login/',
       action.payload);
@@ -32,6 +26,7 @@ function* asyncLogin(action) {
       },
     });
 
+
     yield put({
       type: authTypes.LOGIN_SUCCESS,
       payload: {
@@ -40,7 +35,8 @@ function* asyncLogin(action) {
       },
     });
 
-    onSignIn(userToken);
+    yield onSignIn(userToken);
+
     NavigationService.navigate('Main');
   } catch (err) {
     yield put({
