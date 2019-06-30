@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { Creators as authActions } from '../../store/ducks/auth';
 
 import CLGradient from '../../components/CLGradient';
+import Loading from '../../components/Loading';
 import logo from '../../../assets/logo.png';
 import styles from './styles';
 
@@ -36,7 +37,7 @@ class Login extends Component {
       <View style={styles.container}>
         <CLGradient />
         { loading
-          ? <Text style={styles.loading}>Carregando</Text>
+          ? <Loading />
           : (
             <>
               <Image style={styles.logo} source={logo} resizeMode="contain" />
