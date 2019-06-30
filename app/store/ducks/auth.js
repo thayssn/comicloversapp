@@ -26,7 +26,7 @@ export default function auth(state = INITIAL_STATE, action) {
         loading: false,
       };
     case Types.LOGIN_FAIL:
-      return { ...state, loading: false };
+      return { ...state, loading: false, authError: 'Verifique se as informações estão corretas.' };
     case Types.LOGOUT:
       return { ...state, loading: true };
     case Types.LOGOUT_SUCCESS:
