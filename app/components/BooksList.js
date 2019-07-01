@@ -2,7 +2,6 @@ import React from 'react';
 import {
   StyleSheet, Text, View, FlatList,
 } from 'react-native';
-import { connect } from 'react-redux';
 
 import Book from './Book';
 
@@ -38,8 +37,4 @@ const BooksList = ({ title, books }) => (
   </View>
 );
 
-const mapStateToProps = state => ({
-  books: state.books,
-});
-
-export default connect(mapStateToProps)(BooksList);
+export default BooksList;

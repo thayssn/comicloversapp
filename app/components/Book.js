@@ -7,6 +7,8 @@ import { bindActionCreators } from 'redux';
 import { withNavigation } from 'react-navigation';
 import { Creators as activeBookActions } from '../store/ducks/activeBook';
 
+import { BASE_URL } from '../../env_config';
+
 const styles = StyleSheet.create({
   book_item: {
     width: 100,
@@ -22,6 +24,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
     paddingTop: 5,
   },
+  collection_item: {
+    margin: 5,
+    width: 100,
+    height: 150,
+    backgroundColor: '#DEDEDE',
+  },
 });
 
 const Book = ({ navigation, book, changeBook }) => (
@@ -31,7 +39,19 @@ const Book = ({ navigation, book, changeBook }) => (
   }}
   >
     <View style={styles.book_item}>
-      <Image source={book.cover} style={styles.book_item_image} />
+      { book.thumbnail === null
+        ? (
+          <View style={styles.collection_item} />
+        )
+        : (
+          <Image
+            source={{
+              uri: `${BASE_URL}/${book.thumbnail}`,
+            }}
+            style={styles.book_item_image}
+          />
+        )
+      }
       <Text style={styles.book_item_title}>
         {`${book.title} - ${book.id}`}
       </Text>
