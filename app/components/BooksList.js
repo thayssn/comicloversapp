@@ -3,7 +3,7 @@ import {
   StyleSheet, Text, View, FlatList,
 } from 'react-native';
 
-import Book from './Book';
+import BookThumbnail from './BookThumbnail';
 
 const styles = StyleSheet.create({
   book_list_view: {
@@ -28,7 +28,7 @@ const BooksList = ({ title, books }) => (
       horizontal
       data={books}
       renderItem={({ item: book }) => (
-        <Book
+        <BookThumbnail
           book={book}
         />
       )}

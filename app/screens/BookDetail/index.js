@@ -1,57 +1,17 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View, Image, TouchableOpacity,
+  Text, View, Image, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { TabView, SceneMap } from 'react-native-tab-view';
+import { Rating } from 'react-native-elements';
 
-import CLGradient from '../components/CLGradient';
-import BookDescription from '../components/BookDescription';
-import BookReview from '../components/BookReview';
+import CLGradient from '../../components/CLGradient';
+import BookDescription from '../../components/BookDescription';
+import BookReview from '../../components/BookReview';
+import { BASE_URL } from '../../../env_config';
+import styles from './styles';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  cover_image: {
-    width: 100,
-    height: 150,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  infoView: {
-    flex: 1,
-    paddingLeft: 15,
-  },
-  statusView: {
-    flexDirection: 'row',
-    padding: 15,
-  },
-  status: {
-    fontSize: 16,
-    fontWeight: '300',
-  },
-  tabWrapper: {
-    flex: 1,
-    padding: 15,
-  },
-  tabBar: {
-    width: '100%',
-    flexDirection: 'row',
-    borderColor: '#20AEC0',
-    borderWidth: 2,
-    borderRadius: 10,
-    overflow: 'hidden',
-  },
-  tabItem: {
-    height: 40,
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 class BookDetail extends React.Component {
   state = {
@@ -66,20 +26,30 @@ class BookDetail extends React.Component {
 
   render() {
     const { book } = this.props;
+    const rating = book.total_rating ? book.total_rating / 2 : 0;
+    const price = book.price.toString().replace('.', ',');
     return (
       <View style={styles.container}>
         <View style={styles.statusView}>
-          <Image source={book.cover} style={styles.cover_image} />
+          <Image
+            source={{
+              uri: `${BASE_URL}/${book.thumbnail}`,
+            }}
+            style={styles.cover_image}
+          />
           <View style={styles.infoView}>
             <Text style={styles.title}>{book.title}</Text>
-            <Text style={styles.status}>
-              {`Avaliação: ${book.rating}`}
-            </Text>
+            <Rating
+              imageSize={20}
+              readonly
+              startingValue={rating}
+              style={styles.rating}
+            />
             <Text style={styles.status}>
               {`Número: ${book.is_unique_edition ? 'Volume Único' : book.number}`}
             </Text>
             <Text style={styles.status}>
-              {`Preço: ${book.price}`}
+              {`Preço: R$ ${price}`}
             </Text>
           </View>
         </View>

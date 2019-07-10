@@ -1,36 +1,14 @@
 import React from 'react';
 import {
-  Image, StyleSheet, View, Text, TouchableWithoutFeedback,
+  Image, View, Text, TouchableWithoutFeedback,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withNavigation } from 'react-navigation';
-import { Creators as activeBookActions } from '../store/ducks/activeBook';
+import { Creators as activeBookActions } from '../../store/ducks/activeBook';
 
-import { BASE_URL } from '../../env_config';
-
-const styles = StyleSheet.create({
-  book_item: {
-    width: 100,
-    margin: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  book_item_image: {
-    width: 100,
-    height: 150,
-  },
-  book_item_title: {
-    fontSize: 10,
-    paddingTop: 5,
-  },
-  collection_item: {
-    margin: 5,
-    width: 100,
-    height: 150,
-    backgroundColor: '#DEDEDE',
-  },
-});
+import { BASE_URL } from '../../../env_config';
+import styles from './styles';
 
 const Book = ({ navigation, book, changeBook }) => (
   <TouchableWithoutFeedback onPress={() => {
