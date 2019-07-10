@@ -45,11 +45,13 @@ class BookDetail extends React.Component {
               startingValue={rating}
               style={styles.rating}
             />
-            <Text style={styles.status}>
-              {`Número: ${book.is_unique_edition ? 'Volume Único' : book.number}`}
+            <Text style={styles.statusTitle}>
+              Número:
+              <Text style={styles.status}>{` ${book.is_unique_edition ? 'Volume Único' : book.number}`}</Text>
             </Text>
-            <Text style={styles.status}>
-              {`Preço: R$ ${price}`}
+            <Text style={styles.statusTitle}>
+              Preço:
+              <Text style={styles.status}>{` R$ ${price}`}</Text>
             </Text>
           </View>
         </View>

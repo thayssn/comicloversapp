@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 15,
   },
+  statusTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginVertical: 5,
+  },
   status: {
     fontSize: 16,
     fontWeight: '300',
