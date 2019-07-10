@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text } from 'react-native-elements';
+import { AirbnbRating } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   scene: {
@@ -13,7 +13,13 @@ const styles = StyleSheet.create({
 export default function BookReview() {
   return (
     <View style={styles.scene}>
-      <Text>Ainda não foi implementado. </Text>
+      <AirbnbRating
+        reviews={['', '', '', '', '']}
+        count={5}
+        defaultRating={5}
+        size={30}
+      />
     </View>
+
   );
 }
