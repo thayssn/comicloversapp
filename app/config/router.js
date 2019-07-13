@@ -3,6 +3,7 @@ import { createStackNavigator, createSwitchNavigator, createAppContainer } from 
 
 import Main from '../screens/Main';
 import Login from '../screens/Login';
+import Register from '../screens/Register';
 import BookDetail from '../screens/BookDetail';
 
 import CLGradient from '../components/CLGradient';
@@ -31,6 +32,9 @@ export const MainNavigator = createStackNavigator(
 export const createRootNavigator = (isSignedIn) => {
   const RootNavigator = createSwitchNavigator(
     {
+      Register: {
+        screen: Register,
+      },
       Login: {
         screen: Login,
       },
