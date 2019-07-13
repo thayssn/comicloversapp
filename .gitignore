@@ -8,3 +8,4 @@ npm-debug.*
 .idea
 .vscode
 env_config.js
+.DS_Store
