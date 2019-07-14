@@ -3,12 +3,15 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: '100%',
     flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   inner_container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     paddingTop: 100,
     paddingBottom: 30,
   },

@@ -46,11 +46,12 @@ class Register extends Component {
     return (
       <View style={[styles.container]}>
         <CLGradient />
-        <ScrollView style={{ width: '100%' }}>
-          <View style={styles.inner_container}>
-            { loading
-              ? <Loading />
-              : (
+        { loading
+          ? <Loading />
+          : (
+            <ScrollView style={{ width: '100%' }}>
+              <View style={styles.inner_container}>
+
                 <>
                   <View style={styles.input_group}>
                     { authError && <Text style={styles.error}>{authError}</Text> }
@@ -97,7 +98,7 @@ class Register extends Component {
 
                     <TouchableHighlight
                       style={styles.button}
-                      onPress={() => this.handleSignUp()}
+                      onPress={() => alert('not implemented yet')}
                       underlayColor="rgba(255,255,255,.2)"
                     >
                       <Text style={styles.text}>Criar conta</Text>
@@ -112,10 +113,10 @@ class Register extends Component {
                   </TouchableWithoutFeedback>
 
                 </>
-              )
-           }
-          </View>
-        </ScrollView>
+              </View>
+            </ScrollView>
+          )
+        }
       </View>
     );
   }
