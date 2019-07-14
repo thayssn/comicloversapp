@@ -10,16 +10,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function BookReview() {
-  return (
-    <View style={styles.scene}>
-      <AirbnbRating
-        reviews={['', '', '', '', '']}
-        count={5}
-        defaultRating={5}
-        size={30}
-      />
-    </View>
+const BookReview = ({ rating, onFinishRating }) => (
+  <View style={styles.scene}>
+    <AirbnbRating
+      reviews={[]}
+      count={5}
+      defaultRating={rating}
+      size={30}
+      onFinishRating={onFinishRating}
+    />
+  </View>
 
-  );
-}
+);
+export default BookReview;

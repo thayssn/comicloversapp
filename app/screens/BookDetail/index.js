@@ -12,7 +12,6 @@ import BookReview from '../../components/BookReview';
 import { BASE_URL } from '../../../env_config';
 import styles from './styles';
 
-
 class BookDetail extends React.Component {
   state = {
     index: 0,
@@ -22,10 +21,16 @@ class BookDetail extends React.Component {
       { key: 'second', title: 'Avaliação' },
     ],
     /* eslint-enable */
+    reviewRating: 0,
+  }
+
+  handleRating = (rating) => {
+    this.setState({ reviewRating: rating });
   }
 
   render() {
     const { book } = this.props;
+    const { reviewRating } = this.state;
     const rating = book.total_rating ? book.total_rating / 2 : 0;
     const price = book.price.toString().replace('.', ',');
     return (
@@ -61,7 +66,12 @@ class BookDetail extends React.Component {
             navigationState={this.state}
             renderScene={SceneMap({
               first: () => (<BookDescription book={book} />),
-              second: () => (<BookReview book={book} />),
+              second: () => (
+                <BookReview
+                  rating={reviewRating}
+                  onFinishRating={this.handleRating}
+                />
+              ),
             })}
             renderTabBar={props => (
               <View style={styles.tabBar}>
@@ -74,7 +84,9 @@ class BookDetail extends React.Component {
                       key={i.toString()}
                       style={[styles.tabItem, {
                       }]}
-                      onPress={() => this.setState({ index: i })}
+                      onPress={() => {
+                        this.setState({ index: i });
+                      }}
                     >
                       { isActive && <CLGradient /> }
                       <Text style={{ color }}>{route.title}</Text>
