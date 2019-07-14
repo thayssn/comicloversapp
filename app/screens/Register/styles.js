@@ -3,20 +3,25 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    width: '100%',
+  },
+  inner_container: {
+    paddingTop: 100,
+    paddingBottom: 30,
   },
   input_group: {
     width: '100%',
     paddingHorizontal: 30,
-    paddingTop: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
   link: {
     color: '#FFF',
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: '300',
     textDecorationLine: 'underline',
     marginVertical: 10,
@@ -35,10 +40,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 10,
     marginVertical: 30,
-  },
-  logo: {
-    height: 100,
-    marginTop: 120,
   },
   loading: {
     color: '#FFF',

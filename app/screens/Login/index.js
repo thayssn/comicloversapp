@@ -1,15 +1,14 @@
 import React, { Component } from 'react'; // eslint-ignore
 import {
-  TextInput, Text, View, Image, TouchableWithoutFeedback, TouchableHighlight,
+  Text, ScrollView, View, TouchableWithoutFeedback, TouchableHighlight,
 } from 'react-native';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { TextInput } from '../../components/Form';
 import { Creators as authActions } from '../../store/ducks/auth';
 
 import CLGradient from '../../components/CLGradient';
 import Loading from '../../components/Loading';
-import logo from '../../../assets/logo.png';
 import styles from './styles';
 
 class Login extends Component {
@@ -31,57 +30,53 @@ class Login extends Component {
   }
 
   render() {
-    const { loading, authError } = this.props;
+    const { loading, authError, navigation } = this.props;
     const { username, password, error } = this.state;
     return (
       <View style={styles.container}>
         <CLGradient />
-        { loading
-          ? <Loading />
-          : (
-            <>
-              <Image style={styles.logo} source={logo} resizeMode="contain" />
-              <View style={styles.input_group}>
-                { authError && <Text style={styles.error}>{authError}</Text> }
-                { error && <Text style={styles.error}>{error}</Text> }
-                <TextInput
-                  style={styles.input}
-                  placeholderTextColor="#91d7dc"
-                  autoCapitalize="none"
-                  placeholder="usuário"
-                  value={username}
-                  onChangeText={(value) => { this.setState({ username: value }); }}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="senha"
-                  placeholderTextColor="#91d7dc"
-                  secureTextEntry
-                  value={password}
-                  autoCapitalize="none"
-                  onChangeText={(value) => { this.setState({ password: value }); }}
-                />
+        <ScrollView style={{ width: '100%' }}>
+          <View style={styles.inner_container}>
+            { loading
+              ? <Loading />
+              : (
+                <>
+                  <View style={styles.input_group}>
+                    { authError && <Text style={styles.error}>{authError}</Text> }
+                    { error && <Text style={styles.error}>{error}</Text> }
+                    <TextInput
+                      placeholder="usuário"
+                      value={username}
+                      onChangeText={(value) => { this.setState({ username: value }); }}
+                    />
+                    <TextInput
+                      secureTextEntry
+                      placeholder="senha"
+                      value={password}
+                      onChangeText={(value) => { this.setState({ password: value }); }}
+                    />
 
+                    <TouchableHighlight
+                      style={styles.button}
+                      onPress={() => this.handleSignIn()}
+                      underlayColor="rgba(255,255,255,.2)"
+                    >
+                      <Text style={styles.text}>Entrar</Text>
+                    </TouchableHighlight>
+                  </View>
 
-                <TouchableHighlight
-                  style={styles.button}
-                  onPress={() => this.handleSignIn()}
-                  underlayColor="rgba(255,255,255,.2)"
-                >
-                  <Text style={styles.text}>Entrar</Text>
-                </TouchableHighlight>
-              </View>
+                  <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+                    <Text style={[styles.link]}>Esqueci minha senha</Text>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback onPress={() => navigation.navigate('Register')}>
+                    <Text style={[styles.link]}>Criar uma conta</Text>
+                  </TouchableWithoutFeedback>
 
-              <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
-                <Text style={[styles.link, { marginBottom: 30 }]}>Esqueci minha senha</Text>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
-                <Text style={[styles.link]}>Ainda não tenho conta</Text>
-              </TouchableWithoutFeedback>
-
-            </>
-          )
-        }
+                </>
+              )
+          }
+          </View>
+        </ScrollView>
       </View>
     );
   }

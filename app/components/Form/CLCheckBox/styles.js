@@ -8,8 +8,13 @@ const styles = StyleSheet.create({
   },
   checkboxText: {
     color: '#91d7dc',
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  checkboxCheckedText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: '400',
   },
 });
 

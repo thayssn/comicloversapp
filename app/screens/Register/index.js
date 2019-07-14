@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; // eslint-ignore
 import {
-  Text, View, Image, TouchableWithoutFeedback, TouchableHighlight,
+  Text, ScrollView, View, TouchableWithoutFeedback, TouchableHighlight,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,7 +9,6 @@ import { Creators as authActions } from '../../store/ducks/auth';
 
 import CLGradient from '../../components/CLGradient';
 import Loading from '../../components/Loading';
-import logo from '../../../assets/logo.png';
 import styles from './styles';
 
 class Register extends Component {
@@ -45,75 +44,78 @@ class Register extends Component {
       name, username, email, password, confirmPassword, error, acceptTerms,
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <CLGradient />
-        { loading
-          ? <Loading />
-          : (
-            <>
-              <Image style={styles.logo} source={logo} resizeMode="contain" />
-              <View style={styles.input_group}>
-                { authError && <Text style={styles.error}>{authError}</Text> }
-                { error && <Text style={styles.error}>{error}</Text> }
+        <ScrollView style={{ width: '100%' }}>
+          <View style={styles.inner_container}>
+            { loading
+              ? <Loading />
+              : (
+                <>
+                  <View style={styles.input_group}>
+                    { authError && <Text style={styles.error}>{authError}</Text> }
+                    { error && <Text style={styles.error}>{error}</Text> }
 
-                <TextInput
-                  placeholder="nome"
-                  value={name}
-                  onChangeText={(value) => { this.setState({ name: value }); }}
-                />
+                    <TextInput
+                      placeholder="nome"
+                      value={name}
+                      onChangeText={(value) => { this.setState({ name: value }); }}
+                    />
 
-                <TextInput
-                  placeholder="usuário"
-                  value={username}
-                  onChangeText={(value) => { this.setState({ username: value }); }}
-                />
+                    <TextInput
+                      placeholder="usuário"
+                      value={username}
+                      onChangeText={(value) => { this.setState({ username: value }); }}
+                    />
 
-                <TextInput
-                  placeholder="e-mail"
-                  value={email}
-                  keyboardType="email-address"
-                  onChangeText={(value) => { this.setState({ email: value }); }}
-                />
+                    <TextInput
+                      placeholder="e-mail"
+                      value={email}
+                      keyboardType="email-address"
+                      onChangeText={(value) => { this.setState({ email: value }); }}
+                    />
 
-                <TextInput
-                  secureTextEntry
-                  placeholder="senha"
-                  value={password}
-                  onChangeText={(value) => { this.setState({ password: value }); }}
-                />
+                    <TextInput
+                      secureTextEntry
+                      placeholder="senha"
+                      value={password}
+                      onChangeText={(value) => { this.setState({ password: value }); }}
+                    />
 
-                <TextInput
-                  secureTextEntry
-                  placeholder="confirme a senha"
-                  value={confirmPassword}
-                  onChangeText={(value) => { this.setState({ confirmPassword: value }); }}
-                />
+                    <TextInput
+                      secureTextEntry
+                      placeholder="confirme a senha"
+                      value={confirmPassword}
+                      onChangeText={(value) => { this.setState({ confirmPassword: value }); }}
+                    />
 
-                <CheckBox
-                  checked={acceptTerms}
-                  title="Aceito os Termos e Condições"
-                  onCheck={this.onCheck}
-                />
+                    <CheckBox
+                      checked={acceptTerms}
+                      title="Aceito os Termos e Condições"
+                      onCheck={this.onCheck}
+                    />
 
-                <TouchableHighlight
-                  style={styles.button}
-                  onPress={() => this.handleSignUp()}
-                  underlayColor="rgba(255,255,255,.2)"
-                >
-                  <Text style={styles.text}>Criar conta</Text>
-                </TouchableHighlight>
-              </View>
+                    <TouchableHighlight
+                      style={styles.button}
+                      onPress={() => this.handleSignUp()}
+                      underlayColor="rgba(255,255,255,.2)"
+                    >
+                      <Text style={styles.text}>Criar conta</Text>
+                    </TouchableHighlight>
+                  </View>
 
-              <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
-                <Text style={[styles.link]}>Termos e condições</Text>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={() => navigation.navigate('Login')}>
-                <Text style={[styles.link]}>Já tenho uma conta</Text>
-              </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+                    <Text style={[styles.link]}>Termos e condições</Text>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback onPress={() => navigation.navigate('Login')}>
+                    <Text style={[styles.link]}>Já tenho uma conta</Text>
+                  </TouchableWithoutFeedback>
 
-            </>
-          )
-        }
+                </>
+              )
+           }
+          </View>
+        </ScrollView>
       </View>
     );
   }

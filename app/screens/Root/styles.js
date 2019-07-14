@@ -5,16 +5,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    width: '100%',
-    flexGrow: 1,
-  },
-  inner_container: {
-    paddingTop: 100,
-    paddingBottom: 30,
   },
   input_group: {
     width: '100%',
     paddingHorizontal: 30,
+    paddingTop: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -33,7 +28,7 @@ const styles = StyleSheet.create({
   link: {
     color: '#FFF',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '300',
     textDecorationLine: 'underline',
     marginVertical: 10,
@@ -52,7 +47,11 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 10,
     margin: 10,
-    marginVertical: 30,
+    marginBottom: 15,
+  },
+  logo: {
+    height: 100,
+    marginTop: 80,
   },
   loading: {
     color: '#FFF',

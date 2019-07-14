@@ -9,16 +9,16 @@ const CLCheckBox = ({
   <CheckBox
     checkedIcon={(
       <Icon
-        size={18}
+        size={24}
         type="ionicons"
         name="check-box"
-        color="#91d7dc"
+        color="#FFF"
       />
     )}
 
     uncheckedIcon={(
       <Icon
-        size={18}
+        size={24}
         type="ionicons"
         name="check-box-outline-blank"
         color="#91d7dc"
@@ -29,7 +29,7 @@ const CLCheckBox = ({
     checked={checked}
     onPress={() => { onCheck(); }}
     containerStyle={styles.checkboxContainer}
-    textStyle={styles.checkboxText}
+    textStyle={checked ? styles.checkboxCheckedText : styles.checkboxText}
   />
 );
 

@@ -24,6 +24,7 @@
     "react-native-navigation": "^2.21.0",
     "react-native-tab-view": "^2.6.1",
     "react-navigation": "^3.11.0",
+    "react-navigation-transitions": "^1.0.11",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.3",
