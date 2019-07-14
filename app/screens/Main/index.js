@@ -17,29 +17,31 @@ class Main extends React.Component {
     this.setState({ loading: false });
   }
 
+  getLicensorCategories = books => books.reduce((reducedArray, next) => {
+    const { licensor: { name: nextLicensorName } } = next;
+    const licensorInReducedArray = reducedArray.find((licensor) => {
+      const isInArray = licensor.name === nextLicensorName;
+      return isInArray;
+    });
+    if (licensorInReducedArray) {
+      licensorInReducedArray.books.push(next);
+    } else {
+      const newLicensorInReducedArray = {
+        name: nextLicensorName,
+        books: [next],
+      };
+      reducedArray.push(newLicensorInReducedArray);
+    }
+    return reducedArray;
+  }, [])
+
   render() {
     const { loading } = this.state;
     const { books } = this.props;
 
     const booksWithThumbnail = books.filter(book => book.thumbnail !== null);
 
-    const publisherCategories = booksWithThumbnail.reduce((reducedArray, next) => {
-      const { publisher: { name: nextPublisherName } } = next;
-      const publisherInReducedArray = reducedArray.find((publisher) => {
-        const isInArray = publisher.name === nextPublisherName;
-        return isInArray;
-      });
-      if (publisherInReducedArray) {
-        publisherInReducedArray.books.push(next);
-      } else {
-        const newPublisherInReducedArray = {
-          name: nextPublisherName,
-          books: [next],
-        };
-        reducedArray.push(newPublisherInReducedArray);
-      }
-      return reducedArray;
-    }, []);
+    const licensorCategories = this.getLicensorCategories(booksWithThumbnail);
 
     return (
       <ScrollView>
@@ -47,11 +49,11 @@ class Main extends React.Component {
         { loading ? <Text>Loading</Text>
           : (
             <View>
-              { publisherCategories.map((publisherCategory, index) => (
+              { licensorCategories.map((licensorCategory, index) => (
                 <BooksList
                   key={index.toString()}
-                  title={publisherCategory.name}
-                  books={publisherCategory.books}
+                  title={licensorCategory.name}
+                  books={licensorCategory.books}
                 />
               ))
               }
