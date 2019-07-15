@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { createRootNavigator } from './app/config/router';
-import store from './app/store';
-import * as NavigationService from './app/config/navigationServices';
-import { isSignedIn } from './app/config/auth';
+import { createRootNavigator } from './src/config/router';
+import store from './src/store';
+import * as NavigationService from './src/config/navigationServices';
+import { isSignedIn } from './src/config/auth';
 
 export default class App extends Component {
   state = {
