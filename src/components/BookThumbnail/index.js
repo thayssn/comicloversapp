@@ -13,7 +13,7 @@ import styles from './styles';
 const Book = ({ navigation, book, changeBook }) => (
   <TouchableWithoutFeedback onPress={() => {
     changeBook(book);
-    navigation.navigate('BookDetail', { id: book._id });
+    navigation.navigate('BookDetail', { id: book._id, title: book.title });
   }}
   >
     <View style={styles.book_item}>

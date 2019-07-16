@@ -1,5 +1,5 @@
 import { put } from 'redux-saga/effects';
-import api from '../../config/api';
+import api from '../../services/api';
 import { Types } from '../ducks/books';
 
 function* booksSaga() {

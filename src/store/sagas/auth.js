@@ -1,7 +1,7 @@
 import { put } from 'redux-saga/effects';
-import * as NavigationService from '../../config/navigationServices';
-import api from '../../config/api';
-import { onSignIn } from '../../config/auth';
+import * as NavigationService from '../../services/navigation';
+import api from '../../services/api';
+import { onSignIn } from '../../services/auth';
 import { Types } from '../ducks/auth';
 
 function* authSaga(action) {

@@ -13,6 +13,10 @@ import { BASE_URL } from '../../../env_config';
 import styles from './styles';
 
 class BookDetail extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('title'),
+  })
+
   state = {
     index: 0,
     /* eslint-disable react/no-unused-state */
@@ -61,7 +65,6 @@ class BookDetail extends React.Component {
           </View>
         </View>
         <View style={styles.tabWrapper}>
-
           <TabView
             navigationState={this.state}
             renderScene={SceneMap({
