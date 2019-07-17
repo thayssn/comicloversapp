@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  createStackNavigator, createDrawerNavigator, createSwitchNavigator, createAppContainer,
+  createStackNavigator, createSwitchNavigator, createAppContainer,
 } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import { fromBottom } from 'react-navigation-transitions';
 import Main from './screens/Main';
 import Root from './screens/Root';
@@ -59,7 +60,7 @@ export const MainNavigator = createDrawerNavigator(
   {
     drawerIcon: 'A',
     drawerType: 'slide',
-    edgeWidth: 40,
+    edgeWidth: 100,
     contentOptions: {
       activeTintColor: '#e91e63',
       itemsContainerStyle: {
