@@ -4,6 +4,7 @@ import {
 } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { fromBottom } from 'react-navigation-transitions';
+import { Icon } from 'react-native-elements';
 import Main from './screens/Main';
 import Root from './screens/Root';
 import Login from './screens/Login';
@@ -14,11 +15,26 @@ import Profile from './screens/Profile';
 import CLGradient from './components/CLGradient';
 
 const defaultNavigationOptions = ({ navigation }) => ({
-  headerBackground: (
-    <CLGradient />
-  ),
+  headerBackground: (<CLGradient />),
   headerTintColor: '#fff',
   title: navigation.title,
+  headerLeft: <Icon
+    name="menu"
+    color="#FFF"
+    size={30}
+    containerStyle={{ paddingLeft: 10 }}
+    onPress={() => navigation.toggleDrawer()}
+  />,
+  headerRight: <Icon
+    name="md-qr-scanner"
+    type="ionicon"
+    color="#FFF"
+    size={25}
+    underlayColor="transparent"
+    containerStyle={{ paddingRight: 20 }}
+    onPress={() => alert('Not implemented yet')}
+  />,
+
 });
 
 export const ProfileNavigator = createStackNavigator(
@@ -30,25 +46,31 @@ export const ProfileNavigator = createStackNavigator(
       },
     },
   },
-  { defaultNavigationOptions },
+  {
+    defaultNavigationOptions,
+  },
 );
 
 export const BookNavigator = createStackNavigator(
   {
     Main: {
       screen: Main,
-      navigationOptions: {
+      navigationOptions: navigator => ({
+        ...defaultNavigationOptions(navigator),
         title: 'Comic Lovers',
-      },
+      }),
     },
     BookDetail: {
       screen: BookDetail,
-      navigationOptions: { drawerLockMode: 'locked-closed' },
+      navigationOptions: {
+        drawerLockMode: 'locked-closed',
+        headerTintColor: '#fff',
+        headerBackground: (<CLGradient />),
+      },
     },
   },
   {
     initialRouteName: 'Main',
-    defaultNavigationOptions,
   },
 );
 
@@ -58,9 +80,8 @@ export const MainNavigator = createDrawerNavigator(
     Profile: ProfileNavigator,
   },
   {
-    drawerIcon: 'A',
     drawerType: 'slide',
-    edgeWidth: 100,
+    edgeWidth: 60,
     contentOptions: {
       activeTintColor: '#e91e63',
       itemsContainerStyle: {
