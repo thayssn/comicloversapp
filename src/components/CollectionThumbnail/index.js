@@ -1,24 +1,9 @@
 import {
-  Image, StyleSheet, View, Text, TouchableWithoutFeedback,
+  Image, View, Text, TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
 
-const styles = StyleSheet.create({
-  collection_item: {
-    width: 100,
-    margin: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  collection_item_image: {
-    width: 100,
-    height: 150,
-  },
-  collection_item_title: {
-    fontSize: 10,
-    paddingTop: 5,
-  },
-});
+import styles from './styles';
 
 const Collection = ({ cover, title }) => (
   <TouchableWithoutFeedback onPress={() => {}}>
