@@ -9,7 +9,7 @@ import { Rating } from 'react-native-elements';
 import CLGradient from '../../components/CLGradient';
 import BookDescription from '../../components/BookDescription';
 import BookReview from '../../components/BookReview';
-import { BASE_URL } from '../../../env_config';
+import { BASE_URL } from '../../config/env_config';
 import styles from './styles';
 
 class BookDetail extends React.Component {

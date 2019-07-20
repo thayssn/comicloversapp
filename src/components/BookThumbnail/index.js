@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { withNavigation } from 'react-navigation';
 import { Creators as activeBookActions } from '../../store/ducks/activeBook';
 
-import { BASE_URL } from '../../../env_config';
+import { BASE_URL } from '../../config/env_config';
 import styles from './styles';
 
 const Book = ({ navigation, book, changeBook }) => (
