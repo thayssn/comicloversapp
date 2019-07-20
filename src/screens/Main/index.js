@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import CollectionsList from '../../components/CollectionsList';
 import BooksList from '../../components/BooksList';
 import { Creators as booksActions } from '../../store/ducks/books';
+import { Creators as collectionsActions } from '../../store/ducks/collections';
 
 class Main extends React.Component {
   state = {
@@ -12,8 +13,9 @@ class Main extends React.Component {
   }
 
   async componentDidMount() {
-    const { fetchAllBooks } = this.props;
+    const { fetchAllBooks, fetchCollections } = this.props;
     await fetchAllBooks();
+    await fetchCollections();
     this.setState({ loading: false });
   }
 
@@ -37,7 +39,7 @@ class Main extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { books } = this.props;
+    const { books, collections } = this.props;
 
     const booksWithThumbnail = books.filter(book => book.thumbnail !== null);
 
@@ -45,7 +47,7 @@ class Main extends React.Component {
 
     return (
       <ScrollView>
-        <CollectionsList title="Minhas coleções" />
+        <CollectionsList title="Minhas coleções" collections={collections} />
         { loading ? <Text>Loading</Text>
           : (
             <View>
@@ -69,6 +71,11 @@ const mapStateToProps = state => ({
   books: state.books,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(booksActions, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  const booksBindedActions = bindActionCreators(booksActions, dispatch);
+  const collectionsBindedActions = bindActionCreators(collectionsActions, dispatch);
+
+  return { ...booksBindedActions, ...collectionsBindedActions };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -9,7 +9,7 @@ import Collection from '../CollectionThumbnail';
 
 import styles from './styles';
 
-const CollectionsList = ({ collections, title }) => (
+const CollectionsList = ({ title, collections }) => (
   <View style={styles.collection_list_view}>
     <Text style={styles.collection_list_title}>{title}</Text>
     <FlatList
@@ -21,11 +21,11 @@ const CollectionsList = ({ collections, title }) => (
           return (
             <View style={{ flexDirection: 'row' }}>
               <CreateCollection createCollection={() => alert('Not implemented yet')} />
-              <Collection cover={collection.cover} title={collection.title} />
+              <Collection cover={collection.cover} title={collection.name} />
             </View>
           );
         }
-        return <Collection cover={collection.cover} title={collection.title} />;
+        return <Collection cover={collection.cover} title={collection.name} />;
       }}
       keyExtractor={(item, index) => index.toString()}
     />

@@ -9,3 +9,5 @@ export const isSignedIn = async () => {
   const token = await AsyncStorage.getItem(TOKEN_KEY);
   return token !== null;
 };
+
+export const getUserToken = async () => AsyncStorage.getItem(TOKEN_KEY);

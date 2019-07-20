@@ -7,6 +7,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  collection_default_cover: {
+    width: 100,
+    height: 150,
+    backgroundColor: '#DDD',
+  },
   collection_item_image: {
     width: 100,
     height: 150,
