@@ -1,6 +1,6 @@
 export const Types = {
-  CHANGE: 'CHANGE',
-  CHANGE_SUCCESS: 'CHANGE_SUCCESS',
+  CHANGE: 'book@CHANGE',
+  CHANGE_SUCCESS: 'book@CHANGE_SUCCESS',
 };
 
 const INITIAL_STATE = {};

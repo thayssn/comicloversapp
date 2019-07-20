@@ -5,7 +5,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { CheckBox, TextInput } from '../../components/Form';
-import { Creators as authActions } from '../../store/ducks/auth';
+import { Creators as registerActions } from '../../store/ducks/register';
 
 import CLGradient from '../../components/CLGradient';
 import Loading from '../../components/Loading';
@@ -23,13 +23,13 @@ class Register extends Component {
   }
 
   handleSignUp = () => {
-    const { signUp } = this.props;
-    const { username, password } = this.state;
+    const { register } = this.props;
+    const { username, password, email } = this.state;
     if (!username || !password) {
       this.setState({ error: 'Por favor, preencha todos os campos.' });
       return;
     }
-    signUp({ username, password });
+    register({ username, password, email });
     this.setState({ password: '', error: null });
   }
 
@@ -39,7 +39,7 @@ class Register extends Component {
   }
 
   render() {
-    const { navigation, loading, authError } = this.props;
+    const { navigation, loading, registerError } = this.props;
     const {
       name, username, email, password, confirmPassword, error, acceptTerms,
     } = this.state;
@@ -54,7 +54,7 @@ class Register extends Component {
 
                 <>
                   <View style={styles.input_group}>
-                    { authError && <Text style={styles.error}>{authError}</Text> }
+                    { registerError && <Text style={styles.error}>{registerError}</Text> }
                     { error && <Text style={styles.error}>{error}</Text> }
 
                     <TextInput
@@ -98,7 +98,7 @@ class Register extends Component {
 
                     <TouchableHighlight
                       style={styles.button}
-                      onPress={() => alert('not implemented yet')}
+                      onPress={this.handleSignUp}
                       underlayColor="rgba(255,255,255,.2)"
                     >
                       <Text style={styles.text}>Criar conta</Text>
@@ -123,9 +123,9 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  loading: state.auth.loading,
-  authError: state.auth.authError,
+  loading: state.register.loading,
+  registerError: state.register.registerError,
 });
-const mapDispatchToProps = dispatch => bindActionCreators(authActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(registerActions, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

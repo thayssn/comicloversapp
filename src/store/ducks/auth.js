@@ -8,7 +8,6 @@ export const Types = {
 };
 
 const INITIAL_STATE = {
-  isLogedIn: null,
   token: null,
   user: {},
   loading: false,
@@ -22,16 +21,14 @@ export default function auth(state = INITIAL_STATE, action) {
       return {
         user: action.payload.user,
         userToken: action.payload.userToken,
-        isLogedIn: true,
         loading: false,
       };
     case Types.LOGIN_FAIL:
-      return { ...state, loading: false, authError: 'Verifique se as informações estão corretas.' };
+      return { ...state, loading: false, authError: 'Não foi possível realizar o login.' };
     case Types.LOGOUT:
       return { ...state, loading: true };
     case Types.LOGOUT_SUCCESS:
       return {
-        isLoggedIn: false,
         token: null,
         user: {},
         loading: false,
