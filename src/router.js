@@ -5,6 +5,7 @@ import {
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { fromBottom } from 'react-navigation-transitions';
 import { Icon } from 'react-native-elements';
+import Menu from './components/Menu';
 import Main from './screens/Main';
 import Root from './screens/Root';
 import Login from './screens/Login';
@@ -82,15 +83,7 @@ export const MainNavigator = createDrawerNavigator(
   {
     drawerType: 'slide',
     edgeWidth: 60,
-    contentOptions: {
-      activeTintColor: '#e91e63',
-      itemsContainerStyle: {
-        marginVertical: 0,
-      },
-      iconContainerStyle: {
-        opacity: 1,
-      },
-    },
+    contentComponent: Menu,
   },
 );
 
