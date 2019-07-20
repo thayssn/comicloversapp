@@ -7,14 +7,6 @@ import { Types as AuthTypes } from '../ducks/auth';
 
 function* registerSaga(action) {
   try {
-    /*
-    {
-      name: '',
-      username: '',
-      email: '',
-      password: '',
-    }
-    */
     yield api.post('/register/', action.payload);
 
     const { data: { access_token: userToken } } = yield api.post('/login/',

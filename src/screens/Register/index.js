@@ -10,6 +10,7 @@ import { Creators as registerActions } from '../../store/ducks/register';
 import CLGradient from '../../components/CLGradient';
 import Loading from '../../components/Loading';
 import styles from './styles';
+import { verifyEmptyFields, verifyAcceptedTerms } from './verification';
 
 class Register extends Component {
   state = {
@@ -22,15 +23,18 @@ class Register extends Component {
     acceptTerms: false,
   }
 
-  handleSignUp = () => {
+  handleSignUp = async () => {
     const { register } = this.props;
-    const { username, password, email } = this.state;
-    if (!username || !password) {
-      this.setState({ error: 'Por favor, preencha todos os campos.' });
-      return;
+    const { ...user } = this.state;
+    try {
+      await verifyEmptyFields(user);
+      await verifyAcceptedTerms(user);
+      register(user);
+      this.setState();
+      this.setState({ password: '', confirmPassword: '', error: null });
+    } catch (err) {
+      this.setState({ error: err.message });
     }
-    register({ username, password, email });
-    this.setState({ password: '', error: null });
   }
 
   onCheck = () => {
