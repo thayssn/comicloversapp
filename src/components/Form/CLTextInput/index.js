@@ -5,10 +5,10 @@ import { TextInput } from 'react-native';
 import styles from './styles';
 
 const CLTextInput = ({
-  value, placeholder, onChangeText, keyboardType = 'default', secureTextEntry = false,
+  style, value, placeholder, onChangeText, keyboardType = 'default', secureTextEntry = false, multiline = false, numberOfLines = 1,
 }) => (
   <TextInput
-    style={styles.input}
+    style={[styles.input, style]}
     placeholder={placeholder}
     placeholderTextColor="#91d7dc"
     secureTextEntry={secureTextEntry}
@@ -16,6 +16,8 @@ const CLTextInput = ({
     autoCapitalize="none"
     value={value}
     onChangeText={onChangeText}
+    multiline={multiline}
+    numberOfLines={numberOfLines}
   />
 );
 

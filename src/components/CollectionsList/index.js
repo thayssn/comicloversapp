@@ -4,12 +4,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import { withNavigation } from 'react-navigation';
 import CreateCollection from '../CreateCollection';
 import Collection from '../CollectionThumbnail';
 
 import styles from './styles';
 
-const CollectionsList = ({ title, collections }) => (
+const CollectionsList = ({ title, collections, navigation }) => (
   <View style={styles.collection_list_view}>
     <Text style={styles.collection_list_title}>{title}</Text>
     <FlatList
@@ -20,7 +21,7 @@ const CollectionsList = ({ title, collections }) => (
         if (index === 0) {
           return (
             <View style={{ flexDirection: 'row' }}>
-              <CreateCollection createCollection={() => alert('Not implemented yet')} />
+              <CreateCollection onPress={() => navigation.navigate('NewCollection')} />
               <Collection cover={collection.cover} title={collection.name} />
             </View>
           );
@@ -36,4 +37,4 @@ const mapStateToProps = state => ({
   collections: state.collections,
 });
 
-export default connect(mapStateToProps)(CollectionsList);
+export default connect(mapStateToProps)(withNavigation(CollectionsList));

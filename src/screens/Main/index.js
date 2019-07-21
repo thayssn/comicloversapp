@@ -12,12 +12,13 @@ class Main extends React.Component {
     loading: true,
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     const { fetchAllBooks, fetchCollections } = this.props;
     await fetchAllBooks();
     await fetchCollections();
     this.setState({ loading: false });
   }
+
 
   getLicensorCategories = books => books.reduce((reducedArray, next) => {
     const { licensor: { name: nextLicensorName } } = next;

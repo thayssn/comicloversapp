@@ -12,6 +12,7 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import BookDetail from './screens/BookDetail';
 import Profile from './screens/Profile';
+import NewCollection from './screens/NewCollection';
 
 import CLGradient from './components/CLGradient';
 
@@ -64,6 +65,15 @@ export const BookNavigator = createStackNavigator(
     BookDetail: {
       screen: BookDetail,
       navigationOptions: {
+        drawerLockMode: 'locked-closed',
+        headerTintColor: '#fff',
+        headerBackground: (<CLGradient />),
+      },
+    },
+    NewCollection: {
+      screen: NewCollection,
+      navigationOptions: {
+        title: 'Nova coleção',
         drawerLockMode: 'locked-closed',
         headerTintColor: '#fff',
         headerBackground: (<CLGradient />),

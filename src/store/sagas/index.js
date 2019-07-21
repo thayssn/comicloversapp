@@ -3,7 +3,7 @@ import authSaga from './auth';
 import registerSaga from './register';
 import activeBookSaga from './activeBook';
 import booksSaga from './books';
-import collectionsSaga from './collections';
+import { collectionsFetchSaga, collectionsCreateSaga } from './collections';
 
 import { Types as booksTypes } from '../ducks/books';
 import { Types as collectionsTypes } from '../ducks/collections';
@@ -19,7 +19,8 @@ export default function* root() {
       takeLatest(authTypes.LOGIN, authSaga),
       takeLatest(booksTypes.FETCH_ALL, booksSaga),
       takeLatest(registerTypes.REGISTER, registerSaga),
-      takeLatest(collectionsTypes.FETCH_ALL, collectionsSaga),
+      takeLatest(collectionsTypes.FETCH_ALL, collectionsFetchSaga),
+      takeLatest(collectionsTypes.CREATE, collectionsCreateSaga),
     ],
   );
 }
