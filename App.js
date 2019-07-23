@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { createRootNavigator } from './src/router';
 import store from './src/store';
 import * as NavigationService from './src/services/navigation';
-import { isSignedIn } from './src/services/auth';
+import { isSignedIn, renewToken } from './src/services/auth';
 
 export default class App extends Component {
   state = {
@@ -13,7 +13,10 @@ export default class App extends Component {
 
   async componentDidMount() {
     await isSignedIn()
-      .then(res => this.setState({ signed: res, signLoaded: true }))
+      .then(async (res) => {
+        await renewToken();
+        this.setState({ signed: res, signLoaded: true });
+      })
       .catch(err => alert('Erro', err));
 
     NavigationService.setNavigator(this.navigator);

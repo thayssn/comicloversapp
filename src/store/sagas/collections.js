@@ -7,6 +7,7 @@ import * as NavigationService from '../../services/navigation';
 export function* collectionsFetchSaga() {
   try {
     const userAccessToken = yield getUserToken();
+    console.log(userAccessToken);
     const { data: { objects: collections } } = yield api.get('/user-collections/', {
       params: {
         access_token: userAccessToken,
