@@ -14,14 +14,9 @@ export const isSignedIn = async () => {
 export const getUserToken = async () => AsyncStorage.getItem(TOKEN_KEY);
 
 export const renewToken = async () => {
-  try {
-    const token = await getUserToken();
-    const { data: { access_token: newToken } } = await api.post('/token/', {}, {
-      params: { access_token: token },
-    });
-    await onSignIn(newToken);
-    console.log(newToken);
-  } catch (err) {
-    console.log('Error: ', err);
-  }
+  const token = await getUserToken();
+  const { data: { access_token: newToken } } = await api.post('/token/', {}, {
+    params: { access_token: token },
+  });
+  return onSignIn(newToken);
 };

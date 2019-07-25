@@ -12,13 +12,18 @@ export default class App extends Component {
   };
 
   async componentDidMount() {
-    await isSignedIn()
-      .then(async (res) => {
+    const signedIn = await isSignedIn();
+    if (signedIn) {
+      try {
         await renewToken();
-        this.setState({ signed: res, signLoaded: true });
-      })
-      .catch(err => alert('Erro', err));
-
+        this.setState({ signed: true, signLoaded: true });
+      } catch (err) {
+        console.log('There was a problem renewing the token', err);
+        this.setState({ signed: false, signLoaded: true });
+      }
+    } else {
+      this.setState({ signed: false, signLoaded: true });
+    }
     NavigationService.setNavigator(this.navigator);
   }
 
