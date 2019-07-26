@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { DangerZone } from 'expo';
+import CLGradient from './CLGradient';
 
 const { Lottie } = DangerZone;
 const loadingAnimationJson = require('../../assets/loading.json');
@@ -8,8 +9,6 @@ const loadingAnimationJson = require('../../assets/loading.json');
 export default class App extends React.Component {
   componentDidMount() {
     this.animation.play();
-    // Or set a specific startFrame and endFrame with:
-    // this.animation.play(30, 120);
   }
 
   resetAnimation = () => {
@@ -26,6 +25,7 @@ export default class App extends React.Component {
         justifyContent: 'center',
       }}
       >
+        <CLGradient />
         <Lottie
           ref={(animation) => {
             this.animation = animation;

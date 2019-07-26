@@ -13,6 +13,7 @@ import Register from './screens/Register';
 import BookDetail from './screens/BookDetail';
 import Profile from './screens/Profile';
 import NewCollection from './screens/NewCollection';
+import CollectionDetail from './screens/CollectionDetail';
 
 import CLGradient from './components/CLGradient';
 
@@ -79,9 +80,17 @@ export const BookNavigator = createStackNavigator(
         headerBackground: (<CLGradient />),
       },
     },
+    CollectionDetail: {
+      screen: CollectionDetail,
+    },
   },
   {
     initialRouteName: 'Main',
+    defaultNavigationOptions: {
+      drawerLockMode: 'locked-closed',
+      headerTintColor: '#fff',
+      headerBackground: (<CLGradient />),
+    },
   },
 );
 

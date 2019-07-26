@@ -17,17 +17,14 @@ const CollectionsList = ({ title, collections, navigation }) => (
       contentContainerStyle={styles.collection_list}
       horizontal
       data={collections}
-      renderItem={({ item: collection, index }) => {
-        if (index === 0) {
-          return (
-            <View style={{ flexDirection: 'row' }}>
-              <CreateCollection onPress={() => navigation.navigate('NewCollection')} />
-              <Collection cover={collection.cover} title={collection.name} />
-            </View>
-          );
-        }
-        return <Collection cover={collection.cover} title={collection.name} />;
-      }}
+      renderItem={({ item: collection, index }) => (
+        <View style={{ flexDirection: 'row' }}>
+          { index === 0
+            && <CreateCollection onPress={() => navigation.navigate('NewCollection')} />
+          }
+          <Collection cover={collection.cover} title={collection.name} onPress={() => navigation.navigate('CollectionDetail', { collectionId: collection.id })} />
+        </View>
+      )}
       keyExtractor={(item, index) => index.toString()}
     />
   </View>
