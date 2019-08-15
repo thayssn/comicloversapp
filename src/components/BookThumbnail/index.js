@@ -10,10 +10,9 @@ import { Creators as activeBookActions } from '../../store/ducks/activeBook';
 import { BASE_URL } from '../../config/env_config';
 import styles from './styles';
 
-const Book = ({ navigation, book, changeBook }) => (
-  <TouchableWithoutFeedback onPress={() => {
-    changeBook(book);
-    navigation.navigate('BookDetail', { id: book._id, title: book.title });
+const Book = ({ book, changeBook }) => (
+  <TouchableWithoutFeedback onPress={async () => {
+    await changeBook(book);
   }}
   >
     <View style={styles.book_item}>

@@ -56,7 +56,7 @@ class BookDetail extends React.Component {
             />
             <Text style={styles.statusTitle}>
               Número:
-              <Text style={styles.status}>{` ${book.is_unique_edition ? 'Volume Único' : book.number}`}</Text>
+              <Text style={styles.status}>{` ${book.edition}`}</Text>
             </Text>
             <Text style={styles.statusTitle}>
               Preço:
@@ -106,6 +106,9 @@ class BookDetail extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ book: state.activeBook });
+const mapStateToProps = (state) => {
+  console.log(state.activeBook);
+  return ({ book: state.activeBook });
+};
 
 export default connect(mapStateToProps)(BookDetail);
