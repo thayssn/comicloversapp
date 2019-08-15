@@ -6,12 +6,12 @@ import { Types } from '../ducks/auth';
 
 function* authSaga(action) {
   try {
-    const { data: { access_token: userToken } } = yield api.post('/login/',
+    const { data: { token: userToken } } = yield api.post('/auth/',
       action.payload);
 
     const { data: user } = yield api.get('/me/', {
-      params: {
-        access_token: userToken,
+      headers: {
+        Authorization: `Bearer ${userToken}`,
       },
     });
 
@@ -27,6 +27,7 @@ function* authSaga(action) {
 
     NavigationService.navigate('Main');
   } catch (err) {
+    console.log(err);
     yield put({
       type: Types.LOGIN_FAIL,
       payload: {

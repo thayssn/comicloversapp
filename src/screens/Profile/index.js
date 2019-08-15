@@ -7,9 +7,9 @@ import { Creators as registerActions } from '../../store/ducks/register';
 
 // import { Container } from './styles';
 
-const Profile = ({ user }) => (
+const Profile = () => (
   <View style={{ flex: 1 }}>
-    <Text>{user.username}</Text>
+    <Text>Usuário</Text>
   </View>
 );
 

@@ -15,7 +15,6 @@ import { verifyEmptyFields, verifyAcceptedTerms } from './verification';
 class Register extends Component {
   state = {
     name: '',
-    username: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -45,7 +44,7 @@ class Register extends Component {
   render() {
     const { navigation, loading, registerError } = this.props;
     const {
-      name, username, email, password, confirmPassword, error, acceptTerms,
+      name, email, password, confirmPassword, error, acceptTerms,
     } = this.state;
     return (
       <View style={[styles.container]}>
@@ -65,12 +64,6 @@ class Register extends Component {
                       placeholder="nome"
                       value={name}
                       onChangeText={(value) => { this.setState({ name: value }); }}
-                    />
-
-                    <TextInput
-                      placeholder="usuário"
-                      value={username}
-                      onChangeText={(value) => { this.setState({ username: value }); }}
                     />
 
                     <TextInput

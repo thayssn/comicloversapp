@@ -21,7 +21,7 @@ class Main extends React.Component {
 
 
   getLicensorCategories = books => books.reduce((reducedArray, next) => {
-    const { licensor: { name: nextLicensorName } } = next;
+    const { name: nextLicensorName } = next.licensors[0];
     const licensorInReducedArray = reducedArray.find((licensor) => {
       const isInArray = licensor.name === nextLicensorName;
       return isInArray;

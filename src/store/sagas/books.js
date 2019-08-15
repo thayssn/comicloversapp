@@ -4,7 +4,7 @@ import { Types } from '../ducks/books';
 
 function* booksSaga() {
   try {
-    const { data: { objects: books } } = yield api.get('/books/');
+    const { data: books } = yield api.get('/books/');
 
     yield put({
       type: Types.FETCH_ALL_SUCCESS,

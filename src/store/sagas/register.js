@@ -9,12 +9,12 @@ function* registerSaga(action) {
   try {
     yield api.post('/register/', action.payload);
 
-    const { data: { access_token: userToken } } = yield api.post('/login/',
+    const { data: { token: userToken } } = yield api.post('/login/',
       action.payload);
 
     const { data: user } = yield api.get('/me/', {
-      params: {
-        access_token: userToken,
+      headers: {
+        Authorization: `Bearer ${userToken}`,
       },
     });
 

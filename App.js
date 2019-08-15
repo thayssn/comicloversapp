@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { createRootNavigator } from './src/router';
 import store from './src/store';
 import * as NavigationService from './src/services/navigation';
-import { isSignedIn, renewToken } from './src/services/auth';
+import { isSignedIn } from './src/services/auth';
 
 export default class App extends Component {
   state = {
@@ -15,7 +15,7 @@ export default class App extends Component {
     const signedIn = await isSignedIn();
     if (signedIn) {
       try {
-        await renewToken();
+        // await renewToken();
         this.setState({ signed: true, signLoaded: true });
       } catch (err) {
         console.log('There was a problem renewing the token', err);

@@ -3,9 +3,8 @@ import { Types } from '../ducks/activeCollection';
 import api from '../../services/api';
 
 function* activeCollectionSaga(action) {
-  console.log(action.payload.collectionId);
   try {
-    const { data: collection } = yield api.get(`/user-collections/${action.payload.collectionId}`);
+    const { data: collection } = yield api.get(`/collections/${action.payload.collectionId}`);
     yield put({
       type: Types.FETCH_SUCCESS,
       payload: {

@@ -13,25 +13,25 @@ import styles from './styles';
 
 class Login extends Component {
   state = {
-    username: '',
+    email: '',
     password: '',
     error: null,
   }
 
   handleSignIn = () => {
     const { login } = this.props;
-    const { username, password } = this.state;
-    if (!username || !password) {
+    const { email, password } = this.state;
+    if (!email || !password) {
       this.setState({ error: 'Por favor, preencha todos os campos.' });
       return;
     }
-    login({ username, password });
+    login({ email, password });
     this.setState({ password: '', error: null });
   }
 
   render() {
     const { loading, authError, navigation } = this.props;
-    const { username, password, error } = this.state;
+    const { email, password, error } = this.state;
     return (
       <View style={styles.container}>
         <CLGradient />
@@ -46,8 +46,8 @@ class Login extends Component {
                     { error && <Text style={styles.error}>{error}</Text> }
                     <TextInput
                       placeholder="usuário"
-                      value={username}
-                      onChangeText={(value) => { this.setState({ username: value }); }}
+                      value={email}
+                      onChangeText={(value) => { this.setState({ email: value }); }}
                     />
                     <TextInput
                       secureTextEntry

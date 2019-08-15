@@ -7,9 +7,9 @@ import * as NavigationService from '../../services/navigation';
 export function* collectionsFetchSaga() {
   try {
     const userAccessToken = yield getUserToken();
-    const { data: { objects: collections } } = yield api.get('/user-collections/', {
-      params: {
-        access_token: userAccessToken,
+    const { data: collections } = yield api.get('/collections/', {
+      headers: {
+        Authorization: `Bearer ${userAccessToken}`,
       },
     });
 
@@ -20,7 +20,6 @@ export function* collectionsFetchSaga() {
       },
     });
   } catch (err) {
-    console.log('Problem fetching collections');
     yield put({
       type: Types.FETCH_ALL_FAIL,
       payload: {
@@ -34,11 +33,11 @@ export function* collectionsCreateSaga(action) {
   try {
     const userAccessToken = yield getUserToken();
 
-    const { data: collection } = yield api.post('/user-collections/',
+    const { data: collection } = yield api.post('/collections/',
       action.payload,
       {
-        params: {
-          access_token: userAccessToken,
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
         },
       });
 
