@@ -18,7 +18,6 @@ export default class App extends Component {
         // await renewToken();
         this.setState({ signed: true, signLoaded: true });
       } catch (err) {
-        console.log('There was a problem renewing the token', err);
         this.setState({ signed: false, signLoaded: true });
       }
     } else {

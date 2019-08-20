@@ -20,7 +20,6 @@ class Main extends React.Component {
   }
 
   getLicensorCategories = books => books.reduce((reducedArray, next) => {
-    console.log('=> tku next', next);
     const nextLicensorName = next.licensors[0] ? next.licensors[0].name : '---';
     const licensorInReducedArray = reducedArray.find((licensor) => {
       const isInArray = licensor.name === nextLicensorName;
@@ -45,7 +44,7 @@ class Main extends React.Component {
     return (
       <ScrollView>
         <CollectionsList title="Minhas coleções" collections={collections} />
-        { loading ? <Text>Loading</Text>
+        { loading ? <Text>Carregando...</Text>
           : (
             <View>
               { licensorCategories.map((licensorCategory, index) => (

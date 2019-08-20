@@ -13,20 +13,26 @@ import styles from './styles';
 const CollectionsList = ({ title, collections, navigation }) => (
   <View style={styles.collection_list_view}>
     <Text style={styles.collection_list_title}>{title}</Text>
-    <FlatList
-      contentContainerStyle={styles.collection_list}
-      horizontal
-      data={collections}
-      renderItem={({ item: collection, index }) => (
-        <View style={{ flexDirection: 'row' }}>
-          { index === 0
+
+    <View style={{ flexDirection: 'row' }}>
+      <CreateCollection onPress={() => navigation.navigate('NewCollection')} />
+      <FlatList
+        contentContainerStyle={styles.collection_list}
+        horizontal
+        data={collections}
+        renderItem={({ item: collection }) => (
+          <View style={{ flexDirection: 'row' }}>
+            {/* { index === 0
             && <CreateCollection onPress={() => navigation.navigate('NewCollection')} />
-          }
-          <Collection cover={collection.cover} title={collection.name} onPress={() => navigation.navigate('CollectionDetail', { collectionId: collection.id })} />
-        </View>
-      )}
-      keyExtractor={(item, index) => index.toString()}
-    />
+          } */}
+            <Collection cover={collection.cover} title={collection.name} onPress={() => navigation.navigate('CollectionDetail', { collectionId: collection.id })} />
+          </View>
+        )}
+
+        keyExtractor={(item, index) => index.toString()}
+      />
+
+    </View>
   </View>
 );
 

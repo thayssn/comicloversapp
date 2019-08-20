@@ -27,7 +27,6 @@ function* authSaga(action) {
 
     NavigationService.navigate('Main');
   } catch (err) {
-    console.log(err);
     yield put({
       type: Types.LOGIN_FAIL,
       payload: {

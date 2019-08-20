@@ -106,9 +106,6 @@ class BookDetail extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state.activeBook);
-  return ({ book: state.activeBook });
-};
+const mapStateToProps = state => ({ book: state.activeBook });
 
 export default connect(mapStateToProps)(BookDetail);
