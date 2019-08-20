@@ -19,9 +19,9 @@ class Main extends React.Component {
     this.setState({ loading: false });
   }
 
-
   getLicensorCategories = books => books.reduce((reducedArray, next) => {
-    const { name: nextLicensorName } = next.licensors[0];
+    console.log('=> tku next', next);
+    const nextLicensorName = next.licensors[0] ? next.licensors[0].name : '---';
     const licensorInReducedArray = reducedArray.find((licensor) => {
       const isInArray = licensor.name === nextLicensorName;
       return isInArray;
@@ -41,11 +41,7 @@ class Main extends React.Component {
   render() {
     const { loading } = this.state;
     const { books, collections } = this.props;
-
-    const booksWithThumbnail = books.filter(book => book.thumbnail !== null);
-
-    const licensorCategories = this.getLicensorCategories(booksWithThumbnail);
-
+    const licensorCategories = this.getLicensorCategories(books);
     return (
       <ScrollView>
         <CollectionsList title="Minhas coleções" collections={collections} />
