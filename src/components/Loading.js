@@ -1,9 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-import { DangerZone } from 'expo';
+import Lottie from 'lottie-react-native';
 import CLGradient from './CLGradient';
 
-const { Lottie } = DangerZone;
 const loadingAnimationJson = require('../../assets/loading.json');
 
 export default class App extends React.Component {
