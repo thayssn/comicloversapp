@@ -14,6 +14,7 @@ import BookDetail from './screens/BookDetail';
 import Profile from './screens/Profile';
 import NewCollection from './screens/NewCollection';
 import CollectionDetail from './screens/CollectionDetail';
+import Scanner from './screens/Scanner';
 
 import CLGradient from './components/CLGradient';
 
@@ -35,7 +36,7 @@ const defaultNavigationOptions = ({ navigation }) => ({
     size={25}
     underlayColor="transparent"
     containerStyle={{ paddingRight: 20 }}
-    onPress={() => alert('Not implemented yet')}
+    onPress={() => navigation.navigate('Scanner')}
   />,
 
 });
@@ -82,6 +83,15 @@ export const BookNavigator = createStackNavigator(
     },
     CollectionDetail: {
       screen: CollectionDetail,
+    },
+    Scanner: {
+      screen: Scanner,
+      navigationOptions: {
+        title: 'Escanear Quadrinho',
+        drawerLockMode: 'locked-closed',
+        headerTintColor: '#fff',
+        headerBackground: (<CLGradient />),
+      },
     },
   },
   {
