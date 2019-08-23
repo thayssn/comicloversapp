@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   cover_image: {
     width: 100,
     height: 150,
+    backgroundColor: '#DEDEDE',
   },
   title: {
     fontSize: 16,

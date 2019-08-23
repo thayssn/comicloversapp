@@ -5,6 +5,7 @@ import books from '../ducks/books';
 import activeBook from '../ducks/activeBook';
 import auth from '../ducks/auth';
 import register from '../ducks/register';
+import user from '../ducks/user';
 
 export default combineReducers({
   collections,
@@ -13,4 +14,5 @@ export default combineReducers({
   activeBook,
   auth,
   register,
+  user,
 });

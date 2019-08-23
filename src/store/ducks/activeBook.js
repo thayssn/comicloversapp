@@ -8,7 +8,6 @@ const INITIAL_STATE = {};
 export default function activeBook(state = INITIAL_STATE, action) {
   switch (action.type) {
     case Types.CHANGE_SUCCESS:
-      console.log('wtf', action.payload.book);
       return action.payload.book;
     default:
       return state;

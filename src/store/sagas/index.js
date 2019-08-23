@@ -5,6 +5,7 @@ import activeBookSaga from './activeBook';
 import booksSaga from './books';
 import { collectionsFetchSaga, collectionsCreateSaga } from './collections';
 import activeCollectionSaga from './activeCollection';
+import userSaga from './user';
 
 import { Types as activeBookTypes } from '../ducks/activeBook';
 import { Types as booksTypes } from '../ducks/books';
@@ -12,6 +13,7 @@ import { Types as collectionsTypes } from '../ducks/collections';
 import { Types as activeCollectionTypes } from '../ducks/activeCollection';
 import { Types as authTypes } from '../ducks/auth';
 import { Types as registerTypes } from '../ducks/register';
+import { Types as userTypes } from '../ducks/user';
 
 export default function* root() {
   yield all(
@@ -23,6 +25,7 @@ export default function* root() {
       takeLatest(collectionsTypes.FETCH_ALL, collectionsFetchSaga),
       takeLatest(collectionsTypes.CREATE, collectionsCreateSaga),
       takeLatest(activeCollectionTypes.FETCH, activeCollectionSaga),
+      takeLatest(userTypes.FETCH, userSaga),
     ],
   );
 }
