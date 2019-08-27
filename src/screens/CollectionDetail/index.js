@@ -1,14 +1,21 @@
 import React from 'react';
 
-import { View, Text, Image } from 'react-native';
+import {
+  View, Text, Image, ScrollView,
+} from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators } from '../../store/ducks/activeCollection';
 // import { Container } from './styles';
 import { BASE_URL } from '../../config/env_config';
+import BookThumbnail from '../../components/BookThumbnail';
 
 class CollectionDetail extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('title'),
+  })
+
   async componentWillMount() {
     const { fetchCollection, navigation } = this.props;
     const collectionID = navigation.getParam('collectionId');
@@ -22,21 +29,34 @@ class CollectionDetail extends React.Component {
         { loading
           ? <Text>Carregando...</Text>
           : (
-            <View>
-              <Image
-                source={{
-                  uri: `${BASE_URL}/${collection.thumbnail}`,
+            <ScrollView>
+              <View style={{
+                padding: 10,
+              }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: '600' }}>{collection.title}</Text>
+                <Text style={{ fontSize: 15, fontWeight: '400' }}>{collection.description}</Text>
+                { collection.thumbnail && (
+                <Image
+                  source={{
+                    uri: `${BASE_URL}/${collection.thumbnail}`,
+                  }}
+                  style={{ width: 150, height: 200 }}
+                />
+                )}
+
+                <Text style={{ fontSize: 20, fontWeight: '600' }}>Quadrinhos</Text>
+                <View style={{
+                  flexDirection: 'row', flexWrap: 'wrap',
                 }}
-                style={{ width: 150, height: 200 }}
-              />
-              <Text>{collection.title}</Text>
-              { books && (
-                books.length
-                  ? books.map(book => (<Text>{book.title}</Text>))
-                  : <Text>Adicione algum livro</Text>
-              )
-            }
-            </View>
+                >
+                  { books && books.length
+                    ? books.map(book => (<BookThumbnail book={book} key={book.id.toString()} />))
+                    : <Text>Adicione um quadrinho</Text>
+                  }
+                </View>
+              </View>
+            </ScrollView>
           )
         }
       </>

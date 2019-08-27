@@ -15,6 +15,7 @@ const CollectionsList = ({ title, collections, navigation }) => (
     <Text style={styles.collection_list_title}>{title}</Text>
 
     <View style={{ flexDirection: 'row' }}>
+
       { collections.length
         ? (
           <FlatList
@@ -26,7 +27,11 @@ const CollectionsList = ({ title, collections, navigation }) => (
                 { index === 0
                   && <CreateCollection onPress={() => navigation.navigate('NewCollection')} />
                 }
-                <Collection cover={collection.thumbnail} title={collection.title} onPress={() => navigation.navigate('CollectionDetail', { collectionId: collection.id })} />
+                <Collection
+                  cover={collection.thumbnail}
+                  title={collection.title}
+                  onPress={() => navigation.navigate('CollectionDetail', { collectionId: collection.id, title: collection.title })}
+                />
               </View>
             )}
 

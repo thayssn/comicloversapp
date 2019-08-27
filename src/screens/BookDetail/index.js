@@ -1,16 +1,19 @@
 import React from 'react';
 import {
-  Text, View, Image, TouchableOpacity,
+  Text, View, Image, TouchableOpacity, Modal, ScrollView, Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { Rating } from 'react-native-elements';
+import { Rating, Icon } from 'react-native-elements';
 
 import CLGradient from '../../components/CLGradient';
 import BookDescription from '../../components/BookDescription';
 import BookReview from '../../components/BookReview';
 import { BASE_URL } from '../../config/env_config';
 import styles from './styles';
+import api from '../../services/api';
+import { getUserToken } from '../../services/auth';
+import CollectionThumbnail from '../../components/CollectionThumbnail';
 
 class BookDetail extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -26,19 +29,100 @@ class BookDetail extends React.Component {
     ],
     /* eslint-enable */
     reviewRating: 0,
+    modalVisible: false,
+  }
+
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible });
   }
 
   handleRating = (rating) => {
     this.setState({ reviewRating: rating });
   }
 
-  render() {
+  addBookToCollection = async (collection) => {
     const { book } = this.props;
-    const { reviewRating } = this.state;
+    try {
+      const userToken = await getUserToken();
+      await api.post(`/collections/${collection.id}/books`, {
+        id: book.id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+
+      Alert.alert(
+        'Sucesso!',
+        `Adicionado à coleção ${collection.title}`,
+        [
+          { text: 'OK', onPress: () => this.setState({ modalVisible: false }) },
+        ],
+        { cancelable: false },
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  render() {
+    const { book, collections } = this.props;
+    const { reviewRating, modalVisible } = this.state;
     const rating = book.total_rating ? book.total_rating / 2 : 0;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
     return (
       <View style={styles.container}>
+        <Modal
+          animationType="fade"
+          transparent
+          visible={modalVisible}
+        >
+          <View style={{
+            flex: 1, paddingVertical: 80, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, backgroundColor: 'rgba(0,0,0,.7)',
+          }}
+          >
+            <View style={{
+              width: '100%',
+            }}
+            >
+              <View style={{
+                marginBottom: 40,
+                alignItems: 'flex-end',
+              }}
+              >
+                <Icon
+                  size={40}
+                  type="ionicons"
+                  name="cancel"
+                  color="#FFF"
+                  onPress={() => {
+                    this.setModalVisible(!modalVisible);
+                  }}
+                />
+              </View>
+              <ScrollView>
+                <View style={{
+                  flexDirection: 'row', flexWrap: 'wrap',
+                }}
+                >
+                  { collections && collections.length
+                    ? collections.map(collection => (
+                      <CollectionThumbnail
+                        cover={collection.thumbnail}
+                        title={collection.title}
+                        onPress={() => this.addBookToCollection(collection)}
+                        key={collection.id.toString()}
+                        titleStyle={{ color: '#FFF', fontWeight: '500', fontSize: 15 }}
+                      />
+                    ))
+                    : <Text>Adicione um quadrinho</Text>
+                }
+                </View>
+              </ScrollView>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.statusView}>
           <Image
             source={{
@@ -62,6 +146,15 @@ class BookDetail extends React.Component {
               Preço:
               <Text style={styles.status}>{` R$ ${price}`}</Text>
             </Text>
+            <TouchableOpacity onPress={() => {
+              this.setModalVisible(true);
+            }}
+            >
+              <Text>
+                Adicionar à coleção
+              </Text>
+
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.tabWrapper}>
@@ -106,6 +199,6 @@ class BookDetail extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ book: state.activeBook });
+const mapStateToProps = state => ({ book: state.activeBook, collections: state.collections });
 
 export default connect(mapStateToProps)(BookDetail);
