@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators } from '../../store/ducks/activeCollection';
 // import { Container } from './styles';
+import { BASE_URL } from '../../config/env_config';
 
 class CollectionDetail extends React.Component {
-  async componentDidMount() {
+  async componentWillMount() {
     const { fetchCollection, navigation } = this.props;
     const collectionID = navigation.getParam('collectionId');
     await fetchCollection(collectionID);
@@ -22,6 +23,12 @@ class CollectionDetail extends React.Component {
           ? <Text>Carregando...</Text>
           : (
             <View>
+              <Image
+                source={{
+                  uri: `${BASE_URL}/${collection.thumbnail}`,
+                }}
+                style={{ width: 150, height: 200 }}
+              />
               <Text>{collection.title}</Text>
               { books && (
                 books.length

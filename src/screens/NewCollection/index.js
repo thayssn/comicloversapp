@@ -43,7 +43,7 @@ class NewCollection extends Component {
     const upload = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 0.7,
-      aspect: [4, 3],
+      aspect: [3, 4],
       allowsEditing: true,
     });
 
@@ -55,9 +55,6 @@ class NewCollection extends Component {
       const preview = {
         uri: upload.uri,
       };
-
-
-      console.log(preview);
 
       const prefix = new Date().getTime();
       const ext = 'jpg';

@@ -1,10 +1,16 @@
 import { put } from 'redux-saga/effects';
 import { Types } from '../ducks/activeCollection';
 import api from '../../services/api';
+import { getUserToken } from '../../services/auth';
 
 function* activeCollectionSaga(action) {
   try {
-    const { data: collection } = yield api.get(`/collections/${action.payload.collectionId}`);
+    const userToken = yield getUserToken();
+    const { data: collection } = yield api.get(`/collections/${action.payload.collectionId}`, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    });
     yield put({
       type: Types.FETCH_SUCCESS,
       payload: {
