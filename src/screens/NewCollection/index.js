@@ -2,18 +2,16 @@ import React, { Component } from 'react'; // eslint-ignore
 import {
   Text, ScrollView, View, TouchableHighlight, TouchableOpacity, Image,
 } from 'react-native';
-// import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { TextInput } from '../../components/Form';
-// import { Creators as collectionActions } from '../../store/ducks/collections';
+import { Creators as collectionActions } from '../../store/ducks/collections';
 
 import CLGradient from '../../components/CLGradient';
 import Loading from '../../components/Loading';
 import styles from './styles';
-import api from '../../services/api';
-import { getUserToken } from '../../services/auth';
 
 class NewCollection extends Component {
   state = {
@@ -74,39 +72,20 @@ class NewCollection extends Component {
   }
 
   handleSubmit = async () => {
-    const { navigation } = this.props;
+    const { createCollection } = this.props;
     const { image, title, description } = this.state;
 
     if (!title) {
       this.setState({ error: 'Título obrigatório.' });
       return;
     }
-
     const data = new FormData();
 
     data.append('image', image);
     data.append('title', title);
     data.append('description', description);
 
-    console.log('img', image);
-
-    this.setState({ loading: true });
-    const userToken = await getUserToken();
-
-    try {
-      const { data: collection } = await api.post('/collections/', data, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-
-      console.log(collection);
-
-      navigation.navigate('Main');
-    } catch (err) {
-      console.log(err);
-    }
-    this.setState({ loading: false });
+    createCollection(data);
   }
 
   render() {
@@ -174,12 +153,12 @@ class NewCollection extends Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   loading: state.auth.loading,
-// });
+const mapStateToProps = state => ({
+  loading: state.auth.loading,
+});
 
-// const mapDispatchToProps = dispatch => bindActionCreators(collectionActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(collectionActions, dispatch);
 
-// export default connect(mapStateToProps, mapDispatchToProps)(NewCollection);
+export default connect(mapStateToProps, mapDispatchToProps)(NewCollection);
 
-export default NewCollection;
+// export default NewCollection;

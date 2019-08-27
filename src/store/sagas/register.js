@@ -7,16 +7,10 @@ import { Types as AuthTypes } from '../ducks/auth';
 
 function* registerSaga(action) {
   try {
-    yield api.post('/register/', action.payload);
+    yield api.post('/users/', action.payload);
 
-    const { data: { token: userToken } } = yield api.post('/login/',
+    const { data: { user, token: userToken } } = yield api.post('/auth/',
       action.payload);
-
-    const { data: user } = yield api.get('/me/', {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    });
 
     yield onSignIn(userToken);
 

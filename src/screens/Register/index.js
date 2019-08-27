@@ -29,7 +29,6 @@ class Register extends Component {
       await verifyEmptyFields(user);
       await verifyAcceptedTerms(user);
       register(user);
-      this.setState();
       this.setState({ password: '', confirmPassword: '', error: null });
     } catch (err) {
       this.setState({ error: err.message });

@@ -36,7 +36,7 @@ class BookDetail extends React.Component {
     const { book } = this.props;
     const { reviewRating } = this.state;
     const rating = book.total_rating ? book.total_rating / 2 : 0;
-    const price = book.price.toString().replace('.', ',');
+    const price = book.price ? book.price.toString().replace('.', ',') : '';
     return (
       <View style={styles.container}>
         <View style={styles.statusView}>
@@ -56,7 +56,7 @@ class BookDetail extends React.Component {
             />
             <Text style={styles.statusTitle}>
               Número:
-              <Text style={styles.status}>{` ${book.edition}`}</Text>
+              <Text style={styles.status}>{` ${book.edition ? book.edition : ''}`}</Text>
             </Text>
             <Text style={styles.statusTitle}>
               Preço:

@@ -17,6 +17,12 @@ export default function collections(state = INITIAL_STATE, action) {
       return action.payload.collections;
     case Types.FETCH_ALL_FAIL:
       return [...state];
+    case Types.CREATE:
+      return [...state];
+    case Types.CREATE_SUCCESS:
+      return [...state, action.payload.collection];
+    case Types.CREATE_FAIL:
+      return [...state];
     default:
       return state;
   }

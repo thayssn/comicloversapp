@@ -22,7 +22,7 @@ class CollectionDetail extends React.Component {
           ? <Text>Carregando...</Text>
           : (
             <View>
-              <Text>{collection.name}</Text>
+              <Text>{collection.title}</Text>
               { books && (
                 books.length
                   ? books.map(book => (<Text>{book.title}</Text>))
