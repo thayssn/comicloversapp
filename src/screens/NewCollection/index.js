@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; // eslint-ignore
 import {
-  Text, ScrollView, View, TouchableHighlight, TouchableOpacity, Image,
+  Text, ScrollView, View, TouchableHighlight, TouchableOpacity, Image, Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -57,11 +57,14 @@ class NewCollection extends Component {
       };
 
       const prefix = new Date().getTime();
-      const ext = 'jpg';
+      const ext = upload.uri.endsWith('png') ? 'png' : 'jpg';
+
+      console.log(ext);
 
       const image = {
         uri: upload.uri,
         name: `${prefix}.${ext}`,
+        type: Platform.OS === 'ios' ? `${upload.type}` : `${upload.type}/${ext}`,
       };
 
       this.setState({ preview, image });
