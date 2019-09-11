@@ -16,7 +16,7 @@ export function* collectionsFetchSaga() {
     yield put({
       type: Types.FETCH_ALL_SUCCESS,
       payload: {
-        collections,
+        collections: collections.filter(collection => collection.type !== 'public'),
       },
     });
   } catch (err) {

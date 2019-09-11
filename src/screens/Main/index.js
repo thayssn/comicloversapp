@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CollectionsList from '../../components/CollectionsList';
 import BooksList from '../../components/BooksList';
-import { Creators as booksActions } from '../../store/ducks/books';
+import { Creators as publicCollectionsActions } from '../../store/ducks/publicCollections';
 import { Creators as collectionsActions } from '../../store/ducks/collections';
 
 class Main extends React.Component {
@@ -13,9 +13,10 @@ class Main extends React.Component {
   }
 
   async componentWillMount() {
-    const { fetchAllBooks, fetchCollections } = this.props;
-    await fetchAllBooks();
+    const { fetchPublicCollections, fetchCollections } = this.props;
+    // await fetchAllBooks();
     await fetchCollections();
+    await fetchPublicCollections();
     this.setState({ loading: false });
   }
 
@@ -25,6 +26,7 @@ class Main extends React.Component {
       const isInArray = licensor.name === nextLicensorName;
       return isInArray;
     });
+
     if (licensorInReducedArray) {
       licensorInReducedArray.books.push(next);
     } else {
@@ -39,19 +41,19 @@ class Main extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { books, collections } = this.props;
-    const licensorCategories = this.getLicensorCategories(books);
+    const { publicCollections, collections } = this.props;
+    // const licensorCategories = this.getLicensorCategories(books);
     return (
       <ScrollView>
         <CollectionsList title="Minhas coleções" collections={collections} />
         { loading ? <Text>Carregando...</Text>
           : (
             <View>
-              { licensorCategories.map((licensorCategory, index) => (
+              { publicCollections && publicCollections.map((collection, index) => (
                 <BooksList
                   key={index.toString()}
-                  title={licensorCategory.name}
-                  books={licensorCategory.books}
+                  title={collection.title}
+                  books={collection.books}
                 />
               ))
               }
@@ -65,13 +67,14 @@ class Main extends React.Component {
 
 const mapStateToProps = state => ({
   books: state.books,
+  publicCollections: state.publicCollections,
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const booksBindedActions = bindActionCreators(booksActions, dispatch);
+  const publicCollectionsBindedActions = bindActionCreators(publicCollectionsActions, dispatch);
   const collectionsBindedActions = bindActionCreators(collectionsActions, dispatch);
 
-  return { ...booksBindedActions, ...collectionsBindedActions };
+  return { ...publicCollectionsBindedActions, ...collectionsBindedActions };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
