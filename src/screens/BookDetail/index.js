@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { Rating, Icon } from 'react-native-elements';
 
+import { bindActionCreators } from 'redux';
 import CLGradient from '../../components/CLGradient';
 import BookDescription from '../../components/BookDescription';
 import BookReview from '../../components/BookReview';
@@ -14,6 +15,7 @@ import styles from './styles';
 import api from '../../services/api';
 import { getUserToken } from '../../services/auth';
 import CollectionThumbnail from '../../components/CollectionThumbnail';
+import { Creators } from '../../store/ducks/activeBook';
 
 class BookDetail extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -28,16 +30,47 @@ class BookDetail extends React.Component {
       { key: 'second', title: 'Avaliação' },
     ],
     /* eslint-enable */
-    reviewRating: 0,
+    // reviewRating: 0,
     modalVisible: false,
+  }
+
+  // async componentWillReceiveProps() {
+  //   const { book } = this.props;
+  //   try {
+  //     const userToken = await getUserToken();
+  //     const { rating } = await api.get(`/books/${book.id}/review`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${userToken}`,
+  //         },
+  //       });
+
+  //     console.log(rating);
+
+  //     this.setState({ reviewRating: rating });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
+
+  // componentWillMount() {
+  //   const { book } = this.props;
+  //   this.setState({ reviewRating: book.rating });
+  // }
+
+  async componentWillMount() {
+    const { getRating, book } = this.props;
+    await getRating(book);
   }
 
   setModalVisible = (visible) => {
     this.setState({ modalVisible: visible });
   }
 
-  handleRating = (rating) => {
-    this.setState({ reviewRating: rating });
+  handleRating = async (rating) => {
+    const { book, setRating } = this.props;
+
+    await setRating(book, rating);
   }
 
   addBookToCollection = async (collection) => {
@@ -68,8 +101,8 @@ class BookDetail extends React.Component {
 
   render() {
     const { book, collections } = this.props;
-    const { reviewRating, modalVisible } = this.state;
-    const rating = book.total_rating ? book.total_rating / 2 : 0;
+    const { modalVisible } = this.state;
+    const rating = book.total_rating / book.reviews.length;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
     return (
       <View style={styles.container}>
@@ -164,7 +197,7 @@ class BookDetail extends React.Component {
               first: () => (<BookDescription book={book} />),
               second: () => (
                 <BookReview
-                  rating={reviewRating}
+                  rating={book.rating}
                   onFinishRating={this.handleRating}
                 />
               ),
@@ -201,4 +234,6 @@ class BookDetail extends React.Component {
 
 const mapStateToProps = state => ({ book: state.activeBook, collections: state.collections });
 
-export default connect(mapStateToProps)(BookDetail);
+const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookDetail);

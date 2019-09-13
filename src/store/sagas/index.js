@@ -1,7 +1,11 @@
 import { takeLatest, all } from 'redux-saga/effects';
 import authSaga from './auth';
 import registerSaga from './register';
-import activeBookSaga from './activeBook';
+import {
+  activeBookSaga,
+  activeBookGetRatingSaga,
+  activeBookSetRatingSaga,
+} from './activeBook';
 import booksSaga from './books';
 import { collectionsFetchSaga, collectionsCreateSaga } from './collections';
 import publicCollectionsFetchSaga from './publicCollections';
@@ -21,6 +25,8 @@ export default function* root() {
   yield all(
     [
       takeLatest(activeBookTypes.CHANGE, activeBookSaga),
+      takeLatest(activeBookTypes.GET_RATING, activeBookGetRatingSaga),
+      takeLatest(activeBookTypes.SET_RATING, activeBookSetRatingSaga),
       takeLatest(authTypes.LOGIN, authSaga),
       takeLatest(booksTypes.FETCH_ALL, booksSaga),
       takeLatest(registerTypes.REGISTER, registerSaga),
