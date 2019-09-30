@@ -2,12 +2,14 @@ import * as React from 'react';
 import {
   Text, View, StyleSheet, Button,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Creators as activeBookActions } from '../../store/ducks/activeBook';
 import api from '../../services/api';
 
-
-export default class BarcodeScannerExample extends React.Component {
+class Scanner extends React.Component {
   state = {
     hasCameraPermission: null,
     scanned: false,
@@ -24,12 +26,12 @@ export default class BarcodeScannerExample extends React.Component {
 
   handleBarCodeScanned = async ({ data }) => {
     this.setState({ scanned: true });
-    // const { navigation } = this.props;
-    console.log(data);
+    const { changeBook } = this.props;
 
     try {
       const { data: book } = await api.get(`/books/isbn/${data}`);
-      alert(`ISBN : ${data}, ${book.title}`);
+      console.log(book);
+      await changeBook(book);
     } catch (err) {
       alert(`ISBN ${data} não cadastrado`);
     }
@@ -64,3 +66,6 @@ export default class BarcodeScannerExample extends React.Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => bindActionCreators(activeBookActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Scanner);

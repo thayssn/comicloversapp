@@ -78,7 +78,7 @@ class BookDetail extends React.Component {
     try {
       const userToken = await getUserToken();
       await api.post(`/collections/${collection.id}/books`, {
-        id: book.id,
+        books: [book.id],
       },
       {
         headers: {
@@ -102,7 +102,7 @@ class BookDetail extends React.Component {
   render() {
     const { book, collections } = this.props;
     const { modalVisible } = this.state;
-    const rating = book.total_rating / book.reviews.length;
+    const rating = book.reviews ? book.total_rating / book.reviews.length : 0;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
     return (
       <View style={styles.container}>

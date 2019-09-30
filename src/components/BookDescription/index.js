@@ -8,7 +8,7 @@ const BookDescription = ({ book }) => (
         Autor:
       <Text style={styles.description}>
         {
-          book.writers.map((writer, index) => `${index > 0 ? ',' : ''} ${writer.name}`)
+          book.writers && book.writers.map((writer, index) => `${index > 0 ? ',' : ''} ${writer.name}`)
         }
       </Text>
     </Text>
