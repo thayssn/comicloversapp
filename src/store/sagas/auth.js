@@ -4,7 +4,7 @@ import api from '../../services/api';
 import { onSignIn } from '../../services/auth';
 import { Types } from '../ducks/auth';
 
-function* authSaga(action) {
+export function* authSaga(action) {
   try {
     const { data: { token: userToken } } = yield api.post('/auth/',
       action.payload);
@@ -36,4 +36,23 @@ function* authSaga(action) {
   }
 }
 
-export default authSaga;
+export function* resetPasswordSaga(action) {
+  try {
+    const { email } = action.payload;
+
+    yield api.post('forgot_password', {
+      email,
+    });
+
+    yield put({
+      type: Types.RESET_PASSWORD_SUCCESS,
+    });
+  } catch (err) {
+    yield put({
+      type: Types.RESET_PASSWORD_FAIL,
+      payload: {
+        error: JSON.stringify(err),
+      },
+    });
+  }
+}

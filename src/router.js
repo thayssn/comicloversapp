@@ -15,6 +15,7 @@ import Profile from './screens/Profile';
 import NewCollection from './screens/NewCollection';
 import CollectionDetail from './screens/CollectionDetail';
 import Scanner from './screens/Scanner';
+import ForgotPassword from './screens/ForgotPassword';
 
 import CLGradient from './components/CLGradient';
 
@@ -120,6 +121,12 @@ export const RootNavigator = createStackNavigator(
   {
     Root: {
       screen: Root,
+    },
+    ForgotPassword: {
+      screen: ForgotPassword,
+      navigationOptions: {
+        title: 'Recuperar senha',
+      },
     },
     Register: {
       screen: Register,

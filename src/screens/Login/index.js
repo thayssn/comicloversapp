@@ -54,7 +54,7 @@ class Login extends Component {
       return;
     }
     login({ email, password });
-    this.setState({ password: '', error: null });
+    this.setState({ error: null });
   }
 
   render() {
@@ -73,7 +73,7 @@ class Login extends Component {
                     { authError && <Text style={styles.error}>{authError}</Text> }
                     { error && <Text style={styles.error}>{error}</Text> }
                     <TextInput
-                      placeholder="usuário"
+                      placeholder="email"
                       value={email}
                       onChangeText={(value) => { this.setState({ email: value }); }}
                     />
@@ -93,7 +93,7 @@ class Login extends Component {
                     </TouchableHighlight>
                   </View>
 
-                  <TouchableWithoutFeedback onPress={() => alert('not implemented yet')}>
+                  <TouchableWithoutFeedback onPress={() => navigation.navigate('ForgotPassword')}>
                     <Text style={[styles.link]}>Esqueci minha senha</Text>
                   </TouchableWithoutFeedback>
                   <TouchableWithoutFeedback onPress={() => navigation.navigate('Register')}>

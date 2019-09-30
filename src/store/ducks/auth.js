@@ -5,6 +5,9 @@ export const Types = {
   LOGOUT: 'user@LOGOUT',
   LOGOUT_SUCCESS: 'user@LOGOUT_SUCCESS',
   LOGOUT_FAIL: 'user@LOGOUT_FAIL',
+  RESET_PASSWORD: 'user@RESET_PASSWORD',
+  RESET_PASSWORD_SUCCESS: 'user@RESET_PASSWORD_SUCCESS',
+  RESET_PASSWORD_FAIL: 'user@RESET_PASSWORD_FAIL',
 };
 
 const INITIAL_STATE = {
@@ -35,6 +38,12 @@ export default function auth(state = INITIAL_STATE, action) {
       };
     case Types.LOGOUT_FAIL:
       return { ...state, loading: false };
+    case Types.RESET_PASSWORD:
+      return { ...state, loading: true };
+    case Types.RESET_PASSWORD_SUCCESS:
+      return { ...state, loading: false, successMessage: 'Enviado com sucesso.' };
+    case Types.RESET_PASSWORD_FAIL:
+      return { ...state, loading: false, errorMessage: 'Houve um erro. Verifique se as informações estão corretas.' };
     default:
       return state;
   }
@@ -47,5 +56,9 @@ export const Creators = {
   }),
   logout: () => ({
     type: Types.LOGOUT,
+  }),
+  requestResetPassword: email => ({
+    type: Types.RESET_PASSWORD,
+    payload: email,
   }),
 };
