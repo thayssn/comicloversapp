@@ -4,18 +4,46 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as Facebook from 'expo-facebook';
 import { TextInput } from '../../components/Form';
 import { Creators as authActions } from '../../store/ducks/auth';
 
 import CLGradient from '../../components/CLGradient';
 import Loading from '../../components/Loading';
 import styles from './styles';
+import { FB_APP_ID } from '../../config/env_config';
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
     error: null,
+  }
+
+  logInWithFacebook = async () => {
+    try {
+      const {
+        type,
+        token,
+        // expires,
+        // permissions,
+        // declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync(FB_APP_ID, {
+        permissions: ['public_profile', 'email'],
+      });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+          `https://graph.facebook.com/me?access_token=${token}&fields=id,email,name,birthday,picture.type(large)`,
+        );
+        const { picture, name, email } = await response.json();
+        console.log(picture, name, email);
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      console.log(`Facebook Login Error: ${message}`);
+    }
   }
 
   handleSignIn = () => {
@@ -70,6 +98,10 @@ class Login extends Component {
                   </TouchableWithoutFeedback>
                   <TouchableWithoutFeedback onPress={() => navigation.navigate('Register')}>
                     <Text style={[styles.link]}>Criar uma conta</Text>
+                  </TouchableWithoutFeedback>
+
+                  <TouchableWithoutFeedback onPress={this.logInWithFacebook}>
+                    <Text style={[styles.link]}>Entrar com Facebook</Text>
                   </TouchableWithoutFeedback>
 
                 </>
