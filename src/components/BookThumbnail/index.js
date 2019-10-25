@@ -30,7 +30,7 @@ const Book = ({ book, changeBook }) => (
         )
       }
       <Text style={styles.book_item_title}>
-        {`${book.title} - ${book.id}`}
+        {`${book.title} ${book.edition ? `- ${book.edition} ` : ''}`}
       </Text>
     </View>
   </TouchableWithoutFeedback>
