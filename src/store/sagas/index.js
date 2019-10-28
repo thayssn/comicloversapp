@@ -1,5 +1,5 @@
 import { takeLatest, all } from 'redux-saga/effects';
-import { authSaga, resetPasswordSaga } from './auth';
+import { authSaga, authWithFBSaga, resetPasswordSaga } from './auth';
 import registerSaga from './register';
 import {
   activeBookSaga,
@@ -28,6 +28,7 @@ export default function* root() {
       takeLatest(activeBookTypes.GET_RATING, activeBookGetRatingSaga),
       takeLatest(activeBookTypes.SET_RATING, activeBookSetRatingSaga),
       takeLatest(authTypes.LOGIN, authSaga),
+      takeLatest(authTypes.LOGIN_FB, authWithFBSaga),
       takeLatest(authTypes.RESET_PASSWORD, resetPasswordSaga),
       takeLatest(booksTypes.FETCH_ALL, booksSaga),
       takeLatest(registerTypes.REGISTER, registerSaga),

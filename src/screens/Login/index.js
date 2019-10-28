@@ -21,11 +21,12 @@ class Login extends Component {
   }
 
   logInWithFacebook = async () => {
+    const { loginWithFB } = this.props;
     try {
       const {
         type,
         token,
-        // expires,
+        expires,
         // permissions,
         // declinedPermissions,
       } = await Facebook.logInWithReadPermissionsAsync(FB_APP_ID, {
@@ -37,7 +38,9 @@ class Login extends Component {
           `https://graph.facebook.com/me?access_token=${token}&fields=id,email,name,birthday,picture.type(large)`,
         );
         const { picture, name, email } = await response.json();
-        console.log(picture, name, email);
+        loginWithFB({
+          picture, name, email, token, expires,
+        });
       } else {
         // type === 'cancel'
       }

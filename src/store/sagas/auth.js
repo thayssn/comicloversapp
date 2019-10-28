@@ -56,3 +56,35 @@ export function* resetPasswordSaga(action) {
     });
   }
 }
+
+export function* authWithFBSaga(action) {
+  try {
+    const { data: { token: userToken } } = yield api.post('/fb_auth/',
+      action.payload);
+
+    const { data: user } = yield api.get('/me/', {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    });
+
+    yield onSignIn(userToken);
+
+    yield put({
+      type: Types.LOGIN_FB_SUCCESS,
+      payload: {
+        user,
+        userToken,
+      },
+    });
+
+    NavigationService.navigate('Main');
+  } catch (err) {
+    yield put({
+      type: Types.LOGIN_FB_FAIL,
+      payload: {
+        error: JSON.stringify(err),
+      },
+    });
+  }
+}

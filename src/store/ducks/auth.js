@@ -8,6 +8,9 @@ export const Types = {
   RESET_PASSWORD: 'user@RESET_PASSWORD',
   RESET_PASSWORD_SUCCESS: 'user@RESET_PASSWORD_SUCCESS',
   RESET_PASSWORD_FAIL: 'user@RESET_PASSWORD_FAIL',
+  LOGIN_FB: 'user@LOGIN_FB',
+  LOGIN_FB_SUCCESS: 'user@LOGIN_FB_SUCCESS',
+  LOGIN_FB_FAIL: 'user@LOGIN_FB_FAIL',
 };
 
 const INITIAL_STATE = {
@@ -28,6 +31,16 @@ export default function auth(state = INITIAL_STATE, action) {
       };
     case Types.LOGIN_FAIL:
       return { ...state, loading: false, authError: 'Não foi possível realizar o login.' };
+    case Types.LOGIN_FB:
+      return { ...state, loading: true };
+    case Types.LOGIN_FB_SUCCESS:
+      return {
+        user: action.payload.user,
+        userToken: action.payload.userToken,
+        loading: false,
+      };
+    case Types.LOGIN_FB_FAIL:
+      return { ...state, loading: false, authError: 'Não foi possível realizar o login com facebook.' };
     case Types.LOGOUT:
       return { ...state, loading: true };
     case Types.LOGOUT_SUCCESS:
@@ -60,5 +73,9 @@ export const Creators = {
   requestResetPassword: email => ({
     type: Types.RESET_PASSWORD,
     payload: email,
+  }),
+  loginWithFB: user => ({
+    type: Types.LOGIN_FB,
+    payload: user,
   }),
 };
