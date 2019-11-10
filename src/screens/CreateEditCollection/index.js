@@ -13,7 +13,7 @@ import CLGradient from '../../components/CLGradient';
 import Loading from '../../components/Loading';
 import styles from './styles';
 
-class NewCollection extends Component {
+class CreateEditCollection extends Component {
   state = {
     title: '',
     description: '',
@@ -43,7 +43,9 @@ class NewCollection extends Component {
     const upload = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 0.7,
-      aspect: [3, 4],
+      // aspect: [3, 4],
+      width: 300,
+      height: 400,
       allowsEditing: true,
     });
 
@@ -58,8 +60,6 @@ class NewCollection extends Component {
 
       const prefix = new Date().getTime();
       const ext = upload.uri.endsWith('png') ? 'png' : 'jpg';
-
-      console.log(ext);
 
       const image = {
         uri: upload.uri,
@@ -93,62 +93,65 @@ class NewCollection extends Component {
       title, description, error, hasPermission, preview, loading,
     } = this.state;
     return (
-      <ScrollView style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <CLGradient />
-          { loading
-            ? <Loading />
-            : (
-              <>
-                {hasPermission ? (
-                  <TouchableOpacity style={styles.selectButton} onPress={this.handleSelectImage}>
-                    <Text style={styles.selectButtonText}>Select Image</Text>
-                  </TouchableOpacity>
-                )
-                  : (
-                    <TouchableOpacity
-                      style={styles.selectButton}
-                      onPress={this.getCameraRollPermission}
-                    >
-                      <Text style={styles.selectButtonText}>Permissão</Text>
+      <View style={{ flex: 1, height: '100%' }}>
+        <CLGradient />
+
+        <ScrollView style={{ flex: 1, height: '100%' }}>
+          <View style={styles.container}>
+            { loading
+              ? <Loading />
+              : (
+                <>
+                  {hasPermission ? (
+                    <TouchableOpacity style={styles.selectButton} onPress={this.handleSelectImage}>
+                      <Text style={styles.selectButtonText}>Select Image</Text>
                     </TouchableOpacity>
                   )
+                    : (
+                      <TouchableOpacity
+                        style={styles.selectButton}
+                        onPress={this.getCameraRollPermission}
+                      >
+                        <Text style={styles.selectButtonText}>Permissão</Text>
+                      </TouchableOpacity>
+                    )
               }
+                  <View>
+                    { preview && <Image style={{ width: 180, height: 200 }} source={preview} /> }
+                  </View>
 
-                { preview && <Image style={{ width: 300, height: 300 }} source={preview} /> }
+                  <View style={styles.input_group}>
+                    { error && <Text style={styles.error}>{error}</Text> }
 
-                <View style={styles.input_group}>
-                  { error && <Text style={styles.error}>{error}</Text> }
+                    <TextInput
+                      placeholder="título"
+                      value={title}
+                      onChangeText={(value) => { this.setState({ title: value }); }}
+                    />
 
-                  <TextInput
-                    placeholder="título"
-                    value={title}
-                    onChangeText={(value) => { this.setState({ title: value }); }}
-                  />
+                    <TextInput
+                      placeholder="descrição"
+                      value={description}
+                      multiline
+                      numberOfLines={10}
+                      onChangeText={(value) => { this.setState({ description: value }); }}
+                      style={{ height: 300 }}
+                    />
 
-                  <TextInput
-                    placeholder="descrição"
-                    value={description}
-                    multiline
-                    numberOfLines={10}
-                    onChangeText={(value) => { this.setState({ description: value }); }}
-                    style={{ height: 300 }}
-                  />
-
-                  <TouchableHighlight
-                    style={styles.button}
-                    onPress={() => this.handleSubmit()}
-                    underlayColor="rgba(255,255,255,.2)"
-                  >
-                    <Text style={styles.text}>Criar Coleção</Text>
-                  </TouchableHighlight>
-                </View>
-              </>
-            )
+                    <TouchableHighlight
+                      style={styles.button}
+                      onPress={() => this.handleSubmit()}
+                      underlayColor="rgba(255,255,255,.2)"
+                    >
+                      <Text style={styles.text}>Criar Coleção</Text>
+                    </TouchableHighlight>
+                  </View>
+                </>
+              )
           }
-
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -159,6 +162,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators(collectionActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewCollection);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEditCollection);
 
-// export default NewCollection;
+// export default CreateEditCollection;

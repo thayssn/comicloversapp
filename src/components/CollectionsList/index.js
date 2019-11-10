@@ -25,7 +25,7 @@ const CollectionsList = ({ title, collections, navigation }) => (
             renderItem={({ item: collection, index }) => (
               <View style={{ flexDirection: 'row' }}>
                 { index === 0
-                  && <CreateCollection onPress={() => navigation.navigate('NewCollection')} />
+                  && <CreateCollection onPress={() => navigation.navigate('CreateEditCollection')} />
                 }
                 <Collection
                   cover={collection.thumbnail}
@@ -38,7 +38,7 @@ const CollectionsList = ({ title, collections, navigation }) => (
             keyExtractor={(item, index) => index.toString()}
           />
         )
-        : <CreateCollection onPress={() => navigation.navigate('NewCollection')} />
+        : <CreateCollection onPress={() => navigation.navigate('CreateEditCollection')} />
     }
 
     </View>

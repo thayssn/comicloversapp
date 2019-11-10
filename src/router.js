@@ -12,7 +12,7 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import BookDetail from './screens/BookDetail';
 import Profile from './screens/Profile';
-import NewCollection from './screens/NewCollection';
+import CreateEditCollection from './screens/CreateEditCollection';
 import CollectionDetail from './screens/CollectionDetail';
 import Scanner from './screens/Scanner';
 import ForgotPassword from './screens/ForgotPassword';
@@ -73,8 +73,8 @@ export const BookNavigator = createStackNavigator(
         headerBackground: (<CLGradient />),
       },
     },
-    NewCollection: {
-      screen: NewCollection,
+    CreateEditCollection: {
+      screen: CreateEditCollection,
       navigationOptions: {
         title: 'Nova coleção',
         drawerLockMode: 'locked-closed',

@@ -34,25 +34,31 @@ class CollectionDetail extends React.Component {
                 padding: 10,
               }}
               >
-                <Text style={{ fontSize: 20, fontWeight: '600' }}>{collection.title}</Text>
-                <Text style={{ fontSize: 15, fontWeight: '400' }}>{collection.description}</Text>
-                { collection.thumbnail && (
-                <Image
-                  source={{
-                    uri: `${BASE_URL}/${collection.thumbnail}`,
-                  }}
-                  style={{ width: 150, height: 200 }}
-                />
-                )}
+                <View style={{ flexDirection: 'row', padding: 5, paddingBottom: 30 }}>
+                  { collection.thumbnail ? (
+                    <Image
+                      source={{
+                        uri: `${BASE_URL}/${collection.thumbnail}`,
+                      }}
+                      style={{ width: 150, height: 210, backgroundColor: '#ddd' }}
+                    />
+                  )
+                    : <View style={{ width: 120, height: 180, backgroundColor: '#ddd' }} />}
+                  <View style={{ padding: 10 }}>
+                    <Text style={{ fontSize: 20, fontWeight: '600' }}>{collection.title}</Text>
+                    <Text style={{ fontSize: 15, fontWeight: '400' }}>{collection.description}</Text>
+                  </View>
 
-                <Text style={{ fontSize: 20, fontWeight: '600' }}>Quadrinhos</Text>
+                </View>
+                <View style={{ padding: 5 }} />
+                <Text style={{ fontSize: 15, fontWeight: '600' }}>QUADRINHOS</Text>
                 <View style={{
                   flexDirection: 'row', flexWrap: 'wrap',
                 }}
                 >
                   { books && books.length
                     ? books.map(book => (<BookThumbnail book={book} key={book.id.toString()} />))
-                    : <Text>Adicione um quadrinho</Text>
+                    : <Text>Nenhum quadrinho adicionado.</Text>
                   }
                 </View>
               </View>
