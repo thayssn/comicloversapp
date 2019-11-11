@@ -7,7 +7,12 @@ import {
   activeBookSetRatingSaga,
 } from './activeBook';
 import booksSaga from './books';
-import { collectionsFetchSaga, collectionsCreateSaga } from './collections';
+import {
+  collectionsFetchSaga,
+  collectionsCreateSaga,
+  collectionsEditSaga,
+  collectionsDeleteSaga,
+} from './collections';
 import publicCollectionsFetchSaga from './publicCollections';
 import activeCollectionSaga from './activeCollection';
 import userSaga from './user';
@@ -34,6 +39,8 @@ export default function* root() {
       takeLatest(registerTypes.REGISTER, registerSaga),
       takeLatest(collectionsTypes.FETCH_ALL, collectionsFetchSaga),
       takeLatest(collectionsTypes.CREATE, collectionsCreateSaga),
+      takeLatest(collectionsTypes.EDIT, collectionsEditSaga),
+      takeLatest(collectionsTypes.DELETE, collectionsDeleteSaga),
       takeLatest(activeCollectionTypes.FETCH, activeCollectionSaga),
       takeLatest(userTypes.FETCH, userSaga),
       takeLatest(publicCollectionsTypes.FETCH_ALL, publicCollectionsFetchSaga),

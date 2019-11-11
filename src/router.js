@@ -75,12 +75,12 @@ export const BookNavigator = createStackNavigator(
     },
     CreateEditCollection: {
       screen: CreateEditCollection,
-      navigationOptions: {
-        title: 'Nova coleção',
+      navigationOptions: ({ navigation: { state } }) => ({
+        title: state.params && state.params.collection ? 'Editar Coleção' : 'Criar Coleção',
         drawerLockMode: 'locked-closed',
         headerTintColor: '#fff',
         headerBackground: (<CLGradient />),
-      },
+      }),
     },
     CollectionDetail: {
       screen: CollectionDetail,

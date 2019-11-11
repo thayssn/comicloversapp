@@ -9,6 +9,7 @@ import * as Permissions from 'expo-permissions';
 import { TextInput } from '../../components/Form';
 import { Creators as collectionActions } from '../../store/ducks/collections';
 
+import { BASE_URL } from '../../config/env_config';
 import CLGradient from '../../components/CLGradient';
 import Loading from '../../components/Loading';
 import styles from './styles';
@@ -22,10 +23,28 @@ class CreateEditCollection extends Component {
     preview: null,
     image: null,
     loading: false,
+    mode: 'create',
+    collection: null,
   }
 
   async componentWillMount() {
     await this.getCameraRollPermission();
+  }
+
+  componentDidMount() {
+    const { navigation: { state: { params } } } = this.props;
+
+    if (params && params.collection) {
+      const { collection } = params;
+
+      this.setState({
+        mode: 'edit',
+        collection,
+        title: collection.title,
+        preview: { uri: `${BASE_URL}/${collection.thumbnail}` },
+        description: collection.description,
+      });
+    }
   }
 
   getCameraRollPermission = async () => {
@@ -43,9 +62,9 @@ class CreateEditCollection extends Component {
     const upload = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 0.7,
-      // aspect: [3, 4],
-      width: 300,
-      height: 400,
+      aspect: [3, 4.5],
+      // width: 120,
+      // height: 180,
       allowsEditing: true,
     });
 
@@ -72,8 +91,10 @@ class CreateEditCollection extends Component {
   }
 
   handleSubmit = async () => {
-    const { createCollection } = this.props;
-    const { image, title, description } = this.state;
+    const { createCollection, editCollection } = this.props;
+    const {
+      image, title, description, mode, collection,
+    } = this.state;
 
     if (!title) {
       this.setState({ error: 'Título obrigatório.' });
@@ -81,16 +102,30 @@ class CreateEditCollection extends Component {
     }
     const data = new FormData();
 
-    data.append('image', image);
+    if (image) { data.append('image', image); }
     data.append('title', title);
     data.append('description', description);
 
-    createCollection(data);
+    try {
+      if (mode === 'edit') {
+        editCollection(data, collection.id);
+      } else {
+        createCollection(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  handleDelete = () => {
+    const { collection } = this.state;
+    const { deleteCollection } = this.props;
+    deleteCollection(collection.id);
   }
 
   render() {
     const {
-      title, description, error, hasPermission, preview, loading,
+      title, description, error, hasPermission, preview, loading, mode,
     } = this.state;
     return (
       <View style={{ flex: 1, height: '100%' }}>
@@ -104,7 +139,11 @@ class CreateEditCollection extends Component {
                 <>
                   {hasPermission ? (
                     <TouchableOpacity style={styles.selectButton} onPress={this.handleSelectImage}>
-                      <Text style={styles.selectButtonText}>Select Image</Text>
+                      <View>
+                        { preview ? <Image style={{ width: 120, height: 180 }} source={preview} />
+                          : <View style={{ width: 120, height: 180, backgroundColor: '#DDD' }} /> }
+                      </View>
+                      <Text style={styles.selectButtonText}>Selecionar uma imagem</Text>
                     </TouchableOpacity>
                   )
                     : (
@@ -116,35 +155,52 @@ class CreateEditCollection extends Component {
                       </TouchableOpacity>
                     )
               }
-                  <View>
-                    { preview && <Image style={{ width: 180, height: 200 }} source={preview} /> }
-                  </View>
+
 
                   <View style={styles.input_group}>
                     { error && <Text style={styles.error}>{error}</Text> }
 
                     <TextInput
-                      placeholder="título"
+                      placeholder="Título"
                       value={title}
                       onChangeText={(value) => { this.setState({ title: value }); }}
                     />
 
                     <TextInput
-                      placeholder="descrição"
+                      placeholder="Descrição"
                       value={description}
                       multiline
-                      numberOfLines={10}
+                      numberOfLines={2}
                       onChangeText={(value) => { this.setState({ description: value }); }}
-                      style={{ height: 300 }}
+                      style={{ height: 100 }}
                     />
+                    { mode === 'edit'
+                      ? (
+                        <>
+                          <TouchableHighlight
+                            style={styles.button}
+                            onPress={() => this.handleSubmit()}
+                            underlayColor="rgba(255,255,255,.2)"
+                          >
+                            <Text style={styles.text}>Salvar</Text>
+                          </TouchableHighlight>
 
-                    <TouchableHighlight
-                      style={styles.button}
-                      onPress={() => this.handleSubmit()}
-                      underlayColor="rgba(255,255,255,.2)"
-                    >
-                      <Text style={styles.text}>Criar Coleção</Text>
-                    </TouchableHighlight>
+                          <Text style={styles.error} onPress={this.handleDelete}>
+                            Deletar Coleção
+                          </Text>
+                        </>
+                      )
+                      : (
+                        <TouchableHighlight
+                          style={styles.button}
+                          onPress={() => this.handleSubmit()}
+                          underlayColor="rgba(255,255,255,.2)"
+                        >
+                          <Text style={styles.text}>Criar</Text>
+                        </TouchableHighlight>
+                      )
+                    }
+
                   </View>
                 </>
               )

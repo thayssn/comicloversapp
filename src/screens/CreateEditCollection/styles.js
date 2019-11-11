@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    paddingTop: 30,
   },
   inner_container: {
     flex: 1,
@@ -50,6 +51,16 @@ const styles = StyleSheet.create({
   },
   error: {
     color: '#C22',
+    fontWeight: '500',
+  },
+  selectButton: {
+    padding: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  selectButtonText: {
+    color: '#FFF',
+    padding: 10,
   },
 });
 

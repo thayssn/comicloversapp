@@ -62,3 +62,64 @@ export function* collectionsCreateSaga(action) {
     });
   }
 }
+
+export function* collectionsEditSaga(action) {
+  try {
+    const userAccessToken = yield getUserToken();
+    yield api.put(`/collections/${action.payload.collectionId}`,
+      action.payload.data,
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      });
+
+    yield put({
+      type: Types.EDIT_SUCCESS,
+    });
+
+    yield put({
+      type: Types.FETCH_ALL,
+    });
+
+    NavigationService.navigate('Main');
+  } catch (err) {
+    yield put({
+      type: Types.EDIT_FAIL,
+      payload: {
+        error: JSON.stringify(err),
+      },
+    });
+  }
+}
+
+export function* collectionsDeleteSaga(action) {
+  try {
+    const userAccessToken = yield getUserToken();
+
+    yield api.delete(`/collections/${action.payload}`,
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      });
+
+    yield put({
+      type: Types.DELETE_SUCCESS,
+    });
+
+    yield put({
+      type: Types.FETCH_ALL,
+    });
+
+    NavigationService.navigate('Main');
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: Types.DELETE_FAIL,
+      payload: {
+        error: JSON.stringify(err),
+      },
+    });
+  }
+}

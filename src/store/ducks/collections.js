@@ -5,6 +5,12 @@ export const Types = {
   CREATE: 'collections@CREATE',
   CREATE_SUCCESS: 'collections@CREATE_SUCCESS',
   CREATE_FAIL: 'collections@CREATE_FAIL',
+  EDIT: 'collections@EDIT',
+  EDIT_SUCCESS: 'collections@EDIT_SUCCESS',
+  EDIT_FAIL: 'collections@EDIT_FAIL',
+  DELETE: 'collections@DELETE',
+  DELETE_SUCCESS: 'collections@DELETE_SUCCESS',
+  DELETE_FAIL: 'collections@DELETE_FAIL',
 };
 
 const INITIAL_STATE = [];
@@ -23,6 +29,18 @@ export default function collections(state = INITIAL_STATE, action) {
       return [...state, action.payload.collection];
     case Types.CREATE_FAIL:
       return [...state];
+    case Types.EDIT:
+      return [...state];
+    case Types.EDIT_SUCCESS:
+      return [...state];
+    case Types.EDIT_FAIL:
+      return [...state];
+    case Types.DELETE:
+      return [...state];
+    case Types.DELETE_SUCCESS:
+      return [...state];
+    case Types.DELETE_FAIL:
+      return [...state];
     default:
       return state;
   }
@@ -35,5 +53,13 @@ export const Creators = {
   createCollection: collection => ({
     type: Types.CREATE,
     payload: collection,
+  }),
+  editCollection: (data, collectionId) => ({
+    type: Types.EDIT,
+    payload: { data, collectionId },
+  }),
+  deleteCollection: id => ({
+    type: Types.DELETE,
+    payload: id,
   }),
 };

@@ -46,7 +46,7 @@ class Main extends React.Component {
     return (
       <ScrollView>
         <CollectionsList title="Minhas coleções" collections={collections} />
-        { loading ? <Text>Carregando...</Text>
+        { loading ? <Text>carregando...</Text>
           : (
             <View>
               { publicCollections && publicCollections.map((collection, index) => (
