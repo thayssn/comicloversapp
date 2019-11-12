@@ -57,7 +57,7 @@ class CollectionDetail extends React.Component {
                       style={{ width: 150, height: 210, backgroundColor: '#ddd' }}
                     />
                   )
-                    : <View style={{ width: 120, height: 180, backgroundColor: '#ddd' }} />}
+                    : <View style={{ width: 150, height: 210, backgroundColor: '#ddd' }} />}
 
                   <View style={{ paddingHorizontal: 10, flex: 1 }}>
                     <Text style={{ fontSize: 24, fontWeight: '600' }}>{collection.title}</Text>
@@ -66,7 +66,9 @@ class CollectionDetail extends React.Component {
                 </View>
 
                 <TouchableWithoutFeedback
-                  style={{
+                  onPress={() => navigation.navigate('CreateEditCollection', { collection })}
+                >
+                  <View style={{
                     width: 150,
                     borderColor: '#FFF',
                     borderWidth: 1,
@@ -74,10 +76,10 @@ class CollectionDetail extends React.Component {
                     marginBottom: 10,
                     marginLeft: 5,
                   }}
-                  onPress={() => navigation.navigate('CreateEditCollection', { collection })}
-                >
-                  <CLGradient />
-                  <Text style={{ color: '#FFF', padding: 5 }}>Editar</Text>
+                  >
+                    <CLGradient />
+                    <Text style={{ color: '#FFF', padding: 5 }}>Editar</Text>
+                  </View>
                 </TouchableWithoutFeedback>
                 <Text style={{ fontSize: 15, fontWeight: '600' }}>QUADRINHOS</Text>
                 <View style={{
