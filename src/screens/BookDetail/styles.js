@@ -54,6 +54,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  buttonWrapper: {
+    flex: 1,
+    marginHorizontal: 5,
+    borderRadius: 5,
+  },
+  button: {
+    fontSize: 14,
+    height: 30,
+  },
 });
 
 export default styles;

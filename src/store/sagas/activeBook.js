@@ -1,6 +1,7 @@
 import { put } from 'redux-saga/effects';
 import * as NavigationService from '../../services/navigation';
-import { Types } from '../ducks/activeBook';
+import { Types as activeBookTypes } from '../ducks/activeBook';
+import { Types as collectionsTypes } from '../ducks/collections';
 import api from '../../services/api';
 import { getUserToken } from '../../services/auth';
 
@@ -15,7 +16,7 @@ export function* activeBookSaga(action) {
     // });
 
     yield put({
-      type: Types.CHANGE_SUCCESS,
+      type: activeBookTypes.CHANGE_SUCCESS,
       payload: {
         book,
       },
@@ -26,7 +27,7 @@ export function* activeBookSaga(action) {
   }
 }
 
-export function* activeBookGetRatingSaga(action) {
+export function* activeBookGetReviewSaga(action) {
   try {
     const { book } = action.payload;
     const userToken = yield getUserToken();
@@ -38,26 +39,57 @@ export function* activeBookGetRatingSaga(action) {
       });
 
     yield put({
-      type: Types.GET_RATING_SUCCESS,
+      type: activeBookTypes.GET_REVIEW_SUCCESS,
       payload: {
-        rating: review.rating,
+        review,
       },
     });
   } catch (err) {
-    console.log('Error tring to rate book', err);
-
     yield put({
-      type: Types.GET_RATING_FAIL,
+      type: activeBookTypes.GET_REVIEW_FAIL,
     });
   }
 }
 
-export function* activeBookSetRatingSaga(action) {
+export function* activeBookSetReviewSaga(action) {
   try {
-    const { book, rating } = action.payload;
+    const { book, review } = action.payload;
     const userToken = yield getUserToken();
-    yield api.post(`/books/${book.id}/review`, {
-      rating,
+    yield api.post(`/books/${book.id}/review`,
+      review,
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+
+    yield put({
+      type: activeBookTypes.SET_REVIEW_SUCCESS,
+      payload: {
+        review,
+      },
+    });
+
+    yield put({
+      type: activeBookTypes.GET_REVIEW,
+      payload: {
+        book,
+      },
+    });
+
+    NavigationService.navigate('BookDetail', { id: book._id, title: book.title });
+  } catch (err) {
+    console.log('Error tring to rate book', err);
+  }
+}
+
+export function* activeBookAddToCollectionSaga(action) {
+  try {
+    const { book, collection } = action.payload;
+    console.log(book.id, collection.id);
+    const userToken = yield getUserToken();
+    yield api.post(`/collections/${collection.id}/books`, {
+      books: [book.id],
     },
     {
       headers: {
@@ -66,13 +98,20 @@ export function* activeBookSetRatingSaga(action) {
     });
 
     yield put({
-      type: Types.SET_RATING_SUCCESS,
+      type: activeBookTypes.ADD_TO_COLLECTION_SUCCESS,
+    });
+
+    yield put({
+      type: collectionsTypes.FETCH_ALL,
       payload: {
-        rating,
+        book,
       },
     });
-    NavigationService.navigate('BookDetail', { id: book._id, title: book.title });
   } catch (err) {
+    yield put({
+      type: activeBookTypes.ADD_TO_COLLECTION_FAIL,
+    });
+
     console.log('Error tring to rate book', err);
   }
 }

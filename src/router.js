@@ -26,15 +26,15 @@ const defaultNavigationOptions = ({ navigation }) => ({
   headerLeft: <Icon
     name="menu"
     color="#FFF"
-    size={30}
+    size={25}
     containerStyle={{ paddingLeft: 10 }}
     onPress={() => navigation.toggleDrawer()}
   />,
   headerRight: <Icon
-    name="md-qr-scanner"
+    name="ios-barcode"
     type="ionicon"
     color="#FFF"
-    size={25}
+    size={35}
     underlayColor="transparent"
     containerStyle={{ paddingRight: 20 }}
     onPress={() => navigation.navigate('Scanner')}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Text, View, Image, TouchableOpacity, Modal, ScrollView, Alert,
+  Text, View, Image, TouchableOpacity, Linking,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { TabView, SceneMap } from 'react-native-tab-view';
@@ -12,10 +12,8 @@ import BookDescription from '../../components/BookDescription';
 import BookReview from '../../components/BookReview';
 import { BASE_URL } from '../../config/env_config';
 import styles from './styles';
-import api from '../../services/api';
-import { getUserToken } from '../../services/auth';
-import CollectionThumbnail from '../../components/CollectionThumbnail';
 import { Creators } from '../../store/ducks/activeBook';
+import SelectCollections from '../../components/SelectCollections';
 
 class BookDetail extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -59,103 +57,38 @@ class BookDetail extends React.Component {
   // }
 
   async componentWillMount() {
-    const { getRating, book } = this.props;
-    await getRating(book);
+    const { getReview, book } = this.props;
+    console.log(book);
+    await getReview(book);
   }
 
   setModalVisible = (visible) => {
-    this.setState({ modalVisible: visible });
+    this.setState({
+      modalVisible: visible,
+    });
   }
 
   handleRating = async (rating) => {
-    const { book, setRating } = this.props;
-
-    await setRating(book, rating);
+    const { book, setReview } = this.props;
+    console.log(rating);
+    await setReview(book, { rating });
   }
 
-  addBookToCollection = async (collection) => {
-    const { book } = this.props;
-    try {
-      const userToken = await getUserToken();
-      await api.post(`/collections/${collection.id}/books`, {
-        books: [book.id],
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-
-      Alert.alert(
-        'Sucesso!',
-        `Adicionado à coleção ${collection.title}`,
-        [
-          { text: 'OK', onPress: () => this.setState({ modalVisible: false }) },
-        ],
-        { cancelable: false },
-      );
-    } catch (err) {
-      console.log(err);
-    }
+  handleHasBook = async () => {
+    const { book, setReview } = this.props;
+    console.log('b', book.review);
+    await setReview(book, { has_book: book.review.has_book ? !book.review.has_book : true });
+    console.log('a', book.review);
   }
 
   render() {
-    const { book, collections } = this.props;
+    const { book } = this.props;
     const { modalVisible } = this.state;
-    const rating = book.reviews ? book.total_rating / book.reviews.length : 0;
+    const rating = book.reviews.length ? book.total_rating / book.reviews.length : 0;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
     return (
       <View style={styles.container}>
-        <Modal
-          animationType="fade"
-          transparent
-          visible={modalVisible}
-        >
-          <View style={{
-            flex: 1, paddingVertical: 80, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, backgroundColor: 'rgba(0,0,0,.7)',
-          }}
-          >
-            <View style={{
-              width: '100%',
-            }}
-            >
-              <View style={{
-                marginBottom: 40,
-                alignItems: 'flex-end',
-              }}
-              >
-                <Icon
-                  size={40}
-                  type="ionicons"
-                  name="cancel"
-                  color="#FFF"
-                  onPress={() => {
-                    this.setModalVisible(!modalVisible);
-                  }}
-                />
-              </View>
-              <ScrollView>
-                <View style={{
-                  flexDirection: 'row', flexWrap: 'wrap',
-                }}
-                >
-                  { collections && collections.length
-                    ? collections.map(collection => (
-                      <CollectionThumbnail
-                        cover={collection.thumbnail}
-                        title={collection.title}
-                        onPress={() => this.addBookToCollection(collection)}
-                        key={collection.id.toString()}
-                        titleStyle={{ color: '#FFF', fontWeight: '500', fontSize: 15 }}
-                      />
-                    ))
-                    : <Text>Adicione um quadrinho</Text>
-                }
-                </View>
-              </ScrollView>
-            </View>
-          </View>
-        </Modal>
+        <SelectCollections modalVisible={modalVisible} setModalVisible={this.setModalVisible} />
         <View style={styles.statusView}>
           <Image
             source={{
@@ -179,14 +112,67 @@ class BookDetail extends React.Component {
               Preço:
               <Text style={styles.status}>{` R$ ${price}`}</Text>
             </Text>
-            <TouchableOpacity onPress={() => {
-              this.setModalVisible(true);
-            }}
-            >
-              <Text>
-                Adicionar à coleção
-              </Text>
 
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
+
+
+          <View style={[styles.tabBar, styles.buttonWrapper]}>
+            <TouchableOpacity
+              style={[styles.tabItem, styles.button]}
+              onPress={() => {
+                this.handleHasBook();
+              }}
+            >
+              { book.review && book.review.has_book
+                ? (
+                  <>
+                    <CLGradient />
+                    <View style={{ flexDirection: 'row' }}>
+                      <Icon
+                        name="md-checkmark"
+                        type="ionicon"
+                        color="#FFF"
+                        size={14}
+                      />
+                      <Text style={{ color: 'white', marginLeft: 10 }}>
+                      TENHO
+                      </Text>
+                    </View>
+                  </>
+                )
+                : <Text style={{ color: '#20AEC0' }}>NÃO TENHO</Text>
+              }
+            </TouchableOpacity>
+          </View>
+
+          <View style={[styles.tabBar, styles.buttonWrapper]}>
+            <TouchableOpacity
+              style={[styles.tabItem, styles.button]}
+              onPress={() => {
+                this.setModalVisible(true);
+              }}
+            >
+              { book.review
+              && <CLGradient />}
+              <Text style={{ color: 'white' }}>
+                  COLEÇÕES
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={[styles.tabBar, styles.buttonWrapper]}>
+            <TouchableOpacity
+              style={[styles.tabItem, styles.button]}
+              onPress={() => {
+                Linking.openURL(`https://www.amazon.com.br/s?k=${encodeURI(`${book.title}${book.edition && `- ${book.edition}`}`)}&i=stripbooks`);
+              }}
+            >
+              <CLGradient />
+              <Text style={{ color: 'white' }}>
+                  COMPRAR
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -197,7 +183,7 @@ class BookDetail extends React.Component {
               first: () => (<BookDescription book={book} />),
               second: () => (
                 <BookReview
-                  rating={book.rating}
+                  rating={book.review ? book.review.rating : 0}
                   onFinishRating={this.handleRating}
                 />
               ),

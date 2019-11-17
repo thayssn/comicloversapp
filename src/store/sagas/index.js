@@ -3,8 +3,9 @@ import { authSaga, authWithFBSaga, resetPasswordSaga } from './auth';
 import registerSaga from './register';
 import {
   activeBookSaga,
-  activeBookGetRatingSaga,
-  activeBookSetRatingSaga,
+  activeBookGetReviewSaga,
+  activeBookSetReviewSaga,
+  activeBookAddToCollectionSaga,
 } from './activeBook';
 import booksSaga from './books';
 import {
@@ -30,8 +31,9 @@ export default function* root() {
   yield all(
     [
       takeLatest(activeBookTypes.CHANGE, activeBookSaga),
-      takeLatest(activeBookTypes.GET_RATING, activeBookGetRatingSaga),
-      takeLatest(activeBookTypes.SET_RATING, activeBookSetRatingSaga),
+      takeLatest(activeBookTypes.GET_REVIEW, activeBookGetReviewSaga),
+      takeLatest(activeBookTypes.SET_REVIEW, activeBookSetReviewSaga),
+      takeLatest(activeBookTypes.ADD_TO_COLLECTION, activeBookAddToCollectionSaga),
       takeLatest(authTypes.LOGIN, authSaga),
       takeLatest(authTypes.LOGIN_FB, authWithFBSaga),
       takeLatest(authTypes.RESET_PASSWORD, resetPasswordSaga),
