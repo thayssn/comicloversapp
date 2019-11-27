@@ -30,7 +30,6 @@ class Scanner extends React.Component {
 
     try {
       const { data: book } = await api.get(`/books/isbn/${data}`);
-      console.log(book);
       await changeBook(book);
     } catch (err) {
       alert(`ISBN ${data} não cadastrado`);

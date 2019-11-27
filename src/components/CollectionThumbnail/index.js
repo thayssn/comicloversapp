@@ -25,7 +25,7 @@ const CollectionThumbnail = ({
             />
           </>
         )
-        : <View style={styles.collection_default_cover} />
+        : <View style={[styles.collection_default_cover, hasCollection && !listing && { opacity: 1, borderWidth: 4, borderColor: '#20AEC0' }]} />
       }
       { hasCollection && !listing
         && (

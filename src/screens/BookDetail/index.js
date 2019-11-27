@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Text, View, Image, TouchableOpacity, Linking,
+  Text, View, Image, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { TabView, SceneMap } from 'react-native-tab-view';
@@ -32,30 +32,6 @@ class BookDetail extends React.Component {
     modalVisible: false,
   }
 
-  // async componentWillReceiveProps() {
-  //   const { book } = this.props;
-  //   try {
-  //     const userToken = await getUserToken();
-  //     const { rating } = await api.get(`/books/${book.id}/review`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${userToken}`,
-  //         },
-  //       });
-
-  //     console.log(rating);
-
-  //     this.setState({ reviewRating: rating });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-  // componentWillMount() {
-  //   const { book } = this.props;
-  //   this.setState({ reviewRating: book.rating });
-  // }
-
   async componentWillMount() {
     const { getReview, book } = this.props;
     console.log(book);
@@ -76,9 +52,7 @@ class BookDetail extends React.Component {
 
   handleHasBook = async () => {
     const { book, setReview } = this.props;
-    console.log('b', book.review);
     await setReview(book, { has_book: book.review.has_book ? !book.review.has_book : true });
-    console.log('a', book.review);
   }
 
   render() {
@@ -98,12 +72,16 @@ class BookDetail extends React.Component {
           />
           <View style={styles.infoView}>
             <Text style={styles.title}>{book.title}</Text>
-            <Rating
-              imageSize={20}
-              readonly
-              startingValue={rating}
-              style={styles.rating}
-            />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Rating
+                imageSize={25}
+                readonly
+                count={5}
+                startingValue={rating}
+                style={styles.rating}
+              />
+              <Text style={[styles.status, { marginLeft: 10 }]}>{`(${rating})`}</Text>
+            </View>
             <Text style={styles.statusTitle}>
               Número:
               <Text style={styles.status}>{` ${book.edition ? book.edition : ''}`}</Text>
@@ -162,7 +140,7 @@ class BookDetail extends React.Component {
             </TouchableOpacity>
           </View>
 
-          <View style={[styles.tabBar, styles.buttonWrapper]}>
+          {/* <View style={[styles.tabBar, styles.buttonWrapper]}>
             <TouchableOpacity
               style={[styles.tabItem, styles.button]}
               onPress={() => {
@@ -174,7 +152,7 @@ class BookDetail extends React.Component {
                   COMPRAR
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
         <View style={styles.tabWrapper}>
           <TabView

@@ -37,7 +37,7 @@ export function* activeBookGetReviewSaga(action) {
           Authorization: `Bearer ${userToken}`,
         },
       });
-
+    console.log(review);
     yield put({
       type: activeBookTypes.GET_REVIEW_SUCCESS,
       payload: {
@@ -86,7 +86,6 @@ export function* activeBookSetReviewSaga(action) {
 export function* activeBookAddToCollectionSaga(action) {
   try {
     const { book, collection } = action.payload;
-    console.log(book.id, collection.id);
     const userToken = yield getUserToken();
     yield api.post(`/collections/${collection.id}/books`, {
       books: [book.id],

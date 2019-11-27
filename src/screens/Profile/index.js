@@ -56,8 +56,6 @@ class Profile extends Component {
         },
       });
 
-      console.log(user);
-
       this.setState({
         email: user.email,
         name: user.name,

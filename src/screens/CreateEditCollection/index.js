@@ -108,7 +108,7 @@ class CreateEditCollection extends Component {
 
     try {
       if (mode === 'edit') {
-        editCollection(data, collection.id);
+        editCollection(data, collection.id, collection.title);
       } else {
         createCollection(data);
       }

@@ -2,6 +2,7 @@ import { put } from 'redux-saga/effects';
 import api from '../../services/api';
 import { getUserToken } from '../../services/auth';
 import { Types } from '../ducks/collections';
+import { Types as activeCollectionTypes } from '../ducks/activeCollection';
 import * as NavigationService from '../../services/navigation';
 
 export function* collectionsFetchSaga() {
@@ -52,7 +53,7 @@ export function* collectionsCreateSaga(action) {
       type: Types.FETCH_ALL,
     });
 
-    NavigationService.navigate('Main');
+    NavigationService.navigate('MyCollections');
   } catch (err) {
     yield put({
       type: Types.CREATE_FAIL,
@@ -66,8 +67,9 @@ export function* collectionsCreateSaga(action) {
 export function* collectionsEditSaga(action) {
   try {
     const userAccessToken = yield getUserToken();
-    yield api.put(`/collections/${action.payload.collectionId}`,
-      action.payload.data,
+    const { collectionId, data } = action.payload;
+    yield api.put(`/collections/${collectionId}`,
+      data,
       {
         headers: {
           Authorization: `Bearer ${userAccessToken}`,
@@ -82,8 +84,16 @@ export function* collectionsEditSaga(action) {
       type: Types.FETCH_ALL,
     });
 
-    NavigationService.navigate('Main');
+    yield put({
+      type: activeCollectionTypes.FETCH,
+      payload: {
+        collectionId,
+      },
+    });
+
+    NavigationService.navigate('MyCollections');
   } catch (err) {
+    console.log(err);
     yield put({
       type: Types.EDIT_FAIL,
       payload: {
@@ -112,7 +122,7 @@ export function* collectionsDeleteSaga(action) {
       type: Types.FETCH_ALL,
     });
 
-    NavigationService.navigate('Main');
+    NavigationService.navigate('MyCollections');
   } catch (err) {
     console.log(err);
     yield put({

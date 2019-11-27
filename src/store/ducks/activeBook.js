@@ -36,7 +36,7 @@ export default function activeBook(state = INITIAL_STATE, action) {
     case Types.SET_REVIEW_SUCCESS:
       return { ...state, review: action.payload.review, loadingReview: false };
     case Types.SET_REVIEW_FAIL:
-      return { ...state, loadingReview: false };
+      return { ...state, INITIAL_STATE, loadingReview: false };
     case Types.ADD_TO_COLLECTION:
       return { ...state, loadingAddToCollection: true };
     case Types.ADD_TO_COLLECTION_SUCCESS:

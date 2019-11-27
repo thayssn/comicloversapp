@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View, StyleSheet, Text,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import CLGradient from '../CLGradient';
 
@@ -27,12 +28,12 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     height: 1,
     width: '100%',
-    backgroundColor: '#EEE',
+    backgroundColor: '#DDD',
   },
   navigation: {
     flex: 1,
     flexGrow: 1,
-
+    paddingTop: 10,
   },
   bottom: {
     paddingBottom: 30,
@@ -43,41 +44,131 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: '#FFF',
   },
+  itemWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  inactive: {
+    opacity: 0.3,
+  },
 });
 
-const Menu = ({ navigation }) => {
-  const { navigate, state } = navigation;
-  const { routes } = state;
-  return (
-    <View style={styles.container}>
-      <CLGradient />
-      <SafeAreaView style={styles.innerContainer} forceInset={{ top: 'always', horizontal: 'never' }}>
-        <View style={styles.navigation}>
-          { routes.map(({ routeName }) => (
+class Menu extends React.Component {
+  componentDidMount() {
+  }
+
+  // const { routes } = state;
+  render() {
+    const { navigation } = this.props;
+    const { navigate } = navigation;
+
+    return (
+      <View style={styles.container}>
+        <CLGradient />
+        <SafeAreaView style={styles.innerContainer} forceInset={{ top: 'always', horizontal: 'never' }}>
+          <View style={styles.navigation}>
+            {/* { routes.map(({ routeName }) => (
+              <Text
+                style={styles.routes}
+                key={routeName}
+                onPress={() => { navigate(routeName); }}
+              >
+                {routeName}
+              </Text>
+            ))} */}
+            <View style={styles.itemWrapper}>
+              <Icon
+                name="user"
+                type="font-awesome"
+                color="#FFF"
+                size={20}
+                containerStyle={{ width: 20 }}
+              />
+              <Text
+                style={styles.routes}
+                onPress={() => { navigate('Profile'); }}
+              >
+              Perfil
+              </Text>
+            </View>
+            <View style={styles.itemWrapper}>
+              <Icon
+                name="ios-book"
+                type="ionicon"
+                color="#FFF"
+                size={20}
+                containerStyle={{ width: 20 }}
+              />
+              <Text
+                style={styles.routes}
+                onPress={() => { navigate('Main'); }}
+              >
+              Navegar
+              </Text>
+            </View>
+            <View style={styles.itemWrapper}>
+              <Icon
+                name="ios-bookmark"
+                type="ionicon"
+                color="#FFF"
+                size={20}
+                containerStyle={{ width: 20 }}
+              />
+              <Text
+                style={styles.routes}
+                onPress={() => { navigate('MyCollections'); }}
+              >
+              Minhas coleções
+              </Text>
+            </View>
+            <View style={styles.itemWrapper}>
+              <Icon
+                name="ios-barcode"
+                type="ionicon"
+                color="#FFF"
+                size={20}
+                containerStyle={{ width: 20 }}
+              />
+              <Text
+                style={styles.routes}
+                onPress={() => { navigate('Scanner'); }}
+              >
+              Buscar por Código de Barras
+              </Text>
+            </View>
+            <View style={[styles.itemWrapper, styles.inactive]}>
+              <Icon
+                name="ios-search"
+                type="ionicon"
+                color="#FFF"
+                size={20}
+                containerStyle={{ width: 20 }}
+              />
+              <Text
+                style={styles.routes}
+                onPress={() => { navigate('Main'); }}
+              >
+              Busca
+              </Text>
+            </View>
+          </View>
+          <View style={styles.bottom}>
+            <View style={styles.separator} />
             <Text
-              style={styles.routes}
-              key={routeName}
-              onPress={() => { navigate(routeName); }}
+              style={styles.logout}
+              onPress={() => {
+                onSignOut();
+                navigate('Root');
+              }}
             >
-              {routeName}
+                Logout
             </Text>
-          ))}
-        </View>
-        <View style={styles.bottom}>
-          <View style={styles.separator} />
-          <Text
-            style={styles.logout}
-            onPress={() => {
-              onSignOut();
-              navigate('Root');
-            }}
-          >
-              Logout
-          </Text>
-        </View>
-      </SafeAreaView>
-    </View>
-  );
-};
+          </View>
+        </SafeAreaView>
+      </View>
+    );
+  }
+}
 
 export default Menu;

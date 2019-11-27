@@ -10,11 +10,21 @@ import CollectionThumbnail from '../CollectionThumbnail';
 import { Creators } from '../../store/ducks/activeBook';
 
 class SelectCollections extends React.Component {
+  state = {
+    bookCollections: [],
+  }
+
+  componentWillMount() {
+    const { book } = this.props;
+    this.setState({ bookCollections: book.collections });
+  }
+
   addBookToCollection = async (collection) => {
     const { book, addToCollection } = this.props;
+    const { bookCollections } = this.state;
     try {
       await addToCollection(book, collection);
-
+      this.setState({ bookCollections: [...bookCollections, collection] });
       Alert.alert(
         'Sucesso!',
         `Adicionado à coleção ${collection.title}`,
@@ -30,8 +40,9 @@ class SelectCollections extends React.Component {
 
   render() {
     const {
-      collections, book, modalVisible, setModalVisible,
+      collections, modalVisible, setModalVisible,
     } = this.props;
+    const { bookCollections } = this.state;
     return (
       <Modal
         animationType="fade"
@@ -73,8 +84,7 @@ class SelectCollections extends React.Component {
               >
                 { collections && collections.length
                   ? collections.map((collection) => {
-                    const isInCollection = book.collections.find(col => col.id === collection.id);
-                    console.log(isInCollection);
+                    const isInCollection = bookCollections.find(col => col.id === collection.id);
                     return (
                       <CollectionThumbnail
                         cover={collection.thumbnail}

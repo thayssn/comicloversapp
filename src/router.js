@@ -7,6 +7,7 @@ import { fromBottom } from 'react-navigation-transitions';
 import { Icon } from 'react-native-elements';
 import Menu from './components/Menu';
 import Main from './screens/Main';
+import MyCollections from './screens/MyCollections';
 import Root from './screens/Root';
 import Login from './screens/Login';
 import Register from './screens/Register';
@@ -26,15 +27,16 @@ const defaultNavigationOptions = ({ navigation }) => ({
   headerLeft: <Icon
     name="menu"
     color="#FFF"
-    size={25}
+    size={30}
     containerStyle={{ paddingLeft: 10 }}
+    underlayColor="transparent"
     onPress={() => navigation.toggleDrawer()}
   />,
   headerRight: <Icon
     name="ios-barcode"
     type="ionicon"
     color="#FFF"
-    size={35}
+    size={40}
     underlayColor="transparent"
     containerStyle={{ paddingRight: 20 }}
     onPress={() => navigation.navigate('Scanner')}
@@ -64,6 +66,12 @@ export const BookNavigator = createStackNavigator(
         ...defaultNavigationOptions(navigator),
         title: 'Comic Lovers',
       }),
+    },
+    MyCollections: {
+      screen: MyCollections,
+      navigationOptions: {
+        title: 'Minhas Coleções',
+      },
     },
     BookDetail: {
       screen: BookDetail,

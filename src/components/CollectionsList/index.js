@@ -12,7 +12,12 @@ import styles from './styles';
 
 const CollectionsList = ({ title, collections, navigation }) => (
   <View style={styles.collection_list_view}>
-    <Text style={styles.collection_list_title}>{title}</Text>
+    <Text
+      style={styles.collection_list_title}
+      onPress={() => { navigation.navigate('MyCollections'); }}
+    >
+      {title}
+    </Text>
 
     <View style={{ flexDirection: 'row' }}>
 
@@ -21,7 +26,7 @@ const CollectionsList = ({ title, collections, navigation }) => (
           <FlatList
             contentContainerStyle={styles.collection_list}
             horizontal
-            data={collections}
+            data={collections.slice(0, 5)}
             renderItem={({ item: collection, index }) => (
               <View style={{ flexDirection: 'row' }}>
                 { index === 0

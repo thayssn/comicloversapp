@@ -54,9 +54,9 @@ export const Creators = {
     type: Types.CREATE,
     payload: collection,
   }),
-  editCollection: (data, collectionId) => ({
+  editCollection: (data, collectionId, collectionTitle) => ({
     type: Types.EDIT,
-    payload: { data, collectionId },
+    payload: { data, collectionId, collectionTitle },
   }),
   deleteCollection: id => ({
     type: Types.DELETE,
