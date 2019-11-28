@@ -38,7 +38,7 @@ class MyCollections extends React.Component {
           flexDirection: 'row',
           flexWrap: 'wrap',
           justifyItems: 'space-between',
-          justifyContent: 'start',
+          justifyContent: 'flex-start',
           alignItems: 'flex-start',
           padding: 15,
         }}
