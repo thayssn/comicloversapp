@@ -37,7 +37,6 @@ export function* activeBookGetReviewSaga(action) {
           Authorization: `Bearer ${userToken}`,
         },
       });
-    console.log(review);
     yield put({
       type: activeBookTypes.GET_REVIEW_SUCCESS,
       payload: {
@@ -111,6 +110,36 @@ export function* activeBookAddToCollectionSaga(action) {
       type: activeBookTypes.ADD_TO_COLLECTION_FAIL,
     });
 
-    console.log('Error tring to rate book', err);
+    console.log('Error tring to add book to collection', err);
+  }
+}
+
+export function* activeBookRemoveFromCollectionSaga(action) {
+  try {
+    const { book, collection } = action.payload;
+    const userToken = yield getUserToken();
+    yield api.delete(`/collections/${collection.id}/books/${book.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+
+    yield put({
+      type: activeBookTypes.REMOVE_FROM_COLLECTION_SUCCESS,
+    });
+
+    yield put({
+      type: collectionsTypes.FETCH_ALL,
+      payload: {
+        book,
+      },
+    });
+  } catch (err) {
+    yield put({
+
+      type: activeBookTypes.REMOVE_FROM_COLLECTION_FAIL,
+    });
+    console.log('Error tring to remove book from collection', err);
   }
 }

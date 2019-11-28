@@ -2,7 +2,7 @@ import { put } from 'redux-saga/effects';
 import api from '../../services/api';
 import { getUserToken } from '../../services/auth';
 import { Types } from '../ducks/collections';
-import { Types as activeCollectionTypes } from '../ducks/activeCollection';
+// import { Types as activeCollectionTypes } from '../ducks/activeCollection';
 import * as NavigationService from '../../services/navigation';
 
 export function* collectionsFetchSaga() {
@@ -53,7 +53,7 @@ export function* collectionsCreateSaga(action) {
       type: Types.FETCH_ALL,
     });
 
-    NavigationService.navigate('MyCollections');
+    NavigationService.navigate('Main');
   } catch (err) {
     yield put({
       type: Types.CREATE_FAIL,
@@ -84,14 +84,7 @@ export function* collectionsEditSaga(action) {
       type: Types.FETCH_ALL,
     });
 
-    yield put({
-      type: activeCollectionTypes.FETCH,
-      payload: {
-        collectionId,
-      },
-    });
-
-    NavigationService.navigate('MyCollections');
+    NavigationService.navigate('Main');
   } catch (err) {
     console.log(err);
     yield put({
@@ -122,7 +115,7 @@ export function* collectionsDeleteSaga(action) {
       type: Types.FETCH_ALL,
     });
 
-    NavigationService.navigate('MyCollections');
+    NavigationService.navigate('Main');
   } catch (err) {
     console.log(err);
     yield put({

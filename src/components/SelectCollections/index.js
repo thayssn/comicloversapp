@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  Text, View, Modal, ScrollView, Alert,
+  Text, View, Modal, ScrollView,
+  // Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
@@ -25,14 +26,34 @@ class SelectCollections extends React.Component {
     try {
       await addToCollection(book, collection);
       this.setState({ bookCollections: [...bookCollections, collection] });
-      Alert.alert(
-        'Sucesso!',
-        `Adicionado à coleção ${collection.title}`,
-        [
-          { text: 'OK' },
-        ],
-        { cancelable: false },
-      );
+      // Alert.alert(
+      //   'Sucesso!',
+      //   `Adicionado à coleção ${collection.title}`,
+      //   [
+      //     { text: 'OK' },
+      //   ],
+      //   { cancelable: false },
+      // );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  removeBookFromCollection = async (collection) => {
+    const { book, removeFromCollection } = this.props;
+    const { bookCollections } = this.state;
+    try {
+      await removeFromCollection(book, collection);
+      const filteredBookCollections = bookCollections.filter(col => col.id !== collection.id);
+      this.setState({ bookCollections: filteredBookCollections });
+      // Alert.alert(
+      //   'Removido',
+      //   `Removido da coleção ${collection.title}`,
+      //   [
+      //     { text: 'OK' },
+      //   ],
+      //   { cancelable: false },
+      // );
     } catch (err) {
       console.log(err);
     }
@@ -60,6 +81,7 @@ class SelectCollections extends React.Component {
           }}
           >
             <View style={{
+              marginTop: 20,
               marginBottom: 20,
               alignItems: 'center',
             }}
@@ -79,7 +101,12 @@ class SelectCollections extends React.Component {
             </View>
             <ScrollView>
               <View style={{
-                flexDirection: 'row', flexWrap: 'wrap',
+                flex: 1,
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                padding: 15,
               }}
               >
                 { collections && collections.length
@@ -89,7 +116,13 @@ class SelectCollections extends React.Component {
                       <CollectionThumbnail
                         cover={collection.thumbnail}
                         title={collection.title}
-                        onPress={() => this.addBookToCollection(collection)}
+                        onPress={() => {
+                          if (isInCollection) {
+                            this.removeBookFromCollection(collection);
+                          } else {
+                            this.addBookToCollection(collection);
+                          }
+                        }}
                         key={collection.id.toString()}
                         titleStyle={{
                           color: '#FFF', fontWeight: '500', fontSize: 15,
@@ -99,7 +132,7 @@ class SelectCollections extends React.Component {
                       />
                     );
                   })
-                  : <Text>Adicione um quadrinho</Text>
+                  : <Text style={{ color: '#FFF', fontSize: 20 }}>Adicione uma coleção</Text>
             }
               </View>
             </ScrollView>

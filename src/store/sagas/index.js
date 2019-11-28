@@ -6,6 +6,7 @@ import {
   activeBookGetReviewSaga,
   activeBookSetReviewSaga,
   activeBookAddToCollectionSaga,
+  activeBookRemoveFromCollectionSaga,
 } from './activeBook';
 import booksSaga from './books';
 import {
@@ -34,6 +35,7 @@ export default function* root() {
       takeLatest(activeBookTypes.GET_REVIEW, activeBookGetReviewSaga),
       takeLatest(activeBookTypes.SET_REVIEW, activeBookSetReviewSaga),
       takeLatest(activeBookTypes.ADD_TO_COLLECTION, activeBookAddToCollectionSaga),
+      takeLatest(activeBookTypes.REMOVE_FROM_COLLECTION, activeBookRemoveFromCollectionSaga),
       takeLatest(authTypes.LOGIN, authSaga),
       takeLatest(authTypes.LOGIN_FB, authWithFBSaga),
       takeLatest(authTypes.RESET_PASSWORD, resetPasswordSaga),

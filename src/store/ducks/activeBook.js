@@ -10,6 +10,9 @@ export const Types = {
   ADD_TO_COLLECTION: 'book@ADD_TO_COLLECTION',
   ADD_TO_COLLECTION_SUCCESS: 'book@ADD_TO_COLLECTION_SUCCESS',
   ADD_TO_COLLECTION_FAIL: 'book@ADD_TO_COLLECTION_FAIL',
+  REMOVE_FROM_COLLECTION: 'book@REMOVE_FROM_COLLECTION',
+  REMOVE_FROM_COLLECTION_SUCCESS: 'book@REMOVE_FROM_COLLECTION_SUCCESS',
+  REMOVE_FROM_COLLECTION_FAIL: 'book@REMOVE_FROM_COLLECTION_FAIL',
 };
 
 const INITIAL_STATE = {
@@ -43,6 +46,12 @@ export default function activeBook(state = INITIAL_STATE, action) {
       return { ...state, loadingAddToCollection: false };
     case Types.ADD_TO_COLLECTION_FAIL:
       return { ...state, loadingAddToCollection: false };
+    case Types.REMOVE_FROM_COLLECTION:
+      return { ...state, loadingRemoveFromCollection: true };
+    case Types.REMOVE_FROM_COLLECTION_SUCCESS:
+      return { ...state, loadingRemoveFromCollection: false };
+    case Types.REMOVE_FROM_COLLECTION_FAIL:
+      return { ...state, loadingRemoveFromCollection: false };
     default:
       return state;
   }
@@ -70,6 +79,13 @@ export const Creators = {
   }),
   addToCollection: (book, collection) => ({
     type: Types.ADD_TO_COLLECTION,
+    payload: {
+      book,
+      collection,
+    },
+  }),
+  removeFromCollection: (book, collection) => ({
+    type: Types.REMOVE_FROM_COLLECTION,
     payload: {
       book,
       collection,

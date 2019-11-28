@@ -34,7 +34,6 @@ class BookDetail extends React.Component {
 
   async componentWillMount() {
     const { getReview, book } = this.props;
-    console.log(book);
     await getReview(book);
   }
 
@@ -46,7 +45,6 @@ class BookDetail extends React.Component {
 
   handleRating = async (rating) => {
     const { book, setReview } = this.props;
-    console.log(rating);
     await setReview(book, { rating });
   }
 
