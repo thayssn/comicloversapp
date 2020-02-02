@@ -7,6 +7,7 @@ import activeBook from '../ducks/activeBook';
 import auth from '../ducks/auth';
 import register from '../ducks/register';
 import user from '../ducks/user';
+import favorites from '../ducks/favorites';
 
 export default combineReducers({
   publicCollections,
@@ -17,4 +18,5 @@ export default combineReducers({
   auth,
   register,
   user,
+  favorites,
 });

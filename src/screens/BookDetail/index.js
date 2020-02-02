@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { Rating, Icon } from 'react-native-elements';
+import { Rating, Icon, CheckBox } from 'react-native-elements';
 
 import { bindActionCreators } from 'redux';
 import CLGradient from '../../components/CLGradient';
@@ -30,6 +30,7 @@ class BookDetail extends React.Component {
     /* eslint-enable */
     // reviewRating: 0,
     modalVisible: false,
+    favorito: false,
   }
 
   async componentWillMount() {
@@ -48,6 +49,16 @@ class BookDetail extends React.Component {
     await setReview(book, { rating });
   }
 
+  handleFavorite = async () => {
+    const { favorito } = this.state;
+    const newFav = !favorito;
+
+    await this.setState({ favorito: newFav });
+
+    const { book, setReview } = this.props;
+    await setReview(book, { favorite: newFav });
+  }
+
   handleHasBook = async () => {
     const { book, setReview } = this.props;
     await setReview(book, { has_book: book.review.has_book ? !book.review.has_book : true });
@@ -55,7 +66,7 @@ class BookDetail extends React.Component {
 
   render() {
     const { book } = this.props;
-    const { modalVisible } = this.state;
+    const { modalVisible, favorito } = this.state;
     const rating = book.reviews.length ? book.total_rating / book.reviews.length : 0;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
     return (
@@ -158,10 +169,19 @@ class BookDetail extends React.Component {
             renderScene={SceneMap({
               first: () => (<BookDescription book={book} />),
               second: () => (
-                <BookReview
-                  rating={book.review ? book.review.rating : 0}
-                  onFinishRating={this.handleRating}
-                />
+                <>
+                  <BookReview
+                    rating={book.review ? book.review.rating : 0}
+                    onFinishRating={this.handleRating}
+                  />
+                  <View>
+                    <CheckBox
+                      title="Marcar como favorito"
+                      checked={favorito}
+                      onPress={() => this.handleFavorite()}
+                    />
+                  </View>
+                </>
               ),
             })}
             renderTabBar={props => (

@@ -17,6 +17,7 @@ import CreateEditCollection from './screens/CreateEditCollection';
 import CollectionDetail from './screens/CollectionDetail';
 import Scanner from './screens/Scanner';
 import ForgotPassword from './screens/ForgotPassword';
+import MyFavorites from './screens/Favorites';
 
 import CLGradient from './components/CLGradient';
 
@@ -71,6 +72,12 @@ export const BookNavigator = createStackNavigator(
       screen: MyCollections,
       navigationOptions: {
         title: 'Minhas Coleções',
+      },
+    },
+    MyFavorites: {
+      screen: MyFavorites,
+      navigationOptions: {
+        title: 'Meus Favoritos',
       },
     },
     BookDetail: {
