@@ -12,8 +12,9 @@ const styles = StyleSheet.create({
     height: 150,
   },
   book_item_title: {
-    fontSize: 10,
+    fontSize: 9,
     paddingTop: 5,
+    textAlign: 'center',
   },
   collection_item: {
     margin: 5,
