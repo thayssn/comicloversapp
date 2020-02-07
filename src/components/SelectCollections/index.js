@@ -132,7 +132,12 @@ class SelectCollections extends React.Component {
                       />
                     );
                   })
-                  : <Text style={{ color: '#FFF', fontSize: 20 }}>Adicione uma coleção</Text>
+                  : (
+                    <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <Text style={{ color: '#FFF', fontSize: 20 }}>Adicione uma coleção</Text>
+                      <Text style={{ color: '#FFF', fontSize: 14 }}>Texto explicativo</Text>
+                    </View>
+                  )
             }
               </View>
             </ScrollView>

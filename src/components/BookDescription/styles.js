@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   scene: {
     flex: 1,
     width: '100%',
-    paddingVertical: 15,
+    marginVertical: 15,
   },
   title: {
     fontSize: 16,

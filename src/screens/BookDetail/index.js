@@ -192,7 +192,7 @@ class BookDetail extends React.Component {
               { book.review
               && <CLGradient />}
               <Text style={{ color: 'white' }}>
-                  COLEÇÕES
+                  Adicionar à coleção
               </Text>
             </TouchableOpacity>
           </View>

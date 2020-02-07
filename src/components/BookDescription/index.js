@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import styles from './styles';
 
 const BookDescription = ({ book }) => (
-  <View style={styles.scene}>
+  <ScrollView style={styles.scene}>
     <Text style={styles.title}>
         Autor:
       <Text style={styles.description}>
@@ -20,6 +20,6 @@ const BookDescription = ({ book }) => (
       Descrição:
       <Text style={styles.description}>{` ${book.description}`}</Text>
     </Text>
-  </View>
+  </ScrollView>
 );
 export default BookDescription;
