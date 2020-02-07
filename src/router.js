@@ -19,6 +19,7 @@ import Scanner from './screens/Scanner';
 import ForgotPassword from './screens/ForgotPassword';
 import MyFavorites from './screens/Favorites';
 import MyWanted from './screens/Wanted';
+import CreateBook from './screens/CreateBook';
 
 import CLGradient from './components/CLGradient';
 
@@ -112,6 +113,14 @@ export const BookNavigator = createStackNavigator(
       navigationOptions: {
         title: 'Escanear Quadrinho',
         drawerLockMode: 'locked-closed',
+        headerTintColor: '#fff',
+        headerBackground: (<CLGradient />),
+      },
+    },
+    CreateBook: {
+      screen: CreateBook,
+      navigationOptions: {
+        title: 'Cadastrar Quadrinho',
         headerTintColor: '#fff',
         headerBackground: (<CLGradient />),
       },

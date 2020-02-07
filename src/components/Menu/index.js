@@ -206,6 +206,21 @@ class Menu extends React.Component {
               Buscar por Código de Barras
               </Text>
             </View>
+            <View style={styles.itemWrapper}>
+              <Icon
+                name="ios-barcode"
+                type="ionicon"
+                color="#FFF"
+                size={20}
+                containerStyle={{ width: 20 }}
+              />
+              <Text
+                style={styles.routes}
+                onPress={() => { navigate('CreateBook'); }}
+              >
+              Cadastrar novo quadrinho
+              </Text>
+            </View>
             <View style={[styles.itemWrapper, styles.inactive]}>
               <Icon
                 name="ios-search"
