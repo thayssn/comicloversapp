@@ -63,6 +63,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     height: 30,
   },
+  dropdownHas: {
+    borderWidth: 2,
+    borderColor: '#20AEC0',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
 });
 
 export default styles;

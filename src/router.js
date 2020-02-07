@@ -18,6 +18,7 @@ import CollectionDetail from './screens/CollectionDetail';
 import Scanner from './screens/Scanner';
 import ForgotPassword from './screens/ForgotPassword';
 import MyFavorites from './screens/Favorites';
+import MyWanted from './screens/Wanted';
 
 import CLGradient from './components/CLGradient';
 
@@ -78,6 +79,12 @@ export const BookNavigator = createStackNavigator(
       screen: MyFavorites,
       navigationOptions: {
         title: 'Meus Favoritos',
+      },
+    },
+    MyWanted: {
+      screen: MyWanted,
+      navigationOptions: {
+        title: 'Quero Ter',
       },
     },
     BookDetail: {

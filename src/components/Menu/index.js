@@ -139,6 +139,21 @@ class Menu extends React.Component {
             </View>
             <View style={styles.itemWrapper}>
               <Icon
+                name="ios-heart"
+                type="ionicon"
+                color="#FFF"
+                size={20}
+                containerStyle={{ width: 20 }}
+              />
+              <Text
+                style={styles.routes}
+                onPress={() => { navigate('MyWanted'); }}
+              >
+              Quero ter
+              </Text>
+            </View>
+            <View style={styles.itemWrapper}>
+              <Icon
                 name="ios-barcode"
                 type="ionicon"
                 color="#FFF"

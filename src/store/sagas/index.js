@@ -19,6 +19,7 @@ import publicCollectionsFetchSaga from './publicCollections';
 import activeCollectionSaga from './activeCollection';
 import userSaga from './user';
 import favoritesFetchSaga from './favorites';
+import wantedFetchSaga from './wanted';
 
 import { Types as activeBookTypes } from '../ducks/activeBook';
 import { Types as booksTypes } from '../ducks/books';
@@ -29,6 +30,7 @@ import { Types as registerTypes } from '../ducks/register';
 import { Types as userTypes } from '../ducks/user';
 import { Types as publicCollectionsTypes } from '../ducks/publicCollections';
 import { Types as favoritesTypes } from '../ducks/favorites';
+import { Types as wantedTypes } from '../ducks/wanted';
 
 export default function* root() {
   yield all(
@@ -51,6 +53,7 @@ export default function* root() {
       takeLatest(userTypes.FETCH, userSaga),
       takeLatest(publicCollectionsTypes.FETCH_ALL, publicCollectionsFetchSaga),
       takeLatest(favoritesTypes.FETCH_ALL, favoritesFetchSaga),
+      takeLatest(wantedTypes.FETCH_ALL, wantedFetchSaga),
     ],
   );
 }

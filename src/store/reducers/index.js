@@ -8,6 +8,7 @@ import auth from '../ducks/auth';
 import register from '../ducks/register';
 import user from '../ducks/user';
 import favorites from '../ducks/favorites';
+import wanted from '../ducks/wanted';
 
 export default combineReducers({
   publicCollections,
@@ -19,4 +20,5 @@ export default combineReducers({
   register,
   user,
   favorites,
+  wanted,
 });

@@ -21,6 +21,7 @@ const INITIAL_STATE = {
     comment: null,
     has_book: false,
     favorite: false,
+    want_book: false,
   },
 };
 

@@ -37,6 +37,7 @@ export function* activeBookGetReviewSaga(action) {
           Authorization: `Bearer ${userToken}`,
         },
       });
+
     yield put({
       type: activeBookTypes.GET_REVIEW_SUCCESS,
       payload: {

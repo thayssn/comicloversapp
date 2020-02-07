@@ -16,5 +16,8 @@
     "terminal.integrated.fontSize": 14,
 
     "workbench.iconTheme": "material-icon-theme",
-    "eslint.autoFixOnSave": true
+    "eslint.autoFixOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }

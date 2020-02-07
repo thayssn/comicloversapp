@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  Text, View, Image, TouchableOpacity,
+  Text, View, Image, TouchableOpacity, Picker,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { Rating, Icon, CheckBox } from 'react-native-elements';
+import { Rating, CheckBox } from 'react-native-elements';
 
 import { bindActionCreators } from 'redux';
 import CLGradient from '../../components/CLGradient';
@@ -31,11 +31,29 @@ class BookDetail extends React.Component {
     // reviewRating: 0,
     modalVisible: false,
     favorito: false,
+    hasBookSelect: 'no',
   }
 
   async componentWillMount() {
     const { getReview, book } = this.props;
     await getReview(book);
+  }
+
+  componentDidUpdate = async (prevProps) => {
+    const { book } = this.props;
+    if (prevProps.book.review !== book.review) {
+      let hasBookSelect = 'no';
+
+      if (book.review.has_book) {
+        hasBookSelect = 'yes';
+      } else if (book.review.want_book) {
+        hasBookSelect = 'want';
+      }
+
+      await this.setState({
+        hasBookSelect,
+      });
+    }
   }
 
   setModalVisible = (visible) => {
@@ -59,16 +77,33 @@ class BookDetail extends React.Component {
     await setReview(book, { favorite: newFav });
   }
 
-  handleHasBook = async () => {
+  handleHasBook = async (hasBook) => {
     const { book, setReview } = this.props;
-    await setReview(book, { has_book: book.review.has_book ? !book.review.has_book : true });
+    await setReview(book, { has_book: hasBook, want_book: false });
+  }
+
+  handleWantBook = async () => {
+    const { book, setReview } = this.props;
+    await setReview(book, { want_book: true, has_book: false });
+  }
+
+  changeBookSelect = async (value) => {
+    this.setState({ hasBookSelect: value }, () => {
+      if (value === 'want') {
+        this.handleWantBook();
+      } else {
+        this.handleHasBook(value === 'yes');
+      }
+    });
   }
 
   render() {
     const { book } = this.props;
-    const { modalVisible, favorito } = this.state;
+    const { modalVisible, favorito, hasBookSelect } = this.state;
+
     const rating = book.reviews.length ? book.total_rating / book.reviews.length : 0;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
+
     return (
       <View style={styles.container}>
         <SelectCollections modalVisible={modalVisible} setModalVisible={this.setModalVisible} />
@@ -105,7 +140,7 @@ class BookDetail extends React.Component {
         <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
 
 
-          <View style={[styles.tabBar, styles.buttonWrapper]}>
+          {/* <View style={[styles.tabBar, styles.buttonWrapper]}>
             <TouchableOpacity
               style={[styles.tabItem, styles.button]}
               onPress={() => {
@@ -132,6 +167,19 @@ class BookDetail extends React.Component {
                 : <Text style={{ color: '#20AEC0' }}>NÃO TENHO</Text>
               }
             </TouchableOpacity>
+          </View> */}
+
+          <View style={[styles.buttonWrapper, styles.dropdownHas]}>
+            <Picker
+              itemStyle={{ height: 64, color: 'white', backgroundColor: '#DEDEDE' }}
+              mode="dropdown"
+              selectedValue={hasBookSelect}
+              onValueChange={value => this.changeBookSelect(value)}
+            >
+              <Picker.Item label="Não tenho" value="no" />
+              <Picker.Item label="Tenho" value="yes" />
+              <Picker.Item label="Quero ter" value="want" />
+            </Picker>
           </View>
 
           <View style={[styles.tabBar, styles.buttonWrapper]}>
