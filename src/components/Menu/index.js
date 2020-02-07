@@ -1,12 +1,14 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import {
-  View, StyleSheet, Text,
+  View, StyleSheet, Text, Image,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import CLGradient from '../CLGradient';
 
-import { onSignOut } from '../../services/auth';
+import { onSignOut, getUserToken } from '../../services/auth';
+import api from '../../services/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -52,16 +54,48 @@ const styles = StyleSheet.create({
   inactive: {
     opacity: 0.3,
   },
+  itemUser: {
+    flex: 0.6,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
 });
 
 class Menu extends React.Component {
-  componentDidMount() {
+  state = {
+    profile_picture: 'https://i7.pngguru.com/preview/163/442/427/computer-icons-user-profile-icon-design-avatar.jpg',
+    name: 'username',
+  }
+
+  async componentWillMount() {
+    try {
+      const userToken = await getUserToken();
+
+      // eslint-disable-next-line camelcase
+      const { data: { profile_picture, name } } = await api.get('/me', {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+
+      // eslint-disable-next-line react/destructuring-assignment
+      const defaultImg = this.state.profile_picture;
+
+      this.setState({
+        // eslint-disable-next-line camelcase
+        profile_picture: profile_picture || defaultImg, name,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // const { routes } = state;
   render() {
     const { navigation } = this.props;
     const { navigate } = navigation;
+    const { profile_picture, name } = this.state;
 
     return (
       <View style={styles.container}>
@@ -77,6 +111,11 @@ class Menu extends React.Component {
                 {routeName}
               </Text>
             ))} */}
+            <View style={styles.itemUser}>
+              <Image style={{ width: 128, height: 128, borderRadius: 90 }} source={{ uri: `${profile_picture}` }} />
+              <Text style={{ color: 'white' }}>{name}</Text>
+            </View>
+            <View style={styles.separator} />
             <View style={styles.itemWrapper}>
               <Icon
                 name="user"
