@@ -1,6 +1,9 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
-import { View, TouchableHighlight, Text } from 'react-native';
+import {
+  View, TouchableHighlight, Text, Animated, Keyboard,
+} from 'react-native';
+import DatePicker from 'react-native-datepicker';
 
 import { TextInput } from '../../components/Form';
 
@@ -14,7 +17,22 @@ class CreateBook extends Component {
       isbn_10: null,
       description: null,
       pages: null,
+      edition: null,
+      publishing_date: null,
+      price: null,
     },
+    // eslint-disable-next-line react/no-unused-state
+    shift: new Animated.Value(0),
+  }
+
+  componentWillMount() {
+    this.keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', this.handleKeyboardDidShow);
+    this.keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', this.handleKeyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowSub.remove();
+    this.keyboardDidHideSub.remove();
   }
 
   updateFormValue = (key, value) => {
@@ -35,8 +53,9 @@ class CreateBook extends Component {
   render() {
     const {
       forms: {
-        title, isbn, description, isbn_10, pages,
+        title, isbn, description, isbn_10, pages, edition, publishing_date, price,
       },
+      // shift,
     } = this.state;
 
     return (
@@ -73,6 +92,57 @@ class CreateBook extends Component {
             style={{ color: 'black' }}
             maxLength={5}
             keyboardType="numeric"
+          />
+
+          <TextInput
+            placeholder="Edição"
+            value={edition}
+            onChangeText={value => this.updateFormValue('edition', value)}
+            style={{ color: 'black' }}
+            maxLength={255}
+          />
+
+          <TextInput
+            placeholder="Preço"
+            value={price}
+            onChangeText={value => this.updateFormValue('price', value)}
+            style={{ color: 'black' }}
+            maxLength={10}
+            keyboardType="numeric"
+          />
+
+          <DatePicker
+            style={{ width: 200 }}
+            date={publishing_date} // initial date from state
+            mode="date" // The enum of date, datetime and time
+            placeholder="Data de publicação"
+            format="DD-MM-YYYY"
+            minDate="01-01-1900"
+            maxDate="01-01-2050"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            showIcon={false}
+            customStyles={{
+              dateInput: {
+                width: '100%',
+                backgroundColor: 'transparent',
+                borderColor: '#91d7dc',
+                borderWidth: 1,
+                borderRadius: 30,
+                padding: 10,
+                fontSize: 18,
+                textAlign: 'center',
+                margin: 10,
+                color: '#FFF',
+              },
+              dateText: {
+                color: '#000',
+              },
+              placeholder: {
+                color: '#91d7dc',
+              },
+            }}
+            onDateChange={value => this.updateFormValue('publishing_date', value)}
           />
 
           <TextInput
