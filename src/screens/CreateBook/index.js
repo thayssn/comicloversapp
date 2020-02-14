@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
 import {
-  View, TouchableHighlight, Text, Animated, Keyboard,
+  View, TouchableHighlight, Text, Animated, Keyboard, ScrollView,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 
@@ -53,13 +53,14 @@ class CreateBook extends Component {
   render() {
     const {
       forms: {
+        // eslint-disable-next-line no-unused-vars
         title, isbn, description, isbn_10, pages, edition, publishing_date, price,
       },
       // shift,
     } = this.state;
 
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.inner_container}>
 
           <TextInput
@@ -77,13 +78,13 @@ class CreateBook extends Component {
             maxLength={13}
           />
 
-          <TextInput
+          {/* <TextInput
             placeholder="ISBN 10"
             value={isbn_10}
             onChangeText={value => this.updateFormValue('isbn_10', value)}
             style={{ color: 'black' }}
             maxLength={10}
-          />
+          /> */}
 
           <TextInput
             placeholder="Número de Páginas"
@@ -94,13 +95,13 @@ class CreateBook extends Component {
             keyboardType="numeric"
           />
 
-          <TextInput
+          {/* <TextInput
             placeholder="Edição"
             value={edition}
             onChangeText={value => this.updateFormValue('edition', value)}
             style={{ color: 'black' }}
             maxLength={255}
-          />
+          /> */}
 
           <TextInput
             placeholder="Preço"
@@ -134,6 +135,7 @@ class CreateBook extends Component {
                 textAlign: 'center',
                 margin: 10,
                 color: '#FFF',
+                marginTop: 25,
               },
               dateText: {
                 color: '#000',
@@ -145,14 +147,14 @@ class CreateBook extends Component {
             onDateChange={value => this.updateFormValue('publishing_date', value)}
           />
 
-          <TextInput
+          {/* <TextInput
             placeholder="Descrição"
             value={description}
             onChangeText={value => this.updateFormValue('description', value)}
             style={{ color: 'black' }}
             multiline
             numberOfLines={3}
-          />
+          /> */}
 
           <TouchableHighlight
             style={styles.button}
@@ -161,7 +163,7 @@ class CreateBook extends Component {
             <Text style={styles.text}>Salvar</Text>
           </TouchableHighlight>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
