@@ -1,28 +1,40 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
 import {
-  View, TouchableHighlight, Text, Animated, Keyboard, ScrollView,
+  View, TouchableHighlight, Text, Animated, Keyboard, ScrollView, Modal,
 } from 'react-native';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import DatePicker from 'react-native-datepicker';
 
 import { TextInput } from '../../components/Form';
 
 import styles from './styles';
+import { Creators as bookActions } from '../../store/ducks/books';
 
 class CreateBook extends Component {
   state = {
     forms: {
-      title: null,
-      isbn: null,
-      isbn_10: null,
-      description: null,
-      pages: null,
-      edition: null,
-      publishing_date: null,
-      price: null,
+      title: '',
+      isbn: '',
+      isbn_10: '',
+      description: '',
+      pages: '',
+      edition: '',
+      publishing_date: '',
+      price: '',
     },
     // eslint-disable-next-line react/no-unused-state
     shift: new Animated.Value(0),
+    error: '',
+    modal: {
+      modalVisible: false,
+      error: false,
+      errorTxt: 'Ops! Algo deu errado!',
+      okTxt: 'Quadrinho cadastrado com sucesso!',
+    },
   }
 
   componentWillMount() {
@@ -47,7 +59,43 @@ class CreateBook extends Component {
   }
 
   saveBook = () => {
+    const { createBook } = this.props;
+    const { forms } = this.state;
 
+    const data = new FormData();
+
+    if (!forms.title) {
+      this.setState({ error: 'Falha ao salvar. Título obrigatório.' });
+      return;
+    }
+
+    if (!forms.isbn) {
+      this.setState({ error: 'Falha ao salvar. ISBN obrigatório.' });
+      return;
+    }
+
+    data.append('title', forms.title);
+    data.append('isbn', forms.isbn);
+    data.append('pages', forms.pages);
+    data.append('publishing_date', forms.publishing_date);
+    data.append('price', forms.price);
+
+    let deuRuim = false;
+    try {
+      createBook(data);
+    } catch (error) {
+      console.log('POST error', error);
+      deuRuim = true;
+    }
+
+    const { modal } = this.state;
+    this.setState({
+      modal: {
+        ...modal,
+        error: deuRuim,
+        modalVisible: true,
+      },
+    });
   }
 
   render() {
@@ -57,6 +105,8 @@ class CreateBook extends Component {
         title, isbn, description, isbn_10, pages, edition, publishing_date, price,
       },
       // shift,
+      error,
+      modal,
     } = this.state;
 
     return (
@@ -76,6 +126,7 @@ class CreateBook extends Component {
             onChangeText={value => this.updateFormValue('isbn', value)}
             style={{ color: 'black' }}
             maxLength={13}
+            keyboardType="numeric"
           />
 
           {/* <TextInput
@@ -162,10 +213,44 @@ class CreateBook extends Component {
           >
             <Text style={styles.text}>Salvar</Text>
           </TouchableHighlight>
+
+          <View style={styles.errorView}>
+            { error ? <Text style={styles.error}>{error}</Text> : null }
+          </View>
+
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={modal.modalVisible}
+          >
+            <View style={styles.modal}>
+              <View>
+                <Text style={styles.modalTxt}>{modal.error ? modal.errorTxt : modal.okTxt}</Text>
+
+                <TouchableHighlight
+                  style={styles.modalButton}
+                  onPress={() => {
+                    this.setState({ modal: { ...modal, modalVisible: false } });
+                  }}
+                >
+                  <Text style={styles.modalButtonTxt}>Fechar</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
+
         </View>
       </ScrollView>
     );
   }
 }
 
-export default CreateBook;
+// export default CreateBook;
+
+const mapStateToProps = state => ({
+  loading: state.auth.loading,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(bookActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateBook);

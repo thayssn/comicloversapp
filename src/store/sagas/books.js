@@ -1,8 +1,10 @@
 import { put } from 'redux-saga/effects';
 import api from '../../services/api';
 import { Types } from '../ducks/books';
+import { getUserToken } from '../../services/auth';
+import * as NavigationService from '../../services/navigation';
 
-function* booksSaga() {
+export function* booksSaga() {
   try {
     const { data: books } = yield api.get('/books/');
 
@@ -22,4 +24,36 @@ function* booksSaga() {
   }
 }
 
-export default booksSaga;
+export function* booksCreateSaga(action) {
+  try {
+    const userAccessToken = yield getUserToken();
+
+    const { data: book } = yield api.post('/userbook/store/',
+      action.payload,
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      });
+
+    yield put({
+      type: Types.CREATE_SUCCESS,
+      payload: {
+        book,
+      },
+    });
+
+    yield put({
+      type: Types.FETCH_ALL,
+    });
+
+    NavigationService.navigate('Main');
+  } catch (err) {
+    yield put({
+      type: Types.CREATE_FAIL,
+      payload: {
+        error: JSON.stringify(err),
+      },
+    });
+  }
+}

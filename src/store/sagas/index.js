@@ -8,7 +8,7 @@ import {
   activeBookAddToCollectionSaga,
   activeBookRemoveFromCollectionSaga,
 } from './activeBook';
-import booksSaga from './books';
+import { booksSaga, booksCreateSaga } from './books';
 import {
   collectionsFetchSaga,
   collectionsCreateSaga,
@@ -44,6 +44,7 @@ export default function* root() {
       takeLatest(authTypes.LOGIN_FB, authWithFBSaga),
       takeLatest(authTypes.RESET_PASSWORD, resetPasswordSaga),
       takeLatest(booksTypes.FETCH_ALL, booksSaga),
+      takeLatest(booksTypes.CREATE, booksCreateSaga),
       takeLatest(registerTypes.REGISTER, registerSaga),
       takeLatest(collectionsTypes.FETCH_ALL, collectionsFetchSaga),
       takeLatest(collectionsTypes.CREATE, collectionsCreateSaga),
