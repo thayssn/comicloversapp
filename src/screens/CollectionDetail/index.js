@@ -83,7 +83,7 @@ class CollectionDetail extends React.Component {
                 </TouchableWithoutFeedback>
                 <Text style={{ fontSize: 15, fontWeight: '600' }}>QUADRINHOS</Text>
                 <View style={{
-                  flexDirection: 'row', flexWrap: 'wrap',
+                  flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start',
                 }}
                 >
                   { books && books.length
