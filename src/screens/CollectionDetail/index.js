@@ -18,10 +18,10 @@ class CollectionDetail extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('title'),
     headerRight: <Icon
-      name={navigation.getParam('editMode') ? 'ios-checkmark' : 'ios-create'}
+      name={navigation.getParam('editMode') ? 'md-checkmark' : 'md-create'}
       type="ionicon"
       color="#FFF"
-      size={30}
+      size={25}
       underlayColor="transparent"
       containerStyle={{ paddingRight: 20 }}
       onPress={navigation.getParam('handlePress')}
@@ -60,7 +60,7 @@ class CollectionDetail extends React.Component {
             </View>
           )
           : (
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               <View style={{
                 padding: 10,
               }}
@@ -69,15 +69,43 @@ class CollectionDetail extends React.Component {
                   flexDirection: 'row', padding: 5,
                 }}
                 >
-                  { collection.thumbnail ? (
-                    <Image
-                      source={{
-                        uri: `${BASE_URL}/${collection.thumbnail}`,
+                  <View>
+                    { collection.thumbnail ? (
+                      <Image
+                        source={{
+                          uri: `${BASE_URL}/${collection.thumbnail}`,
+                        }}
+                        style={{ width: 150, height: 210, backgroundColor: '#ddd' }}
+                      />
+                    )
+                      : <View style={{ width: 150, height: 210, backgroundColor: '#ddd' }} />}
+
+                    <TouchableWithoutFeedback
+                      onPress={() => !editMode && navigation.navigate('CreateEditCollection', { collection })}
+                    >
+                      <View style={{
+                        borderColor: '#FFF',
+                        borderWidth: 1,
+                        borderRadius: 15,
+                        marginTop: 10,
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        overflow: 'hidden',
+                        justifyContent: 'center',
                       }}
-                      style={{ width: 150, height: 210, backgroundColor: '#ddd' }}
-                    />
-                  )
-                    : <View style={{ width: 150, height: 210, backgroundColor: '#ddd' }} />}
+                      >
+                        <CLGradient />
+                        <Icon
+                          name="md-create"
+                          type="ionicon"
+                          color="#FFF"
+                          size={15}
+                        />
+                        <Text style={{ color: '#FFF', padding: 5 }}>Editar</Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  </View>
 
                   <View style={{ paddingHorizontal: 10, flex: 1 }}>
                     <Text style={{ fontSize: 24, fontWeight: '600' }}>{collection.title}</Text>
@@ -85,32 +113,16 @@ class CollectionDetail extends React.Component {
                   </View>
                 </View>
 
-                <TouchableWithoutFeedback
-                  onPress={() => !editMode && navigation.navigate('CreateEditCollection', { collection })}
-                >
-                  <View style={{
-                    width: 150,
-                    borderColor: '#FFF',
-                    borderWidth: 1,
-                    borderRadius: 30,
-                    marginBottom: 10,
-                    marginLeft: 5,
-                  }}
-                  >
-                    <CLGradient />
-                    <Text style={{ color: '#FFF', padding: 5 }}>Editar</Text>
-                  </View>
-                </TouchableWithoutFeedback>
                 <Text style={{ fontSize: 15, fontWeight: '600' }}>QUADRINHOS</Text>
                 { editMode
                 && <Text style={{ fontSize: 15 }}>Editando quadrinhos desta coleção </Text>}
                 <View style={{
-                  flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start',
+                  flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', flex: 'auto',
                 }}
                 >
                   { books && books.length
                     ? books.map(book => (
-                      <View key={book.id.toString()}>
+                      <View key={book.id.toString()} style={{ width: '33.33%' }}>
                         <BookThumbnail book={book} />
 
                         { editMode
