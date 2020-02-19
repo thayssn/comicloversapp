@@ -15,11 +15,10 @@ export default function* wantedFetchSaga(action) {
         page: action.payload.page,
       },
     });
-    console.log(wanted);
     yield put({
       type: Types.FETCH_ALL_SUCCESS,
       payload: {
-        wanted,
+        wanted: wanted.books,
       },
     });
   } catch (err) {

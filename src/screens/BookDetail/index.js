@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Text, View, Image, TouchableOpacity, Picker,
 } from 'react-native';
+
 import { connect } from 'react-redux';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { Rating, CheckBox } from 'react-native-elements';
@@ -30,7 +31,7 @@ class BookDetail extends React.Component {
     /* eslint-enable */
     // reviewRating: 0,
     modalVisible: false,
-    favorito: false,
+    favorite: false,
     hasBookSelect: 'no',
   }
 
@@ -68,10 +69,10 @@ class BookDetail extends React.Component {
   }
 
   handleFavorite = async () => {
-    const { favorito } = this.state;
-    const newFav = !favorito;
+    const { favorite } = this.state;
+    const newFav = !favorite;
 
-    await this.setState({ favorito: newFav });
+    await this.setState({ favorite: newFav });
 
     const { book, setReview } = this.props;
     await setReview(book, { favorite: newFav });
@@ -99,7 +100,7 @@ class BookDetail extends React.Component {
 
   render() {
     const { book } = this.props;
-    const { modalVisible, favorito, hasBookSelect } = this.state;
+    const { modalVisible, favorite, hasBookSelect } = this.state;
 
     const rating = book.reviews.length ? book.total_rating / book.reviews.length : 0;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
@@ -124,7 +125,7 @@ class BookDetail extends React.Component {
                 startingValue={rating}
                 style={styles.rating}
               />
-              <Text style={[styles.status, { marginLeft: 10 }]}>{`(${rating})`}</Text>
+              <Text style={[styles.status, { marginLeft: 10 }]}>{`(${rating.toFixed(2)})`}</Text>
             </View>
             <Text style={styles.statusTitle}>
               Número:
@@ -224,8 +225,8 @@ class BookDetail extends React.Component {
                   />
                   <View>
                     <CheckBox
-                      title="Marcar como favorito"
-                      checked={favorito}
+                      title="Marcar como favorite"
+                      checked={favorite}
                       onPress={() => this.handleFavorite()}
                     />
                   </View>

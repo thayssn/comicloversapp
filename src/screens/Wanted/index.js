@@ -30,20 +30,14 @@ class MyWanted extends React.Component {
     const { wanted } = this.props;
     const { loading } = this.state;
 
-    let books = [];
-
-    if (wanted) {
-      if (Array.isArray(wanted.books) && wanted.books.length) {
-        // eslint-disable-next-line prefer-destructuring
-        books = wanted.books;
-      }
-    }
-
     return (
       <View style={{
+        flex: 1,
+        widith: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
         padding: 15,
         flexGrow: 1,
       }}
@@ -53,7 +47,7 @@ class MyWanted extends React.Component {
             <FavBooksList
               key="key-fav"
               title="Quero ter"
-              books={books}
+              books={wanted}
             />
           )
       }

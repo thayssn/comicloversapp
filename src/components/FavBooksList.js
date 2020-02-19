@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View, FlatList,
+  StyleSheet, View, FlatList,
 } from 'react-native';
 
 import BookThumbnail from './BookThumbnail';
@@ -8,8 +8,12 @@ import BookThumbnail from './BookThumbnail';
 const styles = StyleSheet.create({
   book_list_view: {
     padding: 5,
+    width: '100%',
+    flex: 1,
   },
   book_list: {
+    width: '100%',
+    justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
   book_list_title: {
@@ -20,17 +24,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const FavBooksList = ({ title, books }) => (
+const FavBooksList = ({ books }) => (
   <View style={styles.book_list_view}>
-    <Text style={styles.book_list_title}>{title}</Text>
     <FlatList
       contentContainerStyle={styles.book_list}
       numColumns={3}
       data={books}
       renderItem={({ item: book }) => (
-        <BookThumbnail
-          book={book}
-        />
+        <View style={{ alignItems: 'flex-start', width: '33.33%' }}>
+          <BookThumbnail
+            book={book}
+          />
+        </View>
       )}
       keyExtractor={(item, index) => index.toString()}
     />
