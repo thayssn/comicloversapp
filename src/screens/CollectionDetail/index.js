@@ -117,7 +117,7 @@ class CollectionDetail extends React.Component {
                 { editMode
                 && <Text style={{ fontSize: 15 }}>Editando quadrinhos desta coleção </Text>}
                 <View style={{
-                  flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', flex: 'auto',
+                  flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start',
                 }}
                 >
                   { books && books.length

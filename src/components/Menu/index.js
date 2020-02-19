@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   itemUser: {
-    flex: 0.6,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
@@ -113,7 +112,7 @@ class Menu extends React.Component {
             ))} */}
             <View style={styles.itemUser}>
               <View style={{
-                width: 128, height: 128, borderRadius: '100%', overflow: 'hidden',
+                width: 128, height: 128, borderRadius: 128, overflow: 'hidden',
               }}
               >
                 <Image
@@ -218,7 +217,7 @@ class Menu extends React.Component {
             </View>
             <View style={styles.itemWrapper}>
               <Icon
-                name="ios-barcode"
+                name="ios-create"
                 type="ionicon"
                 color="#FFF"
                 size={20}
