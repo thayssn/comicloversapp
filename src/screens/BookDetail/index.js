@@ -33,11 +33,27 @@ class BookDetail extends React.Component {
     // reviewRating: 0,
     modalVisible: false,
     favorite: false,
+    hasBookSelect: '',
   }
 
   async componentWillMount() {
     const { getReview, book } = this.props;
     await getReview(book);
+  }
+
+  componentDidUpdate = (prevProps) => {
+    const { book } = this.props;
+
+    if (book !== prevProps.book) {
+      let bookState = 'no';
+      if (book.review.want_book) {
+        bookState = 'want';
+      } else if (book.review.has_book) {
+        bookState = 'yes';
+      }
+
+      this.setState({ hasBookSelect: bookState, favorite: book.review.favorite });
+    }
   }
 
   setModalVisible = (visible) => {
@@ -64,11 +80,13 @@ class BookDetail extends React.Component {
   handleHasBook = async (hasBook) => {
     const { book, setReview } = this.props;
     await setReview(book, { has_book: hasBook, want_book: false });
+    await this.setState({ hasBookSelect: hasBook ? 'yes' : 'no' });
   }
 
   handleWantBook = async () => {
     const { book, setReview } = this.props;
     await setReview(book, { want_book: true, has_book: false });
+    await this.setState({ hasBookSelect: 'want' });
   }
 
   changeBookSelect = async (value) => {
@@ -81,18 +99,10 @@ class BookDetail extends React.Component {
 
   render() {
     const { book } = this.props;
-    const { modalVisible, favorite } = this.state;
+    const { modalVisible, favorite, hasBookSelect } = this.state;
     const rating = book.reviews.length ? book.total_rating / book.reviews.length : 0;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
-    let hasBookSelect = 'no';
 
-    if (book.review) {
-      if (book.review.has_book) {
-        hasBookSelect = 'yes';
-      } else if (book.review.want_book) {
-        hasBookSelect = 'want';
-      }
-    }
     return (
       <View style={styles.container}>
         <SelectCollections
