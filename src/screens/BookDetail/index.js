@@ -15,6 +15,7 @@ import { BASE_URL } from '../../config/env_config';
 import styles from './styles';
 import { Creators } from '../../store/ducks/activeBook';
 import SelectCollections from '../../components/SelectCollections';
+// import Loading from '../../components/Loading';
 
 class BookDetail extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -32,29 +33,11 @@ class BookDetail extends React.Component {
     // reviewRating: 0,
     modalVisible: false,
     favorite: false,
-    hasBookSelect: 'no',
   }
 
   async componentWillMount() {
     const { getReview, book } = this.props;
     await getReview(book);
-  }
-
-  componentDidUpdate = async (prevProps) => {
-    const { book } = this.props;
-    if (prevProps.book.review !== book.review) {
-      let hasBookSelect = 'no';
-
-      if (book.review.has_book) {
-        hasBookSelect = 'yes';
-      } else if (book.review.want_book) {
-        hasBookSelect = 'want';
-      }
-
-      await this.setState({
-        hasBookSelect,
-      });
-    }
   }
 
   setModalVisible = (visible) => {
@@ -89,25 +72,33 @@ class BookDetail extends React.Component {
   }
 
   changeBookSelect = async (value) => {
-    this.setState({ hasBookSelect: value }, () => {
-      if (value === 'want') {
-        this.handleWantBook();
-      } else {
-        this.handleHasBook(value === 'yes');
-      }
-    });
+    if (value === 'want') {
+      this.handleWantBook();
+    } else {
+      this.handleHasBook(value === 'yes');
+    }
   }
 
   render() {
     const { book } = this.props;
-    const { modalVisible, favorite, hasBookSelect } = this.state;
-
+    const { modalVisible, favorite } = this.state;
     const rating = book.reviews.length ? book.total_rating / book.reviews.length : 0;
     const price = book.price ? book.price.toString().replace('.', ',') : '';
+    let hasBookSelect = 'no';
 
+    if (book.review) {
+      if (book.review.has_book) {
+        hasBookSelect = 'yes';
+      } else if (book.review.want_book) {
+        hasBookSelect = 'want';
+      }
+    }
     return (
       <View style={styles.container}>
-        <SelectCollections modalVisible={modalVisible} setModalVisible={this.setModalVisible} />
+        <SelectCollections
+          modalVisible={modalVisible}
+          setModalVisible={this.setModalVisible}
+        />
         <View style={styles.statusView}>
           <Image
             source={{
@@ -128,47 +119,54 @@ class BookDetail extends React.Component {
               <Text style={[styles.status, { marginLeft: 10 }]}>{`(${rating.toFixed(2)})`}</Text>
             </View>
             <Text style={styles.statusTitle}>
-              Número:
+                        Número:
               <Text style={styles.status}>{` ${book.edition ? book.edition : ''}`}</Text>
             </Text>
             <Text style={styles.statusTitle}>
-              Preço:
+                        Preço:
               <Text style={styles.status}>{` R$ ${price}`}</Text>
             </Text>
 
+            <View>
+              <CheckBox
+                title="Favorito"
+                checked={favorite}
+                onPress={() => this.handleFavorite()}
+              />
+            </View>
           </View>
         </View>
         <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
 
 
           {/* <View style={[styles.tabBar, styles.buttonWrapper]}>
-            <TouchableOpacity
-              style={[styles.tabItem, styles.button]}
-              onPress={() => {
-                this.handleHasBook();
-              }}
-            >
-              { book.review && book.review.has_book
-                ? (
-                  <>
-                    <CLGradient />
-                    <View style={{ flexDirection: 'row' }}>
-                      <Icon
-                        name="md-checkmark"
-                        type="ionicon"
-                        color="#FFF"
-                        size={14}
-                      />
-                      <Text style={{ color: 'white', marginLeft: 10 }}>
-                      TENHO
-                      </Text>
-                    </View>
-                  </>
-                )
-                : <Text style={{ color: '#20AEC0' }}>NÃO TENHO</Text>
-              }
-            </TouchableOpacity>
-          </View> */}
+                      <TouchableOpacity
+                        style={[styles.tabItem, styles.button]}
+                        onPress={() => {
+                          this.handleHasBook();
+                        }}
+                      >
+                        { book.review && book.review.has_book
+                          ? (
+                            <>
+                              <CLGradient />
+                              <View style={{ flexDirection: 'row' }}>
+                                <Icon
+                                  name="md-checkmark"
+                                  type="ionicon"
+                                  color="#FFF"
+                                  size={14}
+                                />
+                                <Text style={{ color: 'white', marginLeft: 10 }}>
+                                TENHO
+                                </Text>
+                              </View>
+                            </>
+                          )
+                          : <Text style={{ color: '#20AEC0' }}>NÃO TENHO</Text>
+                        }
+                      </TouchableOpacity>
+                    </View> */}
 
           <View style={[styles.buttonWrapper, styles.dropdownHas]}>
             <Picker
@@ -191,26 +189,26 @@ class BookDetail extends React.Component {
               }}
             >
               { book.review
-              && <CLGradient />}
+                        && <CLGradient />}
               <Text style={{ color: 'white' }}>
-                  Adicionar à coleção
+                            Adicionar à coleção
               </Text>
             </TouchableOpacity>
           </View>
 
           {/* <View style={[styles.tabBar, styles.buttonWrapper]}>
-            <TouchableOpacity
-              style={[styles.tabItem, styles.button]}
-              onPress={() => {
-                Linking.openURL(`https://www.amazon.com.br/s?k=${encodeURI(`${book.title}${book.edition && `- ${book.edition}`}`)}&i=stripbooks`);
-              }}
-            >
-              <CLGradient />
-              <Text style={{ color: 'white' }}>
-                  COMPRAR
-              </Text>
-            </TouchableOpacity>
-          </View> */}
+                      <TouchableOpacity
+                        style={[styles.tabItem, styles.button]}
+                        onPress={() => {
+                          Linking.openURL(`https://www.amazon.com.br/s?k=${encodeURI(`${book.title}${book.edition && `- ${book.edition}`}`)}&i=stripbooks`);
+                        }}
+                      >
+                        <CLGradient />
+                        <Text style={{ color: 'white' }}>
+                            COMPRAR
+                        </Text>
+                      </TouchableOpacity>
+                    </View> */}
         </View>
         <View style={styles.tabWrapper}>
           <TabView
@@ -223,13 +221,6 @@ class BookDetail extends React.Component {
                     rating={book.review ? book.review.rating : 0}
                     onFinishRating={this.handleRating}
                   />
-                  <View>
-                    <CheckBox
-                      title="Marcar como favorite"
-                      checked={favorite}
-                      onPress={() => this.handleFavorite()}
-                    />
-                  </View>
                 </>
               ),
             })}
@@ -258,12 +249,24 @@ class BookDetail extends React.Component {
             onIndexChange={index => this.setState({ index })}
           />
         </View>
+        {/*
+        { book.loadingReview && (
+          <View style={{
+            flex: 1, width: '100%', height: '100%', position: 'absolute',
+          }}
+          >
+            <Loading />
+          </View>
+        )} */}
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({ book: state.activeBook, collections: state.collections });
+const mapStateToProps = state => ({
+  book: state.activeBook,
+  collections: state.collections,
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
 

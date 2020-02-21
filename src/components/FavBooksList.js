@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
   book_list: {
     width: '100%',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
   },
   book_list_title: {
     fontSize: 16,
