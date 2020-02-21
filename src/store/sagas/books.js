@@ -27,13 +27,14 @@ export function* booksSaga() {
 export function* booksCreateSaga(action) {
   try {
     const userAccessToken = yield getUserToken();
-
+    console.log('booksCreateSaga', action);
     const { data: book } = yield api.post('/userbook/store/',
       action.payload,
       {
         headers: {
           Authorization: `Bearer ${userAccessToken}`,
         },
+        body: action.payload,
       });
 
     yield put({
@@ -49,6 +50,7 @@ export function* booksCreateSaga(action) {
 
     NavigationService.navigate('Main');
   } catch (err) {
+    console.log('booksCreateSaga error', err);
     yield put({
       type: Types.CREATE_FAIL,
       payload: {

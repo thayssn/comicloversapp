@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  Text, View, StyleSheet, Button,
+  Text, View, StyleSheet, Button, Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,6 +8,7 @@ import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Creators as activeBookActions } from '../../store/ducks/activeBook';
 import api from '../../services/api';
+import * as NavigationService from '../../services/navigation';
 
 class Scanner extends React.Component {
   state = {
@@ -32,7 +33,23 @@ class Scanner extends React.Component {
       const { data: book } = await api.get(`/books/isbn/${data}`);
       await changeBook(book);
     } catch (err) {
-      alert(`ISBN ${data} não cadastrado`);
+      // alert(`ISBN ${data} não cadastrado`);
+      Alert.alert(
+        'Scanned',
+        `ISBN ${data} não cadastrado`,
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Create new', onPress: () => NavigationService.navigate('CreateBook', { isbn: data }),
+          },
+        ],
+        {
+          cancelable: true,
+        },
+      );
     }
   };
 

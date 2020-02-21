@@ -47,6 +47,23 @@ class CreateBook extends Component {
     this.keyboardDidHideSub.remove();
   }
 
+  componentDidMount = () => {
+    const { navigation: { state: { params } } } = this.props;
+
+    if (params) {
+      if (params.isbn) {
+        const { forms } = this.state;
+
+        this.setState({
+          forms: {
+            ...forms,
+            isbn: params.isbn,
+          },
+        });
+      }
+    }
+  }
+
   updateFormValue = (key, value) => {
     const { forms } = this.state;
 
@@ -73,7 +90,7 @@ class CreateBook extends Component {
       this.setState({ error: 'Falha ao salvar. ISBN obrigatório.' });
       return;
     }
-
+    console.log('forms', forms);
     data.append('title', forms.title);
     data.append('isbn', forms.isbn);
     data.append('pages', forms.pages);
