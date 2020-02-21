@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  Text, View, StyleSheet, Button, Alert,
+  Text, View, StyleSheet, Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -41,13 +41,14 @@ class Scanner extends React.Component {
           {
             text: 'Cancel',
             style: 'cancel',
+            onPress: () => this.setState({ scanned: false }),
           },
           {
             text: 'Create new', onPress: () => NavigationService.navigate('CreateBook', { isbn: data }),
           },
         ],
         {
-          cancelable: true,
+          cancelable: false,
         },
       );
     }
@@ -75,9 +76,9 @@ class Scanner extends React.Component {
           style={StyleSheet.absoluteFillObject}
         />
 
-        {scanned && (
+        {/* {scanned && (
           <Button title="Tap to Scan Again" onPress={() => this.setState({ scanned: false })} />
-        )}
+        )} */}
       </View>
     );
   }
