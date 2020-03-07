@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators as wantedCreators } from '../../store/ducks/wanted';
-import FavBooksList from '../../components/FavBooksList';
+import BooksGrid from '../../components/BooksGrid';
 
 class MyWanted extends React.Component {
   state = {
@@ -44,7 +44,7 @@ class MyWanted extends React.Component {
       >
         { loading ? <Text>carregando...</Text>
           : (
-            <FavBooksList
+            <BooksGrid
               key="key-fav"
               title="Quero ter"
               books={wanted}

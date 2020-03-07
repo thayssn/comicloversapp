@@ -14,7 +14,6 @@ class Main extends React.Component {
 
   async componentWillMount() {
     const { fetchPublicCollections, fetchCollections } = this.props;
-    // await fetchAllBooks();
     await fetchCollections();
     await fetchPublicCollections();
     this.setState({ loading: false });

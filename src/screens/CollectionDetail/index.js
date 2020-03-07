@@ -130,9 +130,7 @@ class CollectionDetail extends React.Component {
                           <TouchableWithoutFeedback
                             onPress={() => {
                               removeBook(book.id);
-                              // this.setState({ booksToRemove: [...booksToRemove, book.id] });
                               removeFromCollection(book, collection);
-                              console.log(`removing book ${book.id}`);
                             }
                           }
                           >

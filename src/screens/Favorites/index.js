@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators as favoritesCreators } from '../../store/ducks/favorites';
-import FavBooksList from '../../components/FavBooksList';
+import BooksGrid from '../../components/BooksGrid';
 
 class MyFavorites extends React.Component {
   state = {
@@ -50,7 +50,7 @@ class MyFavorites extends React.Component {
       >
         { loading ? <Text>carregando...</Text>
           : (
-            <FavBooksList
+            <BooksGrid
               key="key-fav"
               title="Favoritos"
               books={books}

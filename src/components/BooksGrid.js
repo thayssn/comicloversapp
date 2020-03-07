@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FavBooksList = ({ books }) => (
+const BooksGrid = ({ books }) => (
   <View style={styles.book_list_view}>
     <FlatList
       contentContainerStyle={styles.book_list}
@@ -41,4 +41,4 @@ const FavBooksList = ({ books }) => (
   </View>
 );
 
-export default FavBooksList;
+export default BooksGrid;

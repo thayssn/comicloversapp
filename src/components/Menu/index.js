@@ -230,7 +230,7 @@ class Menu extends React.Component {
               Cadastrar novo quadrinho
               </Text>
             </View>
-            <View style={[styles.itemWrapper, styles.inactive]}>
+            <View style={[styles.itemWrapper]}>
               <Icon
                 name="ios-search"
                 type="ionicon"
@@ -240,9 +240,9 @@ class Menu extends React.Component {
               />
               <Text
                 style={styles.routes}
-                onPress={() => { navigate('Main'); }}
+                onPress={() => { navigate('Search'); }}
               >
-              Busca
+              Buscar quadrinho
               </Text>
             </View>
           </View>

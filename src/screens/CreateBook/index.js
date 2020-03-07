@@ -90,7 +90,7 @@ class CreateBook extends Component {
       this.setState({ error: 'Falha ao salvar. ISBN obrigatório.' });
       return;
     }
-    console.log('forms', forms);
+
     data.append('title', forms.title);
     data.append('isbn', forms.isbn);
     data.append('pages', forms.pages);

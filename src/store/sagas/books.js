@@ -4,7 +4,7 @@ import { Types } from '../ducks/books';
 import { getUserToken } from '../../services/auth';
 import * as NavigationService from '../../services/navigation';
 
-export function* booksSaga() {
+export function* booksFetchAllSaga() {
   try {
     const { data: books } = yield api.get('/books/');
 
@@ -23,18 +23,41 @@ export function* booksSaga() {
     });
   }
 }
+export function* booksSearchSaga({ payload }) {
+  try {
+    const { data: { books } } = yield api.get(
+      '/books/search',
+      {
+        params: payload,
+      },
+    );
 
-export function* booksCreateSaga(action) {
+    yield put({
+      type: Types.SEARCH_SUCCESS,
+      payload: {
+        books,
+      },
+    });
+  } catch (err) {
+    yield put({
+      type: Types.SEARCH_FAIL,
+      payload: {
+        error: JSON.stringify(err),
+      },
+    });
+  }
+}
+
+export function* booksCreateSaga({ payload }) {
   try {
     const userAccessToken = yield getUserToken();
-    console.log('booksCreateSaga', action);
     const { data: book } = yield api.post('/userbook/store/',
-      action.payload,
+      payload,
       {
         headers: {
           Authorization: `Bearer ${userAccessToken}`,
         },
-        body: action.payload,
+        body: payload,
       });
 
     yield put({
