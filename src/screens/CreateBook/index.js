@@ -7,7 +7,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import DatePicker from 'react-native-datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { TextInput } from '../../components/Form';
 
@@ -16,14 +16,14 @@ import { Creators as bookActions } from '../../store/ducks/books';
 
 class CreateBook extends Component {
   state = {
-    forms: {
+    form: {
       title: '',
       isbn: '',
       isbn_10: '',
       description: '',
       pages: '',
       edition: '',
-      publishing_date: '',
+      publishing_date: new Date(),
       price: '',
     },
     // eslint-disable-next-line react/no-unused-state
@@ -52,11 +52,11 @@ class CreateBook extends Component {
 
     if (params) {
       if (params.isbn) {
-        const { forms } = this.state;
+        const { form } = this.state;
 
         this.setState({
-          forms: {
-            ...forms,
+          form: {
+            ...form,
             isbn: params.isbn,
           },
         });
@@ -65,11 +65,10 @@ class CreateBook extends Component {
   }
 
   updateFormValue = (key, value) => {
-    const { forms } = this.state;
-
+    const { form } = this.state;
     this.setState({
-      forms: {
-        ...forms,
+      form: {
+        ...form,
         [key]: value,
       },
     });
@@ -77,29 +76,29 @@ class CreateBook extends Component {
 
   saveBook = () => {
     const { createBook } = this.props;
-    const { forms } = this.state;
+    const { form } = this.state;
 
     const data = new FormData();
 
-    if (!forms.title) {
+    if (!form.title) {
       this.setState({ error: 'Falha ao salvar. Título obrigatório.' });
       return;
     }
 
-    if (!forms.isbn) {
+    if (!form.isbn) {
       this.setState({ error: 'Falha ao salvar. ISBN obrigatório.' });
       return;
     }
 
-    data.append('title', forms.title);
-    data.append('isbn', forms.isbn);
-    data.append('pages', forms.pages);
-    data.append('publishing_date', forms.publishing_date);
-    data.append('price', forms.price);
+    data.append('title', form.title);
+    data.append('isbn', form.isbn);
+    data.append('pages', form.pages);
+    data.append('publishing_date', form.publishing_date);
+    data.append('price', form.price);
 
     let deuRuim = false;
     try {
-      createBook(data);
+      createBook(form);
     } catch (error) {
       console.log('POST error', error);
       deuRuim = true;
@@ -117,7 +116,7 @@ class CreateBook extends Component {
 
   render() {
     const {
-      forms: {
+      form: {
         // eslint-disable-next-line no-unused-vars
         title, isbn, description, isbn_10, pages, edition, publishing_date, price,
       },
@@ -180,17 +179,16 @@ class CreateBook extends Component {
             keyboardType="numeric"
           />
 
-          <DatePicker
+          <DateTimePicker
             style={{ width: 200 }}
-            date={publishing_date} // initial date from state
+            value={publishing_date} // initial date from state
             mode="date" // The enum of date, datetime and time
             placeholder="Data de publicação"
             format="DD-MM-YYYY"
-            minDate="01-01-1900"
-            maxDate="01-01-2050"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             showIcon={false}
+            display="calendar"
             customStyles={{
               dateInput: {
                 width: '100%',
@@ -212,7 +210,7 @@ class CreateBook extends Component {
                 color: '#91d7dc',
               },
             }}
-            onDateChange={value => this.updateFormValue('publishing_date', value)}
+            onChange={(event, date) => this.updateFormValue('publishing_date', date)}
           />
 
           {/* <TextInput

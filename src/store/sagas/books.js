@@ -51,6 +51,7 @@ export function* booksSearchSaga({ payload }) {
 export function* booksCreateSaga({ payload }) {
   try {
     const userAccessToken = yield getUserToken();
+    console.log(payload);
     const { data: book } = yield api.post('/userbook/store/',
       payload,
       {

@@ -12,7 +12,8 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@expo/xdl": "^57.5.2",
+    "@expo/xdl": "^57.9.13",
+    "@react-native-community/datetimepicker": "2.2.2",
     "axios": "^0.19.0",
     "currency-formatter": "^1.5.4",
     "eslint": "^5.16.0",
@@ -30,14 +31,17 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-elements": "^1.1.0",
     "react-native-navigation": "^2.21.0",
+    "react-native-screens": "~2.2.0",
     "react-native-tab-view": "^2.6.1",
-    "react-navigation": "^3.11.0",
-    "react-navigation-drawer": "^2.0.0",
     "react-navigation-transitions": "^1.0.11",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.3",
-    "reduxsauce": "^1.1.0"
+    "reduxsauce": "^1.1.0",
+    "react-native-gesture-handler": "^1.6.1",
+    "react-native-reanimated": "^1.9.0",
+    "react-navigation": "^3.13.0",
+    "react-navigation-drawer": "^2.4.13"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
