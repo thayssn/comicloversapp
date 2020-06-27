@@ -7,7 +7,8 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-datepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { TextInput } from '../../components/Form';
 
@@ -35,16 +36,6 @@ class CreateBook extends Component {
       errorTxt: 'Ops! Algo deu errado!',
       okTxt: 'Quadrinho cadastrado com sucesso!',
     },
-  }
-
-  componentWillMount() {
-    this.keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', this.handleKeyboardDidShow);
-    this.keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', this.handleKeyboardDidHide);
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowSub.remove();
-    this.keyboardDidHideSub.remove();
   }
 
   componentDidMount = () => {
@@ -179,48 +170,15 @@ class CreateBook extends Component {
             keyboardType="numeric"
           />
 
-          <DateTimePicker
-            style={{ width: 200 }}
-            value={publishing_date} // initial date from state
-            mode="date" // The enum of date, datetime and time
+          <DatePicker
+            date={publishing_date}
+            mode="date"
             placeholder="Data de publicação"
             format="DD-MM-YYYY"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            showIcon={false}
-            display="calendar"
-            customStyles={{
-              dateInput: {
-                width: '100%',
-                backgroundColor: 'transparent',
-                borderColor: '#91d7dc',
-                borderWidth: 1,
-                borderRadius: 30,
-                padding: 10,
-                fontSize: 18,
-                textAlign: 'center',
-                margin: 10,
-                color: '#FFF',
-                marginTop: 25,
-              },
-              dateText: {
-                color: '#000',
-              },
-              placeholder: {
-                color: '#91d7dc',
-              },
-            }}
-            onChange={(event, date) => this.updateFormValue('publishing_date', date)}
+            confirmBtnText="Confirmar"
+            cancelBtnText="Cancelar"
+            onDateChange={(date) => { this.updateFormValue('publishing_date', date); }}
           />
-
-          {/* <TextInput
-            placeholder="Descrição"
-            value={description}
-            onChangeText={value => this.updateFormValue('description', value)}
-            style={{ color: 'black' }}
-            multiline
-            numberOfLines={3}
-          /> */}
 
           <TouchableHighlight
             style={styles.button}

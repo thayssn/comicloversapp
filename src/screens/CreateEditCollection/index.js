@@ -27,11 +27,8 @@ class CreateEditCollection extends Component {
     collection: null,
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     await this.getCameraRollPermission();
-  }
-
-  componentDidMount() {
     const { navigation: { state: { params } } } = this.props;
 
     if (params && params.collection) {

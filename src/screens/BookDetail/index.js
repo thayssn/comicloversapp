@@ -36,7 +36,7 @@ class BookDetail extends React.Component {
     hasBookSelect: '',
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const { getReview, book } = this.props;
     await getReview(book);
   }

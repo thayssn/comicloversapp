@@ -21,7 +21,7 @@ class Profile extends Component {
     error: null,
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     try {
       const userToken = await getUserToken();
       this.setState({ userToken });

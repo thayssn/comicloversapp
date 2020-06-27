@@ -32,7 +32,7 @@ class CollectionDetail extends React.Component {
     editMode: false,
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const { fetchCollection, navigation } = this.props;
     const collectionID = navigation.getParam('collectionId');
     await fetchCollection(collectionID);

@@ -12,7 +12,7 @@ class MyFavorites extends React.Component {
     loading: true,
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     const { fetchFavorites } = this.props;
     const { limit, page } = this.state;
 

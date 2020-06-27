@@ -12,7 +12,7 @@ class MyWanted extends React.Component {
     loading: true,
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     const { fetchWanted } = this.props;
     const { limit, page } = this.state;
 

@@ -67,7 +67,7 @@ class Menu extends React.Component {
     name: 'username',
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     try {
       const userToken = await getUserToken();
 

@@ -12,7 +12,7 @@ class Main extends React.Component {
     loading: true,
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const { fetchPublicCollections, fetchCollections } = this.props;
     await fetchCollections();
     await fetchPublicCollections();

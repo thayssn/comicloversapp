@@ -15,7 +15,7 @@ class SelectCollections extends React.Component {
     bookCollections: [],
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { book } = this.props;
     this.setState({ bookCollections: book.collections });
   }
