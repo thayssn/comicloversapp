@@ -88,22 +88,24 @@ class CreateBook extends Component {
     data.append('title', form.title);
     data.append('isbn', form.isbn);
     data.append('pages', form.pages);
+    data.append('description', form.description);
+    data.append('edition', form.edition);
     data.append('publishing_date', form.publishing_date);
     data.append('price', form.price);
 
-    let deuRuim = false;
+    let createBookError = false;
     try {
       createBook(form);
     } catch (error) {
       console.log('POST error', error);
-      deuRuim = true;
+      createBookError = true;
     }
 
     const { modal } = this.state;
     this.setState({
       modal: {
         ...modal,
-        error: deuRuim,
+        error: createBookError,
         modalVisible: true,
       },
     });
@@ -113,7 +115,7 @@ class CreateBook extends Component {
     const {
       form: {
         // eslint-disable-next-line no-unused-vars
-        title, isbn, description, isbn_10, pages, edition, publishing_date, price,
+        title, isbn, description, pages, edition, publishing_date, price,
       },
       // shift,
       error,
