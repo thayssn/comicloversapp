@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   button: {
-    backgroundColor: '#40B89D',
     borderColor: '#91d7dc',
     borderWidth: 1,
     padding: 15,
@@ -28,6 +27,10 @@ const styles = StyleSheet.create({
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  label: {
+    fontSize: 18,
+    color: '#91d7dc',
   },
   text: {
     color: '#FFF',

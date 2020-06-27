@@ -3,8 +3,8 @@ import React from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import CLGradient from '../../CLGradient';
 
-const CLTextInput = ({
-  style, text, onPress, icon,
+const CLButton = ({
+  style = {}, text = 'Salvar', onPress, icon,
 }) => (
 
   <TouchableWithoutFeedback
@@ -23,10 +23,18 @@ const CLTextInput = ({
     }, style]}
     >
       <CLGradient />
-      { icon }
-      <Text style={{ color: '#FFF', padding: 5 }}>{text}</Text>
+      { icon && icon }
+      <Text style={{
+        color: '#FFF',
+        padding: 5,
+        fontSize: 18,
+      }}
+      >
+        {text}
+
+      </Text>
     </View>
   </TouchableWithoutFeedback>
 );
 
-export default CLTextInput;
+export default CLButton;

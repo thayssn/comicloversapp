@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
 import {
-  View, TouchableHighlight, Text, Animated, Keyboard, ScrollView, Modal,
+  View, TouchableHighlight, Text, Animated, ScrollView, Modal,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -10,7 +10,11 @@ import { bindActionCreators } from 'redux';
 import DatePicker from 'react-native-datepicker';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { TextInput } from '../../components/Form';
+import {
+  TextInput,
+} from '../../components/Form';
+
+import CLGradient from '../../components/CLGradient';
 
 import styles from './styles';
 import { Creators as bookActions } from '../../store/ducks/books';
@@ -118,67 +122,81 @@ class CreateBook extends Component {
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
+        <CLGradient />
         <View style={styles.inner_container}>
-
           <TextInput
             placeholder="Título"
             value={title}
             onChangeText={value => this.updateFormValue('title', value)}
-            style={{ color: 'black' }}
           />
 
           <TextInput
-            placeholder="ISBN 13"
+            placeholder="ISBN-13 (Código de barras)"
             value={isbn}
             onChangeText={value => this.updateFormValue('isbn', value)}
-            style={{ color: 'black' }}
             maxLength={13}
             keyboardType="numeric"
           />
 
-          {/* <TextInput
-            placeholder="ISBN 10"
-            value={isbn_10}
-            onChangeText={value => this.updateFormValue('isbn_10', value)}
-            style={{ color: 'black' }}
-            maxLength={10}
-          /> */}
+          <TextInput
+            placeholder="Descrição"
+            value={description}
+            multiline
+            numberOfLines={2}
+            onChangeText={value => this.updateFormValue('description', value)}
+            style={{ height: 100 }}
+          />
+
+          <TextInput
+            placeholder="Volume"
+            value={edition}
+            onChangeText={value => this.updateFormValue('edition', value)}
+            maxLength={255}
+          />
 
           <TextInput
             placeholder="Número de Páginas"
             value={pages}
             onChangeText={value => this.updateFormValue('pages', value)}
-            style={{ color: 'black' }}
             maxLength={5}
             keyboardType="numeric"
           />
-
-          {/* <TextInput
-            placeholder="Edição"
-            value={edition}
-            onChangeText={value => this.updateFormValue('edition', value)}
-            style={{ color: 'black' }}
-            maxLength={255}
-          /> */}
 
           <TextInput
             placeholder="Preço"
             value={price}
             onChangeText={value => this.updateFormValue('price', value)}
-            style={{ color: 'black' }}
             maxLength={10}
             keyboardType="numeric"
           />
 
-          <DatePicker
-            date={publishing_date}
-            mode="date"
-            placeholder="Data de publicação"
-            format="DD-MM-YYYY"
-            confirmBtnText="Confirmar"
-            cancelBtnText="Cancelar"
-            onDateChange={(date) => { this.updateFormValue('publishing_date', date); }}
-          />
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+            <Text style={[styles.label, { marginRight: 20 }]}>Publicação</Text>
+            <DatePicker
+              date={publishing_date}
+              mode="date"
+              placeholder="Data de publicação"
+              format="DD-MM-YYYY"
+              confirmBtnText="Confirmar"
+              cancelBtnText="Cancelar"
+              onDateChange={(date) => { this.updateFormValue('publishing_date', date); }}
+              style={{
+                flexGrow: 1,
+              }}
+              customStyles={{
+                dateIcon: {
+                },
+                dateInput: {
+                  borderColor: '#91d7dc',
+                  borderRadius: 20,
+                },
+                dateText: {
+                  color: '#FFF',
+                  fontSize: 18,
+                },
+              }}
+            />
+          </View>
 
           <TouchableHighlight
             style={styles.button}
@@ -211,7 +229,6 @@ class CreateBook extends Component {
               </View>
             </View>
           </Modal>
-
         </View>
       </ScrollView>
     );
