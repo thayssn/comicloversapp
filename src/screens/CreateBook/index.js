@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+/* eslint-disable no-return-assign */
+/* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import {
   View, TouchableHighlight, Text, TouchableOpacity, Image, Modal, Platform,
@@ -123,7 +125,7 @@ class CreateBook extends Component {
     });
   }
 
-  saveBook = () => {
+  saveBook = async () => {
     const { createBook } = this.props;
     const { form, image } = this.state;
 
@@ -141,28 +143,25 @@ class CreateBook extends Component {
 
     if (image) { data.append('image', image); }
 
-    data.append('title', form.title);
-    data.append('isbn', form.isbn);
-    data.append('pages', form.pages);
-    data.append('description', form.description);
-    data.append('edition', form.edition);
-    data.append('publishing_date', form.publishing_date);
-    data.append('price', form.price);
+    // data.append('title', form.title);
+    // data.append('isbn', form.isbn);
+    // data.append('pages', form.pages);
+    // data.append('description', form.description);
+    // data.append('edition', form.edition);
+    // data.append('publishing_date', form.publishing_date);
+    // data.append('price', form.price);
+    const jsonPayload = Object.entries(form).reduce((a, [k, v]) => (v ? (a[k] = v, a) : a), {});
 
-    let createBookError = false;
-    try {
-      createBook(data);
-    } catch (error) {
-      console.log('POST error', error);
-      createBookError = true;
-    }
+    data.append('jsonPayload', JSON.stringify(jsonPayload));
+
+    await createBook(data);
+
 
     const { modal } = this.state;
+
     this.setState({
       modal: {
         ...modal,
-        error: createBookError,
-        modalVisible: true,
       },
     });
   }
