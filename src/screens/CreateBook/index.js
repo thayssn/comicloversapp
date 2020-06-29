@@ -1,14 +1,16 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
 import {
-  View, TouchableHighlight, Text, Animated, ScrollView, Modal,
+  View, TouchableHighlight, Text, TouchableOpacity, Image, Modal, Platform,
 } from 'react-native';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 
 import DatePicker from 'react-native-datepicker';
 // import DateTimePicker from '@react-native-community/datetimepicker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {
   TextInput,
@@ -21,6 +23,9 @@ import { Creators as bookActions } from '../../store/ducks/books';
 
 class CreateBook extends Component {
   state = {
+    preview: null,
+    image: null,
+    hasPermission: false,
     form: {
       title: '',
       isbn: '',
@@ -31,8 +36,6 @@ class CreateBook extends Component {
       publishing_date: new Date(),
       price: '',
     },
-    // eslint-disable-next-line react/no-unused-state
-    shift: new Animated.Value(0),
     error: '',
     modal: {
       modalVisible: false,
@@ -42,7 +45,9 @@ class CreateBook extends Component {
     },
   }
 
-  componentDidMount = () => {
+
+  async componentDidMount() {
+    await this.getCameraRollPermission();
     const { navigation: { state: { params } } } = this.props;
 
     if (params) {
@@ -59,6 +64,55 @@ class CreateBook extends Component {
     }
   }
 
+  getCameraRollPermission = async () => {
+    // permissions returns only for location permissions on iOS and under certain conditions,
+    // see Permissions.LOCATION
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      this.setState({ hasPermission: true });
+    } else {
+      throw new Error('Camera permission not granted');
+    }
+  }
+
+  handleSelectImageFromGallery = () => {
+    this.handleSelectImage(ImagePicker.launchImageLibraryAsync);
+  }
+
+  handleSelectImageFromCamera = () => {
+    this.handleSelectImage(ImagePicker.launchCameraAsync);
+  }
+
+  handleSelectImage = async (launcher) => {
+    const upload = await launcher({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      aspect: [4, 6],
+      allowsEditing: true,
+    });
+
+    if (upload.error) {
+      console.log('Error');
+    } else if (upload.cancelled) {
+      console.log('User canceled');
+    } else {
+      const preview = {
+        uri: upload.uri,
+      };
+
+      const prefix = new Date().getTime();
+      const ext = upload.uri.endsWith('png') ? 'png' : 'jpg';
+
+      const image = {
+        uri: upload.uri,
+        name: `${prefix}.${ext}`,
+        type: Platform.OS === 'ios' ? `${upload.type}` : `${upload.type}/${ext}`,
+      };
+
+      this.setState({ preview, image });
+    }
+  }
+
   updateFormValue = (key, value) => {
     const { form } = this.state;
     this.setState({
@@ -71,7 +125,7 @@ class CreateBook extends Component {
 
   saveBook = () => {
     const { createBook } = this.props;
-    const { form } = this.state;
+    const { form, image } = this.state;
 
     const data = new FormData();
 
@@ -85,6 +139,8 @@ class CreateBook extends Component {
       return;
     }
 
+    if (image) { data.append('image', image); }
+
     data.append('title', form.title);
     data.append('isbn', form.isbn);
     data.append('pages', form.pages);
@@ -95,7 +151,7 @@ class CreateBook extends Component {
 
     let createBookError = false;
     try {
-      createBook(form);
+      createBook(data);
     } catch (error) {
       console.log('POST error', error);
       createBookError = true;
@@ -117,19 +173,51 @@ class CreateBook extends Component {
         // eslint-disable-next-line no-unused-vars
         title, isbn, description, pages, edition, publishing_date, price,
       },
+      hasPermission, preview,
       // shift,
       error,
       modal,
     } = this.state;
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <KeyboardAwareScrollView>
         <CLGradient />
         <View style={styles.inner_container}>
+          <View style={{ borderWidth: 1, borderColor: '#91d7dc' }}>
+            { preview ? <Image style={{ width: 120, height: 180 }} source={preview} />
+              : <View style={{ width: 120, height: 180 }} /> }
+          </View>
+          { hasPermission ? (
+            <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
+              <TouchableOpacity
+                style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
+                onPress={this.handleSelectImageFromGallery}
+              >
+                <Text style={styles.text}>Galeria</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
+                onPress={this.handleSelectImageFromCamera}
+              >
+                <Text style={styles.text}>Tirar Foto</Text>
+              </TouchableOpacity>
+            </View>
+          )
+            : (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.getCameraRollPermission}
+              >
+                <Text style={styles.text}>Liberar permissão da câmera/galeria.</Text>
+              </TouchableOpacity>
+            )
+                  }
           <TextInput
             placeholder="Título"
             value={title}
             onChangeText={value => this.updateFormValue('title', value)}
+            style={{ marginTop: 0 }}
           />
 
           <TextInput
@@ -232,7 +320,7 @@ class CreateBook extends Component {
             </View>
           </Modal>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }

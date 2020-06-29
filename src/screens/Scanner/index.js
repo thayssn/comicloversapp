@@ -35,16 +35,16 @@ class Scanner extends React.Component {
     } catch (err) {
       // alert(`ISBN ${data} não cadastrado`);
       Alert.alert(
-        'Scanned',
-        `ISBN ${data} não cadastrado`,
+        'Oops!',
+        `Parece que este quadrinho ainda não está no nosso sistema. Gostaria de cadastrá-lo agora?\nISBN:  ${data}`,
         [
           {
-            text: 'Cancel',
+            text: 'Cancelar',
             style: 'cancel',
             onPress: () => this.setState({ scanned: false }),
           },
           {
-            text: 'Create new', onPress: () => NavigationService.navigate('CreateBook', { isbn: data }),
+            text: 'Cadastrar', onPress: () => NavigationService.navigate('CreateBook', { isbn: data }),
           },
         ],
         {

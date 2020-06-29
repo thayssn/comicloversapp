@@ -1,11 +1,13 @@
 import React, { Component } from 'react'; // eslint-ignore
 import {
-  Text, ScrollView, View, TouchableHighlight, TouchableOpacity, Image, Platform,
+  Text, View, TouchableHighlight,
+  TouchableOpacity, Image, Platform, Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput } from '../../components/Form';
 import { Creators as collectionActions } from '../../store/ducks/collections';
 
@@ -58,15 +60,20 @@ class CreateEditCollection extends Component {
   handleSelectImage = async () => {
     const upload = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.7,
-      aspect: [3, 4.5],
-      // width: 120,
-      // height: 180,
+      quality: 1,
+      aspect: [4, 6],
       allowsEditing: true,
     });
 
     if (upload.error) {
-      console.log('Error');
+      Alert.alert(
+        'Oops!',
+        'Erro ao carregar imagem',
+        [
+          { text: 'OK' },
+        ],
+        { cancelable: false },
+      );
     } else if (upload.cancelled) {
       console.log('User canceled');
     } else {
@@ -128,19 +135,19 @@ class CreateEditCollection extends Component {
       <View style={{ flex: 1, height: '100%' }}>
         <CLGradient />
 
-        <ScrollView style={{ flex: 1, height: '100%' }}>
+        <KeyboardAwareScrollView style={{ flex: 1, height: '100%' }}>
           <View style={styles.container}>
             { loading
               ? <Loading />
               : (
                 <>
-                  {hasPermission ? (
+                  { hasPermission ? (
                     <TouchableOpacity style={styles.selectButton} onPress={this.handleSelectImage}>
-                      <View>
+                      <View style={{ borderWidth: 1, borderColor: '#91d7dc' }}>
                         { preview ? <Image style={{ width: 120, height: 180 }} source={preview} />
-                          : <View style={{ width: 120, height: 180, backgroundColor: '#DDD' }} /> }
+                          : <View style={{ width: 120, height: 180 }} /> }
                       </View>
-                      <Text style={styles.selectButtonText}>Selecionar uma imagem</Text>
+                      <Text style={styles.selectButtonText}>Selecionar Imagem</Text>
                     </TouchableOpacity>
                   )
                     : (
@@ -151,7 +158,7 @@ class CreateEditCollection extends Component {
                         <Text style={styles.selectButtonText}>Permissão</Text>
                       </TouchableOpacity>
                     )
-              }
+                  }
 
 
                   <View style={styles.input_group}>
@@ -203,7 +210,7 @@ class CreateEditCollection extends Component {
               )
           }
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
