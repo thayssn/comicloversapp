@@ -14,6 +14,7 @@ import DatePicker from 'react-native-datepicker';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import { Icon } from 'react-native-elements';
 import {
   TextInput,
 } from '../../components/Form';
@@ -27,7 +28,7 @@ class CreateBook extends Component {
   state = {
     preview: null,
     image: null,
-    hasPermission: false,
+    hasCameraRollPermission: false,
     form: {
       title: '',
       isbn: '',
@@ -71,11 +72,22 @@ class CreateBook extends Component {
     // see Permissions.LOCATION
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status === 'granted') {
-      this.setState({ hasPermission: true });
+      this.setState({ hasCameraRollPermission: true });
     } else {
-      throw new Error('Camera permission not granted');
+      throw new Error('Camera Roll permission not granted');
     }
   }
+
+  // getCameraPermission = async () => {
+  //   // permissions returns only for location permissions on iOS and under certain conditions,
+  //   // see Permissions.LOCATION
+  //   const { status } = await Permissions.askAsync(Permissions.CAMERA);
+  //   if (status === 'granted') {
+  //     this.setState({ hasCameraPermission: true });
+  //   } else {
+  //     throw new Error('Camera permission not granted');
+  //   }
+  // }
 
   handleSelectImageFromGallery = () => {
     this.handleSelectImage(ImagePicker.launchImageLibraryAsync);
@@ -141,21 +153,18 @@ class CreateBook extends Component {
       return;
     }
 
-    if (image) { data.append('image', image); }
+    if (image) {
+      data.append('image', image);
+    }
 
-    // data.append('title', form.title);
-    // data.append('isbn', form.isbn);
-    // data.append('pages', form.pages);
-    // data.append('description', form.description);
-    // data.append('edition', form.edition);
-    // data.append('publishing_date', form.publishing_date);
-    // data.append('price', form.price);
     const jsonPayload = Object.entries(form).reduce((a, [k, v]) => (v ? (a[k] = v, a) : a), {});
-
     data.append('jsonPayload', JSON.stringify(jsonPayload));
 
-    await createBook(data);
-
+    try {
+      await createBook(data);
+    } catch (err) {
+      console.error('Erro ao tentar cadastrar livro', err);
+    }
 
     const { modal } = this.state;
 
@@ -172,7 +181,7 @@ class CreateBook extends Component {
         // eslint-disable-next-line no-unused-vars
         title, isbn, description, pages, edition, publishing_date, price,
       },
-      hasPermission, preview,
+      hasCameraRollPermission, preview,
       // shift,
       error,
       modal,
@@ -186,32 +195,53 @@ class CreateBook extends Component {
             { preview ? <Image style={{ width: 120, height: 180 }} source={preview} />
               : <View style={{ width: 120, height: 180 }} /> }
           </View>
-          { hasPermission ? (
-            <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
+          <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
+            { hasCameraRollPermission ? (
               <TouchableOpacity
                 style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
                 onPress={this.handleSelectImageFromGallery}
               >
                 <Text style={styles.text}>Galeria</Text>
               </TouchableOpacity>
-
+            )
+              : (
+                <TouchableOpacity
+                  style={[styles.button, {
+                    padding: 5, margin: 5, fontSize: 12, flexDirection: 'row',
+                  }]}
+                  onPress={this.getCameraRollPermission}
+                >
+                  <Icon
+                    name="lock"
+                  />
+                  <Text style={styles.text}>Liberar galeria.</Text>
+                </TouchableOpacity>
+              )
+            }
+            {/* { hasCameraPermission ? (
               <TouchableOpacity
                 style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
                 onPress={this.handleSelectImageFromCamera}
               >
                 <Text style={styles.text}>Tirar Foto</Text>
               </TouchableOpacity>
-            </View>
-          )
-            : (
-              <TouchableOpacity
-                style={styles.button}
-                onPress={this.getCameraRollPermission}
-              >
-                <Text style={styles.text}>Liberar permissão da câmera/galeria.</Text>
-              </TouchableOpacity>
             )
-                  }
+              : (
+                <TouchableOpacity
+                  style={[styles.button, {
+                    padding: 5, margin: 5, fontSize: 12, flexDirection: 'row',
+                  }]}
+                  onPress={this.getCameraPermission}
+                >
+                  <Icon
+                    name="lock"
+                  />
+                  <Text style={styles.text}>Liberar câmera.</Text>
+                </TouchableOpacity>
+              )
+            } */}
+          </View>
+
           <TextInput
             placeholder="Título"
             value={title}
@@ -273,8 +303,6 @@ class CreateBook extends Component {
                 flexGrow: 1,
               }}
               customStyles={{
-                dateIcon: {
-                },
                 dateInput: {
                   borderColor: '#91d7dc',
                   borderRadius: 20,

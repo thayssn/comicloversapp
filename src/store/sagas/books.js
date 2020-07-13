@@ -51,17 +51,14 @@ export function* booksSearchSaga({ payload }) {
 export function* booksCreateSaga({ payload }) {
   try {
     const userAccessToken = yield getUserToken();
-    console.log('payload', payload);
     const { data: book } = yield api.post('/books',
       payload,
       {
         headers: {
           Authorization: `Bearer ${userAccessToken}`,
-          'Content-Type': 'multipart/form-data',
         },
       });
 
-    console.log('book', book);
     yield put({
       type: Types.CREATE_SUCCESS,
       payload: {
