@@ -10,9 +10,10 @@ import { Creators as activeBookActions } from '../../store/ducks/activeBook';
 import { BASE_URL } from '../../config/env_config';
 import styles from './styles';
 
-const Book = ({ book, changeBook }) => (
+const BookThumbnail = ({ book, changeBook }) => (
   <TouchableWithoutFeedback onPress={async () => {
-    await changeBook(book);
+    console.log(book.status);
+    if (book.status === 'Aprovado') await changeBook(book);
   }}
   >
     <View style={styles.book_item}>
@@ -38,4 +39,4 @@ const Book = ({ book, changeBook }) => (
 
 const mapDispatchToProps = dispatch => bindActionCreators(activeBookActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(withNavigation(Book));
+export default connect(null, mapDispatchToProps)(withNavigation(BookThumbnail));

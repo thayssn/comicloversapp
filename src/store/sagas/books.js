@@ -6,7 +6,13 @@ import * as NavigationService from '../../services/navigation';
 
 export function* booksFetchAllSaga() {
   try {
-    const { data: books } = yield api.get('/books/');
+    const userAccessToken = yield getUserToken();
+    const { data: books } = yield api.get('/books/',
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      });
 
     yield put({
       type: Types.FETCH_ALL_SUCCESS,
@@ -25,10 +31,14 @@ export function* booksFetchAllSaga() {
 }
 export function* booksSearchSaga({ payload }) {
   try {
+    const userAccessToken = yield getUserToken();
     const { data: { books } } = yield api.get(
       '/books/search',
       {
         params: payload,
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
       },
     );
 

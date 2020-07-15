@@ -7,7 +7,13 @@ import { getUserToken } from '../../services/auth';
 
 export function* activeBookSaga(action) {
   try {
-    const { data: book } = yield api.get(`/books/${action.payload.book.id}`);
+    const userAccessToken = yield getUserToken();
+    const { data: book } = yield api.get(`/books/${action.payload.book.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      });
     // yield put({
     //   type: Types.FETCH_SUCCESS,
     //   payload: {

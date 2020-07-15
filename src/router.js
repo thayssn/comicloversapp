@@ -18,6 +18,7 @@ import CollectionDetail from './screens/CollectionDetail';
 import Scanner from './screens/Scanner';
 import ForgotPassword from './screens/ForgotPassword';
 import MyFavorites from './screens/Favorites';
+import UserBooks from './screens/UserBooks';
 import MyWanted from './screens/Wanted';
 import CreateBook from './screens/CreateBook';
 import Search from './screens/Search';
@@ -124,6 +125,12 @@ export const BookNavigator = createStackNavigator(
         title: 'Cadastrar Quadrinho',
         headerTintColor: '#fff',
         headerBackground: (<CLGradient />),
+      },
+    },
+    UserBooks: {
+      screen: UserBooks,
+      navigationOptions: {
+        title: 'Quadrinhos Enviados',
       },
     },
     Search: {

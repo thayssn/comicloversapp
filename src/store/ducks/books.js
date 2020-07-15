@@ -20,12 +20,6 @@ export default function books(state = INITIAL_STATE, action) {
       return action.payload.books;
     case Types.FETCH_ALL_FAIL:
       return [...state];
-    case Types.CREATE:
-      return [...state];
-    case Types.CREATE_SUCCESS:
-      return [...state];
-    case Types.CREATE_FAIL:
-      return [...state];
     case Types.SEARCH:
       return [...state];
     case Types.SEARCH_SUCCESS:

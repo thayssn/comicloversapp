@@ -29,6 +29,7 @@ class CreateBook extends Component {
     preview: null,
     image: null,
     hasCameraRollPermission: false,
+    hasCameraPermission: false,
     form: {
       title: '',
       isbn: '',
@@ -78,16 +79,16 @@ class CreateBook extends Component {
     }
   }
 
-  // getCameraPermission = async () => {
-  //   // permissions returns only for location permissions on iOS and under certain conditions,
-  //   // see Permissions.LOCATION
-  //   const { status } = await Permissions.askAsync(Permissions.CAMERA);
-  //   if (status === 'granted') {
-  //     this.setState({ hasCameraPermission: true });
-  //   } else {
-  //     throw new Error('Camera permission not granted');
-  //   }
-  // }
+  getCameraPermission = async () => {
+    // permissions returns only for location permissions on iOS and under certain conditions,
+    // see Permissions.LOCATION
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+      this.setState({ hasCameraPermission: true });
+    } else {
+      throw new Error('Camera permission not granted');
+    }
+  }
 
   handleSelectImageFromGallery = () => {
     this.handleSelectImage(ImagePicker.launchImageLibraryAsync);
@@ -181,7 +182,9 @@ class CreateBook extends Component {
         // eslint-disable-next-line no-unused-vars
         title, isbn, description, pages, edition, publishing_date, price,
       },
-      hasCameraRollPermission, preview,
+      hasCameraRollPermission,
+      hasCameraPermission,
+      preview,
       // shift,
       error,
       modal,
@@ -218,7 +221,7 @@ class CreateBook extends Component {
                 </TouchableOpacity>
               )
             }
-            {/* { hasCameraPermission ? (
+            { hasCameraPermission ? (
               <TouchableOpacity
                 style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
                 onPress={this.handleSelectImageFromCamera}
@@ -239,7 +242,7 @@ class CreateBook extends Component {
                   <Text style={styles.text}>Liberar câmera.</Text>
                 </TouchableOpacity>
               )
-            } */}
+            }
           </View>
 
           <TextInput

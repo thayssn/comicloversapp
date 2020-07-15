@@ -230,6 +230,21 @@ class Menu extends React.Component {
               Cadastrar novo quadrinho
               </Text>
             </View>
+            <View style={styles.itemWrapper}>
+              <Icon
+                name="ios-star"
+                type="ionicon"
+                color="#FFF"
+                size={20}
+                containerStyle={{ width: 20 }}
+              />
+              <Text
+                style={styles.routes}
+                onPress={() => { navigate('UserBooks'); }}
+              >
+              Quadrinhos enviados
+              </Text>
+            </View>
             <View style={[styles.itemWrapper]}>
               <Icon
                 name="ios-search"
