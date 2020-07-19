@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { getUserToken } from '../../services/auth';
 import { Creators as activeBookActions } from '../../store/ducks/activeBook';
 import api from '../../services/api';
 import * as NavigationService from '../../services/navigation';
@@ -30,7 +31,12 @@ class Scanner extends React.Component {
     const { changeBook } = this.props;
 
     try {
-      const { data: book } = await api.get(`/books/isbn/${data}`);
+      const userToken = await getUserToken();
+      const { data: book } = await api.get(`/books/isbn/${data}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
       await changeBook(book);
     } catch (err) {
       // alert(`ISBN ${data} não cadastrado`);
