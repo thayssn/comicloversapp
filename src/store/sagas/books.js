@@ -3,6 +3,7 @@ import api from '../../services/api';
 import { Types } from '../ducks/books';
 import { getUserToken } from '../../services/auth';
 import * as NavigationService from '../../services/navigation';
+import { Types as LoadingTypes } from '../ducks/loading';
 
 export function* booksFetchAllSaga() {
   try {
@@ -60,6 +61,9 @@ export function* booksSearchSaga({ payload }) {
 
 export function* booksCreateSaga({ payload }) {
   try {
+    yield put({
+      type: LoadingTypes.LOADING,
+    });
     const userAccessToken = yield getUserToken();
     const { data: book } = yield api.post('/books',
       payload,
@@ -77,7 +81,7 @@ export function* booksCreateSaga({ payload }) {
     });
 
     yield put({
-      type: Types.FETCH_ALL,
+      type: LoadingTypes.LOADING_COMPLETE,
     });
 
     NavigationService.navigate('Main');

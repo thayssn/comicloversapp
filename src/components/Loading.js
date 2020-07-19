@@ -22,6 +22,8 @@ export default class App extends React.Component {
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        width: '100%',
+        height: '100%',
       }}
       >
         <CLGradient />
@@ -30,8 +32,8 @@ export default class App extends React.Component {
             this.animation = animation;
           }}
           style={{
-            width: 140,
-            height: 140,
+            width: 240,
+            height: 240,
           }}
           source={loadingAnimationJson}
         />

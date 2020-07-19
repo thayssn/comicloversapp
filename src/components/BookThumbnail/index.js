@@ -12,7 +12,6 @@ import styles from './styles';
 
 const BookThumbnail = ({ book, changeBook }) => (
   <TouchableWithoutFeedback onPress={async () => {
-    console.log(book.status);
     if (book.status === 'Aprovado') await changeBook(book);
   }}
   >

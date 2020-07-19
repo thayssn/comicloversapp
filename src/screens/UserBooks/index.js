@@ -19,7 +19,6 @@ class UserBooks extends React.Component {
           Authorization: `Bearer ${userAccessToken}`,
         },
       });
-    console.log(books);
 
     this.setState({
       loading: false,
