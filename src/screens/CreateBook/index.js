@@ -192,177 +192,180 @@ class CreateBook extends Component {
     const { loading } = this.props;
 
     return (
-
-      <KeyboardAwareScrollView>
-        <CLGradient />
+      <>
         { loading
           ? (
-            <View style={[{ minHeight: '100%' }]}>
+            <View style={[{ height: '100%', flex: 1 }]}>
               <Loading />
             </View>
           )
           : (
-            <View style={styles.inner_container}>
-              <View style={{ borderWidth: 1, borderColor: '#91d7dc' }}>
-                { preview ? <Image style={{ width: 120, height: 180 }} source={preview} />
-                  : <View style={{ width: 120, height: 180 }} /> }
-              </View>
-              <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
-                { hasCameraRollPermission ? (
-                  <TouchableOpacity
-                    style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
-                    onPress={this.handleSelectImageFromGallery}
-                  >
-                    <Text style={styles.text}>Galeria</Text>
-                  </TouchableOpacity>
-                )
-                  : (
-                    <TouchableOpacity
-                      style={[styles.button, {
-                        padding: 5, margin: 5, fontSize: 12, flexDirection: 'row',
-                      }]}
-                      onPress={this.getCameraRollPermission}
-                    >
-                      <Icon
-                        name="lock"
-                      />
-                      <Text style={styles.text}>Liberar galeria.</Text>
-                    </TouchableOpacity>
-                  )
-            }
-                { hasCameraPermission ? (
-                  <TouchableOpacity
-                    style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
-                    onPress={this.handleSelectImageFromCamera}
-                  >
-                    <Text style={styles.text}>Tirar Foto</Text>
-                  </TouchableOpacity>
-                )
-                  : (
-                    <TouchableOpacity
-                      style={[styles.button, {
-                        padding: 5, margin: 5, fontSize: 12, flexDirection: 'row',
-                      }]}
-                      onPress={this.getCameraPermission}
-                    >
-                      <Icon
-                        name="lock"
-                      />
-                      <Text style={styles.text}>Liberar câmera.</Text>
-                    </TouchableOpacity>
-                  )
-            }
-              </View>
+            <KeyboardAwareScrollView>
+              <CLGradient />
 
-              <TextInput
-                placeholder="Título"
-                value={title}
-                onChangeText={value => this.updateFormValue('title', value)}
-                style={{ marginTop: 0 }}
-              />
-
-              <TextInput
-                placeholder="ISBN-13 (Código de barras)"
-                value={isbn}
-                onChangeText={value => this.updateFormValue('isbn', value)}
-                maxLength={13}
-                keyboardType="numeric"
-              />
-
-              <TextInput
-                placeholder="Descrição"
-                value={description}
-                multiline
-                numberOfLines={2}
-                onChangeText={value => this.updateFormValue('description', value)}
-                style={{ height: 100 }}
-              />
-
-              <TextInput
-                placeholder="Volume"
-                value={edition}
-                onChangeText={value => this.updateFormValue('edition', value)}
-                maxLength={255}
-              />
-
-              <TextInput
-                placeholder="Número de Páginas"
-                value={pages}
-                onChangeText={value => this.updateFormValue('pages', value)}
-                maxLength={5}
-                keyboardType="numeric"
-              />
-
-              <TextInput
-                placeholder="Preço"
-                value={price}
-                onChangeText={value => this.updateFormValue('price', value)}
-                maxLength={10}
-                keyboardType="numeric"
-              />
-
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
-                <Text style={[styles.label, { marginRight: 20 }]}>Publicação</Text>
-                <DatePicker
-                  date={publishing_date}
-                  mode="date"
-                  placeholder="Data de publicação"
-                  format="DD-MM-YYYY"
-                  confirmBtnText="Confirmar"
-                  cancelBtnText="Cancelar"
-                  onDateChange={(date) => { this.updateFormValue('publishing_date', date); }}
-                  style={{
-                    flexGrow: 1,
-                  }}
-                  customStyles={{
-                    dateInput: {
-                      borderColor: '#91d7dc',
-                      borderRadius: 20,
-                    },
-                    dateText: {
-                      color: '#FFF',
-                      fontSize: 18,
-                    },
-                  }}
-                />
-              </View>
-
-              <TouchableHighlight
-                style={styles.button}
-                onPress={() => this.saveBook()}
-              >
-                <Text style={styles.text}>Salvar</Text>
-              </TouchableHighlight>
-
-              <View style={styles.errorView}>
-                { error ? <Text style={styles.error}>{error}</Text> : null }
-              </View>
-
-              <Modal
-                animationType="slide"
-                transparent={false}
-                visible={modal.modalVisible}
-              >
-                <View style={styles.modal}>
-                  <View>
-                    <Text style={styles.modalTxt}>
-                      {modal.error ? modal.errorTxt : modal.okTxt}
-                    </Text>
-
-                    <TouchableHighlight
-                      style={styles.modalButton}
-                      onPress={() => {
-                        this.setState({ modal: { ...modal, modalVisible: false } });
-                      }}
-                    >
-                      <Text style={styles.modalButtonTxt}>Fechar</Text>
-                    </TouchableHighlight>
-                  </View>
+              <View style={styles.inner_container}>
+                <View style={{ borderWidth: 1, borderColor: '#91d7dc' }}>
+                  { preview ? <Image style={{ width: 120, height: 180 }} source={preview} />
+                    : <View style={{ width: 120, height: 180 }} /> }
                 </View>
-              </Modal>
-            </View>
+                <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
+                  { hasCameraRollPermission ? (
+                    <TouchableOpacity
+                      style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
+                      onPress={this.handleSelectImageFromGallery}
+                    >
+                      <Text style={styles.text}>Galeria</Text>
+                    </TouchableOpacity>
+                  )
+                    : (
+                      <TouchableOpacity
+                        style={[styles.button, {
+                          padding: 5, margin: 5, fontSize: 12, flexDirection: 'row',
+                        }]}
+                        onPress={this.getCameraRollPermission}
+                      >
+                        <Icon
+                          name="lock"
+                        />
+                        <Text style={styles.text}>Liberar galeria.</Text>
+                      </TouchableOpacity>
+                    )
+            }
+                  { hasCameraPermission ? (
+                    <TouchableOpacity
+                      style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
+                      onPress={this.handleSelectImageFromCamera}
+                    >
+                      <Text style={styles.text}>Tirar Foto</Text>
+                    </TouchableOpacity>
+                  )
+                    : (
+                      <TouchableOpacity
+                        style={[styles.button, {
+                          padding: 5, margin: 5, fontSize: 12, flexDirection: 'row',
+                        }]}
+                        onPress={this.getCameraPermission}
+                      >
+                        <Icon
+                          name="lock"
+                        />
+                        <Text style={styles.text}>Liberar câmera.</Text>
+                      </TouchableOpacity>
+                    )
+            }
+                </View>
+
+                <TextInput
+                  placeholder="Título"
+                  value={title}
+                  onChangeText={value => this.updateFormValue('title', value)}
+                  style={{ marginTop: 0 }}
+                />
+
+                <TextInput
+                  placeholder="ISBN-13 (Código de barras)"
+                  value={isbn}
+                  onChangeText={value => this.updateFormValue('isbn', value)}
+                  maxLength={13}
+                  keyboardType="numeric"
+                />
+
+                <TextInput
+                  placeholder="Descrição"
+                  value={description}
+                  multiline
+                  numberOfLines={2}
+                  onChangeText={value => this.updateFormValue('description', value)}
+                  style={{ height: 100 }}
+                />
+
+                <TextInput
+                  placeholder="Volume"
+                  value={edition}
+                  onChangeText={value => this.updateFormValue('edition', value)}
+                  maxLength={255}
+                />
+
+                <TextInput
+                  placeholder="Número de Páginas"
+                  value={pages}
+                  onChangeText={value => this.updateFormValue('pages', value)}
+                  maxLength={5}
+                  keyboardType="numeric"
+                />
+
+                <TextInput
+                  placeholder="Preço"
+                  value={price}
+                  onChangeText={value => this.updateFormValue('price', value)}
+                  maxLength={10}
+                  keyboardType="numeric"
+                />
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+                  <Text style={[styles.label, { marginRight: 20 }]}>Publicação</Text>
+                  <DatePicker
+                    date={publishing_date}
+                    mode="date"
+                    placeholder="Data de publicação"
+                    format="DD-MM-YYYY"
+                    confirmBtnText="Confirmar"
+                    cancelBtnText="Cancelar"
+                    onDateChange={(date) => { this.updateFormValue('publishing_date', date); }}
+                    style={{
+                      flexGrow: 1,
+                    }}
+                    customStyles={{
+                      dateInput: {
+                        borderColor: '#91d7dc',
+                        borderRadius: 20,
+                      },
+                      dateText: {
+                        color: '#FFF',
+                        fontSize: 18,
+                      },
+                    }}
+                  />
+                </View>
+
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => this.saveBook()}
+                >
+                  <Text style={styles.text}>Salvar</Text>
+                </TouchableHighlight>
+
+                <View style={styles.errorView}>
+                  { error ? <Text style={styles.error}>{error}</Text> : null }
+                </View>
+
+                <Modal
+                  animationType="slide"
+                  transparent={false}
+                  visible={modal.modalVisible}
+                >
+                  <View style={styles.modal}>
+                    <View>
+                      <Text style={styles.modalTxt}>
+                        {modal.error ? modal.errorTxt : modal.okTxt}
+                      </Text>
+
+                      <TouchableHighlight
+                        style={styles.modalButton}
+                        onPress={() => {
+                          this.setState({ modal: { ...modal, modalVisible: false } });
+                        }}
+                      >
+                        <Text style={styles.modalButtonTxt}>Fechar</Text>
+                      </TouchableHighlight>
+                    </View>
+                  </View>
+                </Modal>
+              </View>
+            </KeyboardAwareScrollView>
+
           )}
-      </KeyboardAwareScrollView>
+      </>
     );
   }
 }
