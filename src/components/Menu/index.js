@@ -6,6 +6,7 @@ import {
 import { Icon } from 'react-native-elements';
 import { SafeAreaView } from 'react-navigation';
 import CLGradient from '../CLGradient';
+import { BASE_URL } from '../../config/env_config';
 
 import { onSignOut, getUserToken } from '../../services/auth';
 import api from '../../services/api';
@@ -79,11 +80,11 @@ class Menu extends React.Component {
       });
 
       // eslint-disable-next-line react/destructuring-assignment
-      const defaultImg = this.state.profile_picture;
+      const { profile_picture: defaultImg } = this.state;
 
       this.setState({
         // eslint-disable-next-line camelcase
-        profile_picture: profile_picture || defaultImg, name,
+        profile_picture: `${BASE_URL}/${profile_picture}` || defaultImg, name,
       });
     } catch (err) {
       console.log(err);

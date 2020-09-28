@@ -53,13 +53,12 @@ export const ProfileNavigator = createStackNavigator(
   {
     Profile: {
       screen: Profile,
-      navigationOptions: {
+      navigationOptions: navigator => ({
+        ...defaultNavigationOptions(navigator),
         title: 'Perfil',
-      },
+        headerRight: false,
+      }),
     },
-  },
-  {
-    defaultNavigationOptions,
   },
 );
 
