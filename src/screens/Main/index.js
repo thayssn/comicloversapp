@@ -6,17 +6,33 @@ import CollectionsList from '../../components/CollectionsList';
 import BooksList from '../../components/BooksList';
 import { Creators as publicCollectionsActions } from '../../store/ducks/publicCollections';
 import { Creators as collectionsActions } from '../../store/ducks/collections';
+import { getUserToken } from '../../services/auth';
+import api from '../../services/api';
 
 class Main extends React.Component {
   state = {
     loading: true,
+    latestBooks: [],
   }
 
   async componentDidMount() {
     const { fetchPublicCollections, fetchCollections } = this.props;
+    const userToken = await getUserToken();
+
     await fetchCollections();
     await fetchPublicCollections();
-    this.setState({ loading: false });
+
+    const { data: { books } } = await api.get('books', {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+      params: {
+        limit: 15,
+        whereParams: JSON.stringify({ status: 'Aprovado' }),
+      },
+    });
+
+    this.setState({ loading: false, latestBooks: books });
   }
 
   getLicensorCategories = books => books.reduce((reducedArray, next) => {
@@ -39,7 +55,7 @@ class Main extends React.Component {
   }, [])
 
   render() {
-    const { loading } = this.state;
+    const { loading, latestBooks } = this.state;
     const { publicCollections, collections } = this.props;
     // const licensorCategories = this.getLicensorCategories(books);
     return (
@@ -48,6 +64,10 @@ class Main extends React.Component {
         { loading ? <Text>carregando...</Text>
           : (
             <View>
+              <BooksList
+                title="Adicionados Recentemente"
+                books={latestBooks}
+              />
               { publicCollections && publicCollections.map((collection, index) => (
                 <BooksList
                   key={index.toString()}
