@@ -62,15 +62,6 @@ class Profile extends Component {
     }
   }
 
-  getCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    if (status === 'granted') {
-      this.setState({ hasCameraPermission: true });
-    } else {
-      throw new Error('Camera permission not granted');
-    }
-  }
-
   handleSelectImageFromGallery = () => {
     this.handleSelectImage(ImagePicker.launchImageLibraryAsync);
   }
@@ -130,15 +121,13 @@ class Profile extends Component {
     }
 
     try {
-      const { data: user } = await api.put('/me/', data, {
+      await api.put('/me/', data, {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },
       });
 
       this.setState({
-        email: user.email,
-        name: user.name,
         password: '',
         confirmPassword: '',
         success: 'Informações atualizadas com sucesso.',
@@ -159,7 +148,6 @@ class Profile extends Component {
     const {
       email, name, password, confirmPassword, error, success,
       hasCameraRollPermission,
-      hasCameraPermission,
       preview,
     } = this.state;
 
@@ -168,17 +156,32 @@ class Profile extends Component {
         <CLGradient />
         <View style={styles.inner_container}>
 
-          <View style={{ borderWidth: 1, borderColor: '#91d7dc' }}>
-            { preview ? <Image style={{ width: 120, height: 180 }} source={preview} />
-              : <View style={{ width: 120, height: 180 }} /> }
+          <View style={styles.itemUser}>
+            <View style={{
+              width: 180, height: 180, borderRadius: 180, overflow: 'hidden',
+            }}
+            >
+              { preview ? <Image style={{ width: 180, height: 180 }} source={preview} />
+                : <View style={{ width: 180, height: 180 }} /> }
+            </View>
           </View>
+
           <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
             { hasCameraRollPermission ? (
               <TouchableOpacity
-                style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
+                style={[styles.button, {
+                  flexDirection: 'row', justifyContent: 'center', padding: 5, margin: 5, fontSize: 12,
+                }]}
                 onPress={this.handleSelectImageFromGallery}
               >
-                <Text style={styles.text}>Galeria</Text>
+                <Icon
+                  name="md-create"
+                  type="ionicon"
+                  color="#FFF"
+                  size={15}
+                  containerStyle={{ marginRight: 20 }}
+                />
+                <Text style={styles.text}>Editar foto de perfil</Text>
               </TouchableOpacity>
             )
               : (
@@ -186,34 +189,11 @@ class Profile extends Component {
                   style={[styles.button, {
                     padding: 5, margin: 5, fontSize: 12, flexDirection: 'row',
                   }]}
-                  onPress={this.getCameraRollPermission}
                 >
                   <Icon
                     name="lock"
                   />
                   <Text style={styles.text}>Liberar galeria.</Text>
-                </TouchableOpacity>
-              )
-            }
-            { hasCameraPermission ? (
-              <TouchableOpacity
-                style={[styles.button, { padding: 5, margin: 5, fontSize: 12 }]}
-                onPress={this.handleSelectImageFromCamera}
-              >
-                <Text style={styles.text}>Tirar Foto</Text>
-              </TouchableOpacity>
-            )
-              : (
-                <TouchableOpacity
-                  style={[styles.button, {
-                    padding: 5, margin: 5, fontSize: 12, flexDirection: 'row',
-                  }]}
-                  onPress={this.getCameraPermission}
-                >
-                  <Icon
-                    name="lock"
-                  />
-                  <Text style={styles.text}>Liberar câmera.</Text>
                 </TouchableOpacity>
               )
             }

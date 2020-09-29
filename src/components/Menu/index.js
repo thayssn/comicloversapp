@@ -113,17 +113,17 @@ class Menu extends React.Component {
             ))} */}
             <View style={styles.itemUser}>
               <View style={{
-                width: 128, height: 128, borderRadius: 128, overflow: 'hidden',
+                backgroundColor: '#dedede', width: 128, height: 128, borderRadius: 128, overflow: 'hidden', marginBottom: 20,
               }}
               >
                 <Image
                   style={{
                     width: 128, height: 128,
                   }}
-                  source={{ uri: `${profile_picture}` }}
+                  source={{ uri: profile_picture }}
                 />
               </View>
-              <Text style={{ color: 'white' }}>{name}</Text>
+              <Text style={{ color: 'white', fontSize: 20 }}>{name}</Text>
             </View>
             <View style={styles.separator} />
             <View style={styles.itemWrapper}>
